@@ -1,19 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.WebHost", "EvilCorp.SlackStorage.WebBusinessApi.WebHost\EvilCorp.SlackStorage.WebBusinessApi.WebHost.csproj", "{FDF01EFE-9DB3-4475-97C2-BD718EA71D99}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B6177A3C-6C53-49AD-9C94-84F2D97C8BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.WebHost.Application", "..\Application\EvilCorp.SlackStorage.WebBusinessApi.WebHost.Application.csproj", "{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Business", "..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj", "{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73} = {AA305823-50D1-49C2-851C-7F7F1C8FDB73}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.WebHost.DataAccess", "DataAccess\EvilCorp.SlackStorage.WebBusinessApi.WebHost.DataAccess.csproj", "{F211E4AB-DB12-4880-8454-BE2872F1FDD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Domain", "..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj", "{AA305823-50D1-49C2-851C-7F7F1C8FDB73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.WebHost.DomainTypes", "DomainTypes\EvilCorp.SlackStorage.WebBusinessApi.WebHost.DomainTypes.csproj", "{CDE4F65D-4A2D-4A7A-B5CB-E73E4BA4B705}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.Data", "EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj", "{3DB961B7-07CE-4059-87D5-3CD05F44754F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.WebHost.UnitTests", "UnitTests\EvilCorp.SlackStorage.WebBusinessApi.WebHost.UnitTests.csproj", "{2D7292EA-A13F-421B-A83F-B68B09CC1F08}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 Presentation Layer", "10 Presentation Layer", "{9B8085C4-DE83-45C4-9039-1E20DA8B881D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 Business Layer", "20 Business Layer", "{21F1C9CE-4B53-4339-9C12-5F46171306FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Domain Layer", "30 Domain Layer", "{517B40D5-4616-48DE-BFCA-186E7DB150A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Data Layer", "40 Data Layer", "{2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Application.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Application.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Data.Test", "EvilCorp.SlackStorage.WebBusinessApi.Data.Test\EvilCorp.SlackStorage.WebBusinessApi.Data.Test.csproj", "{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,20 +46,32 @@ Global
 		{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F211E4AB-DB12-4880-8454-BE2872F1FDD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F211E4AB-DB12-4880-8454-BE2872F1FDD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F211E4AB-DB12-4880-8454-BE2872F1FDD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F211E4AB-DB12-4880-8454-BE2872F1FDD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDE4F65D-4A2D-4A7A-B5CB-E73E4BA4B705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDE4F65D-4A2D-4A7A-B5CB-E73E4BA4B705}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDE4F65D-4A2D-4A7A-B5CB-E73E4BA4B705}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDE4F65D-4A2D-4A7A-B5CB-E73E4BA4B705}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D7292EA-A13F-421B-A83F-B68B09CC1F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D7292EA-A13F-421B-A83F-B68B09CC1F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D7292EA-A13F-421B-A83F-B68B09CC1F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D7292EA-A13F-421B-A83F-B68B09CC1F08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB961B7-07CE-4059-87D5-3CD05F44754F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB961B7-07CE-4059-87D5-3CD05F44754F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB961B7-07CE-4059-87D5-3CD05F44754F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB961B7-07CE-4059-87D5-3CD05F44754F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FDF01EFE-9DB3-4475-97C2-BD718EA71D99} = {9B8085C4-DE83-45C4-9039-1E20DA8B881D}
+		{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2} = {21F1C9CE-4B53-4339-9C12-5F46171306FE}
+		{AA305823-50D1-49C2-851C-7F7F1C8FDB73} = {517B40D5-4616-48DE-BFCA-186E7DB150A7}
+		{3DB961B7-07CE-4059-87D5-3CD05F44754F} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
+		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407} = {21F1C9CE-4B53-4339-9C12-5F46171306FE}
+		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
 	EndGlobalSection
 EndGlobal

@@ -1,17 +1,19 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class RegisterController : Controller
     {
         // GET api/values
         [HttpGet]
-        public async Task<string> Get()
+        public IEnumerable<string> Get()
         {
-            return await Program.Container.GetInstance<IClientDataManager>().GetValue();
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
