@@ -23,7 +23,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Application
 
         public async Task<string> GetValue()
         {
-            throw new NotImplementedException();
+            return await _exceptionHandler.Run(() => _clientDataRepository.Test());
         }
 
         public async Task<string> GetValue(string id)
