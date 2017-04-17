@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Domain Layer", "30 Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Data Layer", "40 Data Layer", "{2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Application.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Application.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Business.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Business.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Data.Test", "EvilCorp.SlackStorage.WebBusinessApi.Data.Test\EvilCorp.SlackStorage.WebBusinessApi.Data.Test.csproj", "{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}"
 EndProject

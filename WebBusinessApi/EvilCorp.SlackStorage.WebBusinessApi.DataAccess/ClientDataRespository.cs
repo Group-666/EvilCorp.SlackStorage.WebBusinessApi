@@ -1,13 +1,8 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.DataAccess.Storage
+namespace EvilCorp.SlackStorage.WebBusinessApi.Data
 {
     public class ClientDataRespository : IClientDataRespository
     {

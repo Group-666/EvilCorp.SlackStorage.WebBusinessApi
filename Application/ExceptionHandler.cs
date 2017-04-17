@@ -3,9 +3,14 @@ using System;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Application
 {
-
     public class ExceptionHandler : IExceptionHandler
     {
+        private readonly ILogger _logger;
+
+        public ExceptionHandler(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         public TResult Run<TResult>(Func<TResult> unsafeFunction)
         {
@@ -23,7 +28,6 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Application
             return default(TResult);
         }
 
-
         public void Execute(Action unsafeAction)
         {
             if (unsafeAction != null)
@@ -38,7 +42,5 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Application
                 }
             }
         }
-
     }
 }
-

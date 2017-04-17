@@ -1,10 +1,8 @@
 ﻿using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.DataAccess.Storage
+namespace EvilCorp.SlackStorage.WebBusinessApi.Data
 {
     public static class RestClientExtentions
     {
@@ -26,5 +24,4 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.DataAccess.Storage
             return tcs.Task;
         }
     }
-
 }
