@@ -1,7 +1,6 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Application;
+﻿using EvilCorp.SlackStorage.WebBusinessApi.Business;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using StructureMap;
-using System.Diagnostics;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.IoC
 {

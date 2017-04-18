@@ -25,7 +25,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             var request = new RestRequest("log", Method.POST);
             request.AddBody(logEntry);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return result.Content;
+            return result.StatusCode.ToString();
         }
     }
 }

@@ -19,9 +19,17 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             _restClient = new RestClient(REPOSITORYURL);
         }
 
-        public async Task<string> Test()
+        public async Task<string> GetAll(string userId)
         {
-            var request = new RestRequest("storage", Method.GET);
+            var request = new RestRequest("storage/"+userId, Method.GET);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+
+        public async Task<string> GetOne(string userId, string dataStoreId)
+        {
+            var request = new RestRequest("storage/"+userId+"/"+dataStoreId, Method.GET);
+
             var result = await _restClient.ExecuteTaskAsync(request);
             return result.Content;
         }
