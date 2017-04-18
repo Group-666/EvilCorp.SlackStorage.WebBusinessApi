@@ -1,7 +1,7 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using System;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Application
+namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
     public class ExceptionHandler : IExceptionHandler
     {

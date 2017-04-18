@@ -1,7 +1,7 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using System.Threading.Tasks;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Application
+namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
     public class ClientDataManager : IClientDataManager
     {
@@ -16,17 +16,21 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Application
             _exceptionHandler = exceptionHandler;
         }
 
-        public async Task<string> GetValue()
+        public async Task<string> GetAll(string userId)
         {
-            return await _exceptionHandler.Run(() => _clientDataRepository.Test());
-        }
-
-        public async Task<string> GetValue(string id)
-        {
-            if (!_validator.IsValidId(id))
+            if (!_validator.IsValidId(userId))
                 return string.Empty;
 
-            return await _exceptionHandler.Run(() => _clientDataRepository.Test());
+            return await _exceptionHandler.Run(() => _clientDataRepository.GetAll(userId));
+        }
+
+        public async Task<string> GetOne(string userId, string dataStoreId)
+        {
+            
+            if (!_validator.IsValidId(userId) || !_validator.IsValidId(dataStoreId))
+                return string.Empty;
+
+            return await _exceptionHandler.Run(() => _clientDataRepository.GetOne(userId, dataStoreId));
         }
     }
 }

@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Application
+namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
     public class Validator : IValidator
     {
         public bool IsValidId(string id)
         {
-            throw new NotImplementedException();
+            return !string.IsNullOrEmpty(id);
         }
     }
 }
