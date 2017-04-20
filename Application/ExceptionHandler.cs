@@ -22,7 +22,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
                 }
                 catch (Exception ex)
                 {
-                    //ToDo implement logger
+                    _logger.Log(ex.Message, Domain.Entities.LogLevel.Critical);
                 }
             }
             return default(TResult);
@@ -38,7 +38,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
                 }
                 catch (Exception ex)
                 {
-                    //ToDo implement logger
+                    _logger.Log(ex.Message, Domain.Entities.LogLevel.Critical);
                 }
             }
         }

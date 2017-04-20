@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
     <ProjectReference Include="..\WebBusinessApi\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj" />
   </ItemGroup>

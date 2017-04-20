@@ -1,5 +1,5 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Threading.Tasks;
 
@@ -20,10 +20,11 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             _restClient = new RestClient(REPOSITORYURL);
         }
 
-        public async Task<string> Log(LogEntry logEntry)
+        public async Task<string> Log(JObject logEntry)
         {
             var request = new RestRequest("log", Method.POST);
-            request.AddBody(logEntry);
+
+            request.AddParameter("Application/Json", logEntry, ParameterType.RequestBody);
             var result = await _restClient.ExecuteTaskAsync(request);
             return result.StatusCode.ToString();
         }
