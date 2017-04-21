@@ -22,7 +22,14 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(ex.Message, Domain.Entities.LogLevel.Critical);
+                    try
+                    {
+                        _logger.Log(ex.Message, Domain.Entities.LogLevel.Critical);
+                    }
+                    catch
+                    {
+                        //TODO: Unable to log, what do we do?
+                    }
                 }
             }
             return default(TResult);

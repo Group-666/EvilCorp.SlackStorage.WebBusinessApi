@@ -1,5 +1,6 @@
 using EvilCorp.SlackStorage.WebBusinessApi.Business;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
+using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -15,7 +16,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data.Test
         private Mock<IExceptionHandler> _exceptionHandlerMock;
         private Mock<ILogRepository> _logRepositoryMock;
         private Mock<ILogger> _loggerMock;
-        private ClientDataManager _clientDataManagerMock;
+        private DataStoreManager _clientDataManagerMock;
         private readonly string _userId = "UserID";
         private readonly string _dataStoreId = "DataStoreID";
         private readonly string _result = "value: value1";
@@ -31,7 +32,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data.Test
             _loggerMock = new Mock<Logger>(_logRepositoryMock.Object) { CallBase = true }.As<ILogger>();
             _exceptionHandlerMock = new Mock<ExceptionHandler>(_loggerMock.Object) { CallBase = true }.As<IExceptionHandler>();
 
-            _clientDataManagerMock = new ClientDataManager(_clientDataRespositoryMock.Object, _validatorMock.Object, _exceptionHandlerMock.Object);
+            _clientDataManagerMock = new DataStoreManager(_clientDataRespositoryMock.Object, _validatorMock.Object, _exceptionHandlerMock.Object);
         }
 
         #region ClientDataManage Tests
@@ -66,20 +67,21 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data.Test
         }
 
         [TestMethod]
-        public void GetOne_IdsAreOK_ExceptionHandlerThrowsAnException()
+        public async void GetOne_IdsAreOK_ClientDataRepositoryAndLoggerThrowsAnException()
         {
             // Arrange
             //_exceptionHandlerMock.Setup(mock => mock.Run(It.IsAny<Func<object>>())).Throws(new Exception());
             _clientDataRespositoryMock.Setup(mock => mock.GetOne(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
+            _loggerMock.Setup(mock => mock.Log(It.IsAny<string>(), It.IsAny<LogLevel>())).Throws(new Exception());
             // Act
 
-            //var result = _clientDataManagerMock.GetOne(_userId, _dataStoreId);
+            var result = await _clientDataManagerMock.GetOne(_userId, _dataStoreId);
 
-            _loggerMock.Object.Log("No", Domain.Entities.LogLevel.Critical);
+            //_loggerMock.Object.Log("No", Domain.Entities.LogLevel.Critical);
 
             // Assert
 
-            //Assert.AreEqual(result.Result, _result);
+            Assert.IsNull(result);
         }
 
         #endregion ClientDataManage Tests

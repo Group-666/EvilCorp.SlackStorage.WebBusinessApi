@@ -33,5 +33,66 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             var result = await _restClient.ExecuteTaskAsync(request);
             return result.Content;
         }
+
+        public async Task<string> GetOneElement(string userId, string dataStoreId, string elementId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
+
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+
+        public async Task<string> GetAllElements(string userId, string dataStoreId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId + "/data", Method.GET);
+
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+
+        public async Task<string> Create(string userId, string dataStoreName)
+        {
+            var request = new RestRequest("storage/" + userId, Method.POST);
+            request.AddParameter("Application/Json", dataStoreName, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+        public async Task<string> Post(string userId, string dataStoreId, string data)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId, Method.POST);
+            request.AddParameter("Application/Json", data, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+        //-----
+        public async Task<string> DeleteAll(string userId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" , Method.POST);
+            request.AddParameter("Application/Json", userId, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+        public async Task<string> DeleteOne(string userId, string dataStoreId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId, Method.POST);
+            request.AddParameter("Application/Json", userId, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+        public async Task<string> DeleteAllElements(string userId, string dataStoreId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId, Method.POST);
+            request.AddParameter("Application/Json", userId, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
+
+        public async Task<string> DeleteOneElement(string userId, string dataStoreId, string elementId)
+        {
+            var request = new RestRequest("storage/" + userId + "/" + dataStoreId, Method.POST);
+            request.AddParameter("Application/Json", userId, ParameterType.RequestBody);
+            var result = await _restClient.ExecuteTaskAsync(request);
+            return result.Content;
+        }
     }
 }

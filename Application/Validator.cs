@@ -11,5 +11,11 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         {
             return !string.IsNullOrEmpty(id);
         }
+
+        public bool IsValidJson(string json)
+        {
+            throw new NotImplementedException();
+            return !string.IsNullOrEmpty(json);
+        }
     }
 }
