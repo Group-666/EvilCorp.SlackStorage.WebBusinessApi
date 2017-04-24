@@ -1,7 +1,10 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
@@ -11,27 +14,31 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
     {
         // GET api/datastores
         [HttpGet]
-        public IEnumerable<string> Get([FromHeader]int token)
+        public async Task<IActionResult> Get()
         {
-            // Authenticatiete token
-            //Send id(token) to storage
-            // Depending on the response, send a response back.
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var result = await Program.Container.GetInstance<IClientDataManager>().GetAll("id") ?? StatusCode(StatusCodes.Status500InternalServerError).ToString();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<string> Get(string id)
         {
-            return await Program.Container.GetInstance<IDataStoreManager>().GetAll(id) ?? StatusCode(StatusCodes.Status500InternalServerError).ToString();
-
+            return await Program.Container.GetInstance<IClientDataManager>().GetAll(id) ?? StatusCode(StatusCodes.Status500InternalServerError).ToString();
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)
         {
-
         }
 
         // PUT api/values/5

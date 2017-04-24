@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 {
@@ -12,16 +13,16 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         Task<string> GetAllElements(string userId, string dataStoreId);
 
-        Task<string> Create(string userId, string dataStoreName);
+        Task<HttpStatusCode> Create(string userId, string dataStoreName);
 
-        Task<string> Post(string userId, string dataStoreId, string data);
+        Task<HttpStatusCode> Post(string userId, string dataStoreId, string data);
 
-        Task<string> DeleteAll(string userId);
+        Task<HttpStatusCode> DeleteAll(string userId);
 
-        Task<string> DeleteOne(string userId, string dataStoreId);
+        Task<HttpStatusCode> DeleteOne(string userId, string dataStoreId);
 
-        Task<string> DeleteAllElements(string userId, string dataStoreId);
+        Task<HttpStatusCode> DeleteAllElements(string userId, string dataStoreId);
 
-        Task<string> DeleteOneElement(string userId, string dataStoreId, string elementId);
+        Task<HttpStatusCode> DeleteOneElement(string userId, string dataStoreId, string elementId);
     }
 }

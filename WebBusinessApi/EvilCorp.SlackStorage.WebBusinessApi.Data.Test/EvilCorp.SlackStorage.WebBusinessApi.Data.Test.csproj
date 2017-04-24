@@ -14,6 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj" />
+    <ProjectReference Include="..\..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
+    <ProjectReference Include="..\..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Business.Test.csproj" />
+    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj" />
+    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.WebHost\EvilCorp.SlackStorage.WebBusinessApi.WebHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 

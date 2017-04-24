@@ -1,4 +1,5 @@
 using EvilCorp.SlackStorage.WebBusinessApi.Business;
+using EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,78 +10,71 @@ using System.Threading.Tasks;
 namespace EvilCorp.SlackStorage.WebBusinessApi.Data.Test
 {
     [TestClass]
-    public class ClientDataManagerTests
+    public class ClientDataManagerTests : TestsFor<ClientDataManager>
     {
-        private Mock<IClientDataRespository> _clientDataRespositoryMock;
-        private Mock<IValidator> _validatorMock;
-        private Mock<IExceptionHandler> _exceptionHandlerMock;
-        private Mock<ILogRepository> _logRepositoryMock;
-        private Mock<ILogger> _loggerMock;
-        private DataStoreManager _clientDataManagerMock;
         private readonly string _userId = "UserID";
         private readonly string _dataStoreId = "DataStoreID";
         private readonly string _result = "value: value1";
+        private ExceptionHandler _exceptionHandler;
 
-        [TestInitialize]
-        public void Generate_DatesAreNullListIsEmpty_ResultIsNoEventsUploaded()
+        protected override void OverrideMocks()
         {
             // Arrange
-            _clientDataRespositoryMock = new Mock<ClientDataRespository>() { CallBase = true }.As<IClientDataRespository>();
-            _logRepositoryMock = new Mock<LogRepository>() { CallBase = true }.As<ILogRepository>();
-
-            _validatorMock = new Mock<Validator>() { CallBase = true }.As<IValidator>();
-            _loggerMock = new Mock<Logger>(_logRepositoryMock.Object) { CallBase = true }.As<ILogger>();
-            _exceptionHandlerMock = new Mock<ExceptionHandler>(_loggerMock.Object) { CallBase = true }.As<IExceptionHandler>();
-
-            _clientDataManagerMock = new DataStoreManager(_clientDataRespositoryMock.Object, _validatorMock.Object, _exceptionHandlerMock.Object);
+            var mockedLogger = GetMockFor<ILogger>().Object;
+            _exceptionHandler = new ExceptionHandler(mockedLogger);
+            Inject<IExceptionHandler>(_exceptionHandler);
         }
 
         #region ClientDataManage Tests
 
         [TestMethod]
-        public void GetAll_IdIsOK_ResultIsOK()
+        public void GetAll_IdIsOK_RepositoryIsCalled()
         {
             // Arrange
-            _clientDataRespositoryMock.Setup(mock => mock.GetAll(_userId)).Returns(Task.FromResult<string>(_result));
+            GetMockFor<IValidator>().Setup(v => v.IsValidUserId(_userId)).Returns(true);
 
             // Act
-
-            var result = _clientDataManagerMock.GetAll(_userId);
+            var result = Instance.GetAll(_userId);
 
             // Assert
-
-            Assert.AreEqual(result.Result, _result);
+            GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_userId), Times.Once());
         }
 
         [TestMethod]
-        public void GetOne_IdsAreOK_ResultIsOK()
+        public void GetAll_IdIsInvalid_RepositoryIsNeverCalled()
         {
-            // Arrange
-            _clientDataRespositoryMock.Setup(mock => mock.GetOne(_userId, _dataStoreId)).Returns(Task.FromResult<string>(_result));
             // Act
-
-            var result = _clientDataManagerMock.GetOne(_userId, _dataStoreId);
+            var result = Instance.GetAll(_userId);
 
             // Assert
-
-            Assert.AreEqual(result.Result, _result);
+            GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_userId), Times.Never());
         }
 
         [TestMethod]
-        public async void GetOne_IdsAreOK_ClientDataRepositoryAndLoggerThrowsAnException()
+        public void GetOne_IdsAreOK_RepositoryIsCalledK()
         {
             // Arrange
-            //_exceptionHandlerMock.Setup(mock => mock.Run(It.IsAny<Func<object>>())).Throws(new Exception());
-            _clientDataRespositoryMock.Setup(mock => mock.GetOne(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception());
-            _loggerMock.Setup(mock => mock.Log(It.IsAny<string>(), It.IsAny<LogLevel>())).Throws(new Exception());
+            GetMockFor<IValidator>().Setup(v => v.IsValidUserId(_userId)).Returns(true);
+
             // Act
-
-            var result = await _clientDataManagerMock.GetOne(_userId, _dataStoreId);
-
-            //_loggerMock.Object.Log("No", Domain.Entities.LogLevel.Critical);
+            var result = Instance.GetAll(_userId);
 
             // Assert
+            GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_userId), Times.Once());
+        }
 
+        [TestMethod]
+        public async Task GetOne_IdsAreOK_ClientDataRepositoryAndLoggerThrowsAnException()
+        {
+            // Arrange
+            GetMockFor<IClientDataRespository>().Setup(mock => mock.GetOne(_userId, _dataStoreId)).Throws(new Exception("Mooo"));
+            GetMockFor<ILogger>().Setup(mock => mock.Log(It.IsAny<string>(), It.IsAny<LogLevel>())).Throws(new Exception());
+            GetMockFor<IValidator>().Setup(v => v.IsValidUserId(It.IsAny<string>())).Returns(true);
+
+            // Act
+            var result = await Instance.GetOne(_userId, _dataStoreId);
+
+            // Assert
             Assert.IsNull(result);
         }
 

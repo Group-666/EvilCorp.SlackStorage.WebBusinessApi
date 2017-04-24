@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
 </Project>

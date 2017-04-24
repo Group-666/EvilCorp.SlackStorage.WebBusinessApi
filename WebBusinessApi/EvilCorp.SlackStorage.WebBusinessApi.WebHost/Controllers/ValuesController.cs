@@ -11,7 +11,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            return await Program.Container.GetInstance<IDataStoreManager>().GetAll("id");
+            //return await Program.Container.GetInstance<IClientDataManager>().GetAll("id");
+            return "value";
         }
 
         // GET api/values/5

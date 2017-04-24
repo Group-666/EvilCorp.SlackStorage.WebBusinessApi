@@ -2,7 +2,7 @@
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 {
-    public interface IDataStoreManager
+    public interface IClientDataManager
     {
         Task<string> GetAll(string id);
 
