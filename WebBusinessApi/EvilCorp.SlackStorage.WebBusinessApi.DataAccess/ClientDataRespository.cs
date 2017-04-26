@@ -39,7 +39,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> GetOneElement(string userId, string dataStoreId, string elementId)
+        public async Task<string> GetElementOne(string userId, string dataStoreId, string elementId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
@@ -47,7 +47,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> GetAllElements(string userId, string dataStoreId)
+        public async Task<string> GetElementAll(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data", Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
@@ -89,14 +89,14 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnError(result);
         }
 
-        public async Task<HttpStatusCode> DeleteAllElements(string userId, string dataStoreId)
+        public async Task<HttpStatusCode> DeleteElementAll(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data", Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
             return LogOnError(result);
         }
 
-        public async Task<HttpStatusCode> DeleteOneElement(string userId, string dataStoreId, string elementId)
+        public async Task<HttpStatusCode> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data" + elementId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);

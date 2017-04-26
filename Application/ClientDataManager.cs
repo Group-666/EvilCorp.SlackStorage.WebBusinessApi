@@ -1,5 +1,4 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -35,24 +34,23 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<string> GetAllElement(string userId, string dataStoreId)
+        public async Task<string> GetElementAll(string userId, string dataStoreId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAllElements(userId, dataStoreId));
+            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetElementAll(userId, dataStoreId));
 
             return response;
         }
 
-        public async Task<string> GetOneElement(string userId, string dataStoreId, string elementId)
+        public async Task<string> GetElementOne(string userId, string dataStoreId, string elementId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
-            //TODO: What is an elementID?
-            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(elementId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidElementId(elementId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetOneElement(userId, dataStoreId, elementId));
+            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetElementOne(userId, dataStoreId, elementId));
 
             return response;
         }
@@ -69,7 +67,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidDataStoreName(data), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidJson(data), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.Post(userId, dataStoreId, data));
 
@@ -78,8 +76,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<HttpStatusCode> DeleteAll(string userId)
         {
-            //if (!_validator.IsValidId(userId))
-            //    //return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteAll(userId));
 
@@ -88,31 +85,31 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<HttpStatusCode> DeleteOne(string userId, string dataStoreId)
         {
-            //if (!_validator.IsValidId(userId) || !_validator.IsValidId(dataStoreId))
-            //    return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteOne(userId, dataStoreId));
 
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteAllElements(string userId, string dataStoreId)
+        public async Task<HttpStatusCode> DeleteElementAll(string userId, string dataStoreId)
         {
-            //if (!_validator.IsValidId(userId) || !_validator.IsValidId(dataStoreId))
-            //    return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteAllElements(userId, dataStoreId));
+            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteElementAll(userId, dataStoreId));
 
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteOneElement(string userId, string dataStoreId, string elementId)
+        public async Task<HttpStatusCode> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
-            //TODO: Return error messages for invalid Id's
-            //if (!_validator.IsValidId(userId) || !_validator.IsValidId(dataStoreId) || !_validator.IsValidId(elementId))
-            //    return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidElementId(elementId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteOneElement(userId, dataStoreId, elementId));
+            var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteElementOne(userId, dataStoreId, elementId));
 
             return response;
         }
