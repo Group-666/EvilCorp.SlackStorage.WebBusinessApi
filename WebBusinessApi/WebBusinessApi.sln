@@ -7,12 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBu
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B6177A3C-6C53-49AD-9C94-84F2D97C8BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Business", "..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj", "{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.Business", "..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj", "{9C1B4F79-D3A7-4E0A-BDB2-32E7CD4230B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AA305823-50D1-49C2-851C-7F7F1C8FDB73} = {AA305823-50D1-49C2-851C-7F7F1C8FDB73}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Domain", "..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj", "{AA305823-50D1-49C2-851C-7F7F1C8FDB73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.Domain", "..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj", "{AA305823-50D1-49C2-851C-7F7F1C8FDB73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.Data", "EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj", "{3DB961B7-07CE-4059-87D5-3CD05F44754F}"
 EndProject
@@ -24,13 +24,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Domain Layer", "30 Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Data Layer", "40 Data Layer", "{2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Business.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Business.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.Data.Test", "EvilCorp.SlackStorage.WebBusinessApi.Data.Test\EvilCorp.SlackStorage.WebBusinessApi.Data.Test.csproj", "{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.Business.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebBusinessApi.Business.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 Cross Cutting Layer", "50 Cross Cutting Layer", "{D7766575-A152-44A1-A945-F5F1038E0941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing", "..\EvilCorp.SlackStorage.WebBusinessApi.Testing\EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing.csproj", "{C5738165-3B3E-4924-9489-0EC2925F07A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing", "..\EvilCorp.SlackStorage.WebBusinessApi.Testing\EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing.csproj", "{C5738165-3B3E-4924-9489-0EC2925F07A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +60,6 @@ Global
 		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5738165-3B3E-4924-9489-0EC2925F07A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5738165-3B3E-4924-9489-0EC2925F07A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5738165-3B3E-4924-9489-0EC2925F07A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -80,7 +74,6 @@ Global
 		{AA305823-50D1-49C2-851C-7F7F1C8FDB73} = {517B40D5-4616-48DE-BFCA-186E7DB150A7}
 		{3DB961B7-07CE-4059-87D5-3CD05F44754F} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
 		{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407} = {21F1C9CE-4B53-4339-9C12-5F46171306FE}
-		{5585A331-E9C1-493D-BAF1-1861EDB3DE8E} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
 		{C5738165-3B3E-4924-9489-0EC2925F07A4} = {D7766575-A152-44A1-A945-F5F1038E0941}
 	EndGlobalSection
 EndGlobal
