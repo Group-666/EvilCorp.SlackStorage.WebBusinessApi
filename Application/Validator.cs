@@ -15,6 +15,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public bool IsValidUserId(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentException("The ID cannot be null or empty.", nameof(id));
+            if (!Guid.TryParse(id, out Guid newGuid))
+                throw new ArgumentException("Invalid guid.", nameof(id));
 
             return true;
         }

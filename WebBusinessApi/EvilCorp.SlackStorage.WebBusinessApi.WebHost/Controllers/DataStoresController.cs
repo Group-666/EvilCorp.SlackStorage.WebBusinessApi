@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
@@ -12,27 +9,22 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
     [Route("api/[controller]")]
     public class DataStoresController : Controller
     {
-        // GET api/datastores
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        // GET api/datastores/5
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(string userId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().GetAll("id") ?? StatusCode(StatusCodes.Status500InternalServerError).ToString();
+                var result = await Program.Container.GetInstance<IClientDataManager>().GetAll(userId);
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                if (ex is ArgumentException)
+                    return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<string> Get(string id)
-        {
-            return await Program.Container.GetInstance<IClientDataManager>().GetAll(id) ?? StatusCode(StatusCodes.Status500InternalServerError).ToString();
         }
 
         // POST api/values

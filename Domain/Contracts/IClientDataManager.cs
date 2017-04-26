@@ -7,5 +7,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
         Task<string> GetAll(string id);
 
         Task<string> GetOne(string userId, string dataStoreId);
+
+        Task<string> GetAllElement(string userId, string dataStoreId);
     }
 }

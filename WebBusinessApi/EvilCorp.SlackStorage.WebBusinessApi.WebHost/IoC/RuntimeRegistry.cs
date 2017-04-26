@@ -14,7 +14,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.IoC
                 x.AssembliesAndExecutablesFromApplicationBaseDirectory();
                 x.WithDefaultConventions();
             });
-            For<ILogRepository>().Singleton().Use<ILogRepository>();
+            For<ILogRepository>().Singleton().Use<LogRepository>();
             For<IClientDataRespository>().Singleton().Use<ClientDataRespository>();
             For<IExceptionHandler>().Singleton().Use<ExceptionHandler>();
         }

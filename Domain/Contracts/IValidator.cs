@@ -8,6 +8,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         bool IsValidUserId(string id);
 
+        bool IsValidDataStoreId(string id);
+
         bool IsValidDataStoreName(string dataStoreName);
+
+        bool IsValidJson(string json);
     }
 }

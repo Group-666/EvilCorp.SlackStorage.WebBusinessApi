@@ -20,16 +20,15 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<string> GetAll(string userId)
         {
-            if (!_validator.IsValidUserId(userId))
-                return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
 
             return await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAll(userId));
         }
 
         public async Task<string> GetOne(string userId, string dataStoreId)
         {
-            if (!_validator.IsValidUserId(userId) || !_validator.IsValidUserId(dataStoreId))
-                return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetOne(userId, dataStoreId));
 
@@ -38,8 +37,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<string> GetAllElement(string userId, string dataStoreId)
         {
-            if (!_validator.IsValidUserId(userId) || !_validator.IsValidUserId(dataStoreId))
-                return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAllElements(userId, dataStoreId));
 
@@ -48,8 +47,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<string> GetOneElement(string userId, string dataStoreId, string elementId)
         {
-            if (!_validator.IsValidUserId(userId) || !_validator.IsValidUserId(dataStoreId) || !_validator.IsValidUserId(elementId))
-                return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
+            //TODO: What is an elementID?
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(elementId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetOneElement(userId, dataStoreId, elementId));
 
@@ -66,8 +67,9 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 
         public async Task<HttpStatusCode> Post(string userId, string dataStoreId, string data)
         {
-            //if (!_validator.IsValidId(userId) || !_validator.IsValidId(dataStoreId) || !_validator.IsValidId(data))
-            //    //return string.Empty;
+            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreName(data), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _clientDataRepository.Post(userId, dataStoreId, data));
 
