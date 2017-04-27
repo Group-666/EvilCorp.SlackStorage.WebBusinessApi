@@ -2,67 +2,82 @@
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
     public class Validator : IValidator
     {
-        private static readonly int DataStoreIdMaxLength = 105;
-        private static readonly int UserIdMaxLength = 12;
+        private const int DataStoreIdMaxLength = 105;
+        private const int UserIdMaxLength = 12;
+        private const int JsonMaxLength = 2000;
         private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - UserIdMaxLength - 1;
+
+        private const string FieldNullOrEmptyError = "The field cannot be null or empty.";
+        private const string InvalidGuidError = "Invalid GUID.";
+        private const string InvalidJsonError = "Invalid JSON.";
+        private const string InvalidLengthError = "Length cannot be more than {0}.";
 
         public LogLevel ValidatorLogLevel { get; } = LogLevel.Warning;
 
-        public bool IsValidUserId(string id)
+        public bool IsValidUserId(string userId)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentException("The ID cannot be null or empty.", nameof(id));
-            if (!Guid.TryParse(id, out Guid newGuid))
-                throw new ArgumentException("Invalid guid.", nameof(id));
+            if (string.IsNullOrEmpty(userId))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(userId));
+            if (!Guid.TryParse(userId, out Guid _))
+                throw new ArgumentException(InvalidGuidError, nameof(userId));
 
             return true;
         }
 
-        public bool IsValidDataStoreId(string id)
+        public bool IsValidElementId(string elementId)
         {
-            if (id.Length > DataStoreIdMaxLength)
-                throw new ArgumentException(string.Format("Length cannot be more than {0}.", DataStoreIdMaxLength), nameof(id));
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentException("The ID cannot be null or empty.", nameof(id));
+            if (string.IsNullOrEmpty(elementId))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(elementId));
+            if (!Guid.TryParse(elementId, out Guid _))
+                throw new ArgumentException(InvalidGuidError, nameof(elementId));
 
             return true;
         }
 
-        public bool IsValidElementId(string id)
+        public bool IsValidDataStoreId(string dataStoreId)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentException("The ID cannot be null or empty.", nameof(id));
-            if (!Guid.TryParse(id, out Guid newGuid))
-                throw new ArgumentException("Invalid guid.", nameof(id));
+            if (string.IsNullOrEmpty(dataStoreId))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreId));
+            if (dataStoreId.Length > DataStoreIdMaxLength)
+                throw new ArgumentException(string.Format(InvalidLengthError, DataStoreIdMaxLength), nameof(dataStoreId));
 
             return true;
         }
 
         public bool IsValidDataStoreName(string dataStoreName)
         {
-            if (dataStoreName.Length > DataStoreNameMaxLength)
-                throw new ArgumentException(string.Format("Length cannot be more than {0}.", DataStoreNameMaxLength), nameof(dataStoreName));
+            dataStoreName = dataStoreName.ToLower();
             if (string.IsNullOrEmpty(dataStoreName))
-                throw new ArgumentException("The name cannot be null or empty.", nameof(dataStoreName));
-            if (JsonConvert.DeserializeObject(dataStoreName) == null)
-                throw new ArgumentException("Invalid JSON", nameof(dataStoreName));
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreName));
+            var json = JObject.Parse(dataStoreName);
+
+            if (json == null)
+                throw new ArgumentException(InvalidJsonError, nameof(dataStoreName));
+            var dataStoreNameValue = (string)json["dataStoreName"];
+
+            if (string.IsNullOrEmpty(dataStoreNameValue))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreNameValue));
+            if (dataStoreNameValue.Length > DataStoreNameMaxLength)
+                throw new ArgumentException(string.Format(InvalidLengthError, DataStoreNameMaxLength), nameof(dataStoreNameValue));
 
             return true;
         }
 
-        public bool IsValidJson(string json)
+        public bool IsValidJson(string jsonData)
         {
-            if (string.IsNullOrEmpty(json))
-                throw new ArgumentException("Cannot be empty", nameof(json));
-            if (json.Length > 2000 || json.Length < 2)
-                throw new ArgumentException("Length cannot be more than 2000 or less than 2.", nameof(json));
-            if (JsonConvert.DeserializeObject(json) == null)
-                throw new ArgumentException("Invalid JSON", nameof(json));
+            if (string.IsNullOrEmpty(jsonData))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(jsonData));
+            if (jsonData.Length > 2000 || jsonData.Length < 2)
+                throw new ArgumentException(string.Format(InvalidLengthError, JsonMaxLength), nameof(jsonData));
+            if (JsonConvert.DeserializeObject(jsonData) == null)
+                throw new ArgumentException(InvalidJsonError, nameof(jsonData));
+
             return true;
         }
     }

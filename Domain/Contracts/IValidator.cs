@@ -6,14 +6,14 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
     {
         LogLevel ValidatorLogLevel { get; }
 
-        bool IsValidUserId(string id);
+        bool IsValidUserId(string userId);
 
-        bool IsValidElementId(string id);
+        bool IsValidElementId(string elementId);
 
-        bool IsValidDataStoreId(string id);
+        bool IsValidDataStoreId(string dataStoreId);
 
         bool IsValidDataStoreName(string dataStoreName);
 
-        bool IsValidJson(string json);
+        bool IsValidJson(string jsonData);
     }
 }
