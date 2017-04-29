@@ -1,27 +1,30 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
 {
     [TestClass]
     public class ValidatorTests : TestsFor<Validator>
     {
-        private readonly string _validGuid = new Guid().ToString();
-        private readonly string _validJson = "{name:'values'}";
-        private readonly string _invalidGuid = "InvalidGuid";
-        private readonly string _longString = new string('a', 5000);
-        private readonly string _105CharsLongString = new string('a', 105);
-
         private const int DataStoreIdMaxLength = 105;
-        private const int UserIdMaxLength = 12;
-        private const int JsonMaxLength = 2000;
-        private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - UserIdMaxLength - 1;
+        private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - new Guid().ToString().Length - 1;
+
+        private readonly string _validGuid = new Guid().ToString();
+        private readonly string _validObjectId = "507f191e810c19729de860ea";
+        private static readonly string LongString = new string('a', 5000);
+        private static readonly string DataStoreIdMaxLengthString = new string('a', DataStoreIdMaxLength);
+        private static readonly JObject ValidJson = JObject.Parse(@"{dataStoreName:'values'}");
+        private static readonly JObject LongJson = JObject.Parse(@"{dataStoreName:'" + LongString + "'}");
+
+        private static readonly JObject DataStoreIdMaxLengthJson = JObject.Parse(@"{dataStoreName:'" + new string('a', DataStoreNameMaxLength) + "'}");
 
         private const string FieldNullOrEmptyError = "The field cannot be null or empty.";
-        private const string InvalidGuidError = "Invalid GUID.";
-        private const string InvalidJsonError = "Invalid JSON.";
-        private const string InvalidLengthError = "Length cannot be more than {0}.";
+        private const string InvalidLengthError = "Length cannot be more than {0}. Value: {1}.";
+
+        private const string InvalidGuidError = "Invalid GUID. Value: {0}";
+        private const string InvalidObjectIdError = "Invalid Object ID. Value: {0}";
 
         #region ValidatorTests Tests
 
@@ -58,13 +61,13 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         }
 
         [TestMethod]
-        public void IsValidUserId_IdIsNotAGuid_ThrowsArgumentException()
+        public void IsValidUserId_IdIsNotAGuid_ThrowsArgumentExceptionInvalidGuid()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(_invalidGuid));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(DataStoreIdMaxLengthString));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", InvalidGuidError), exception.Message);
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", string.Format(InvalidGuidError, DataStoreIdMaxLengthString)), exception.Message);
         }
 
         #endregion IsValidUserId Tests
@@ -75,14 +78,14 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         public void IsValidElementId_IdIsValid_ReturnTrue()
         {
             // Act
-            var isValid = Instance.IsValidElementId(_validGuid);
+            var isValid = Instance.IsValidElementId(_validObjectId);
 
             // Assert
             Assert.IsTrue(isValid);
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsNull_ThrowsArgumentException()
+        public void IsValidElementId_IdIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(null));
@@ -92,7 +95,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsEmpty_ThrowsArgumentException()
+        public void IsValidElementId_IdIsEmpty_ThrowsArgumentExceptionFieldNullOrEmpty()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(""));
@@ -102,13 +105,13 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsNotAGuid_ThrowsArgumentException()
+        public void IsValidElementId_IdIsNotAGuid_ThrowsArgumentExceptionInvalidLength()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(_invalidGuid));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(DataStoreIdMaxLengthString));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", InvalidGuidError), exception.Message);
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", string.Format(InvalidObjectIdError, DataStoreIdMaxLengthString)), exception.Message);
         }
 
         #endregion IsValidElementId Tests
@@ -149,10 +152,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         public void IsValidDataStoreId_IdIsAboveMaxLength_ThrowsArgumentException()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreId(_longString));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreId(LongString));
 
             // Assert
-            var a = string.Format(InvalidLengthError, DataStoreIdMaxLength);
+            var a = string.Format(InvalidLengthError, DataStoreIdMaxLength, LongString);
             Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreId", a), exception.Message);
         }
 
@@ -160,7 +163,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         public void IsValidDataStoreId_IdIsAtMaxLength_ThrowsArgumentException()
         {
             // Act
-            var isValid = Instance.IsValidDataStoreId(_105CharsLongString);
+            var isValid = Instance.IsValidDataStoreId(DataStoreIdMaxLengthString);
 
             // Assert
             Assert.IsTrue(isValid);
@@ -170,15 +173,15 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
 
         #region IsValidDataStoreName Tests
 
-        //[TestMethod]
-        //public void IsValidDataStoreName_IdIsValid_ReturnTrue()
-        //{
-        //    // Act
-        //    var isValid = Instance.IsValidDataStoreName(_validJson);
+        [TestMethod]
+        public void IsValidDataStoreName_IdIsValid_ReturnTrue()
+        {
+            // Act
+            var isValid = Instance.IsValidDataStoreName(ValidJson);
 
-        //    // Assert
-        //    Assert.IsTrue(isValid);
-        //}
+            // Assert
+            Assert.IsTrue(isValid);
+        }
 
         [TestMethod]
         public void IsValidDataStoreName_IdIsNull_ThrowsArgumentException()
@@ -187,41 +190,66 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreName(null));
 
             // Assert
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreNameJson", FieldNullOrEmptyError), exception.Message);
+        }
+
+        [TestMethod]
+        public void IsValidDataStoreName_IdIsEmpty_ThrowsArgumentExceptionFieldNullOrEmpty()
+        {
+            // Act
+            var emptyJObject = new JObject();
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreName(emptyJObject));
+
+            // Assert
             Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreName", FieldNullOrEmptyError), exception.Message);
         }
 
-        //[TestMethod]
-        //public void IsValidDataStoreName_IdIsEmpty_ThrowsArgumentException()
-        //{
-        //    // Act
-        //    var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreName(""));
+        [TestMethod]
+        public void IsValidDataStoreName_IdIsAboveMaxLength_ThrowsArgumentExceptionInvalidLength()
+        {
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreName(LongJson));
 
-        //    // Assert
-        //    Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreName", FieldNullOrEmptyError), exception.Message);
-        //}
+            // Assert
+            var errorMessage = string.Format(InvalidLengthError, DataStoreNameMaxLength, LongJson["dataStoreName"]);
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreName", errorMessage), exception.Message);
+        }
 
-        //[TestMethod]
-        //public void IsValidDataStoreName_IdIsAboveMaxLength_ThrowsArgumentException()
-        //{
-        //    // Act
-        //    var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreName(_longString));
+        [TestMethod]
+        public void IsValidDataStoreName_IdIsAtMaxLength_ThrowsArgumentException()
+        {
+            // Act
+            var isValid = Instance.IsValidDataStoreName(DataStoreIdMaxLengthJson);
 
-        //    // Assert
-        //    var errorMessage = string.Format(InvalidLengthError, DataStoreNameMaxLength);
-        //    Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreName", errorMessage), exception.Message);
-        //}
-
-        //[TestMethod]
-        //public void IsValidDataStoreName_IdIsAtMaxLength_ThrowsArgumentException()
-        //{
-        //    // Act
-        //    var isValid = Instance.IsValidDataStoreName(_105CharsLongString);
-
-        //    // Assert
-        //    Assert.IsTrue(isValid);
-        //}
+            // Assert
+            Assert.IsTrue(isValid);
+        }
 
         #endregion IsValidDataStoreName Tests
+
+        #region IsValidJson Tests
+
+        [TestMethod]
+        public void IsValidJson_JsonIsValid_ReturnTrue()
+        {
+            // Act
+            var isValid = Instance.IsValidJson(ValidJson);
+
+            // Assert
+            Assert.IsTrue(isValid);
+        }
+
+        [TestMethod]
+        public void IsValidJson_JsonIsNull_ThrowsArgumentException()
+        {
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidJson(null));
+
+            // Assert
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: json", FieldNullOrEmptyError), exception.Message);
+        }
+
+        #endregion IsValidJson Tests
 
         #endregion ValidatorTests Tests
     }
