@@ -1,11 +1,12 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 {
     public interface IClientDataManager
     {
-        Task<HttpStatusCode> Create(string userId, string dataStoreName);
+        Task<HttpStatusCode> Create(string userId, JObject dataStoreName);
 
         Task<HttpStatusCode> Post(string userId, string dataStoreId, string data);
 

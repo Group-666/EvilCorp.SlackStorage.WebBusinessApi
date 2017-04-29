@@ -1,4 +1,5 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 {
@@ -12,7 +13,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         bool IsValidDataStoreId(string dataStoreId);
 
-        bool IsValidDataStoreName(string dataStoreName);
+        bool IsValidDataStoreName(JObject dataStoreName);
 
         bool IsValidJson(string jsonData);
     }

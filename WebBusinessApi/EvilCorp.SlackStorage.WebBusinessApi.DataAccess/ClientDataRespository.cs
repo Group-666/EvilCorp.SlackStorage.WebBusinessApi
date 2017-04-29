@@ -3,6 +3,7 @@ using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Data
 {
@@ -55,7 +56,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> Create(string userId, string dataStoreName)
+        public async Task<HttpStatusCode> Create(string userId, JObject dataStoreName)
         {
             var request = new RestRequest(userId, Method.POST);
             request.AddParameter("Application/Json", dataStoreName, ParameterType.RequestBody);

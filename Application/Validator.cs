@@ -1,8 +1,8 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Newtonsoft.Json;
-using System;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
@@ -50,16 +50,16 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return true;
         }
 
-        public bool IsValidDataStoreName(string dataStoreName)
+        public bool IsValidDataStoreName(JObject dataStoreName)
         {
-            dataStoreName = dataStoreName.ToLower();
-            if (string.IsNullOrEmpty(dataStoreName))
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreName));
-            var json = JObject.Parse(dataStoreName);
+            //if (string.IsNullOrEmpty(dataStoreName))
+            //    throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreName));
 
-            if (json == null)
+            //var json = JObject.Parse(dataStoreName);
+            //dataStoreName = dataStoreName.ToLower();
+            if (dataStoreName == null)
                 throw new ArgumentException(InvalidJsonError, nameof(dataStoreName));
-            var dataStoreNameValue = (string)json["dataStoreName"];
+            var dataStoreNameValue = (string)dataStoreName["dataStoreName"];
 
             if (string.IsNullOrEmpty(dataStoreNameValue))
                 throw new ArgumentException(FieldNullOrEmptyError, nameof(dataStoreNameValue));

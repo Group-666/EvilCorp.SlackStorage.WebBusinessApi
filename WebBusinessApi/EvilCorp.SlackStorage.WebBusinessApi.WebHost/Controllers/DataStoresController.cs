@@ -1,6 +1,7 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
         // POST api/datastores/5
         // [Route("login")]
         [HttpPost("{userId}")]
-        public async Task<IActionResult> Create(string userId, [FromBody]string dataStoreName)
+        public async Task<IActionResult> Create(string userId, [FromBody]JObject dataStoreName)
         {
             try
             {

@@ -1,6 +1,9 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using System.Net;
 using System.Threading.Tasks;
+using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
+using RestSharp;
+using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
@@ -9,16 +12,21 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         private readonly IClientDataRespository _clientDataRepository;
         private readonly IValidator _validator;
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly ILogger _logger;
 
-        public ClientDataManager(IClientDataRespository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler)
+        public ClientDataManager(IClientDataRespository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler,
+            ILogger logger)
         {
             _clientDataRepository = clientDataRepository;
             _validator = validator;
             _exceptionHandler = exceptionHandler;
+            _logger = logger;
         }
 
         public async Task<string> GetAll(string userId)
         {
+            //var name = "Call:";
+            //_logger.Log(name, LogLevel.Trace);
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
 
             return await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAll(userId));
@@ -55,7 +63,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> Create(string userId, string dataStoreName)
+        public async Task<HttpStatusCode> Create(string userId, JObject dataStoreName)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreName(dataStoreName), _validator.ValidatorLogLevel);
