@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using EvilCorp.SlackStorage.WebBusinessApi.WebHost.IoC;
 using Microsoft.AspNetCore.Hosting;
 using StructureMap;
-using EvilCorp.SlackStorage.WebBusinessApi.WebHost.IoC;
-using System.Diagnostics;
+using System.IO;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost
 {

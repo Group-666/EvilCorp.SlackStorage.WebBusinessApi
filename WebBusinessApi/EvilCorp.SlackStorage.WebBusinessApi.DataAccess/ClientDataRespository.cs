@@ -1,26 +1,26 @@
 ﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Data
 {
     public class ClientDataRespository : IClientDataRespository
     {
 #if DEBUG
-        private static string REPOSITORYURL = "http://localhost:49752/api/storage/";
+        private const string Repositoryurl = "http://localhost:49752/api/storage/";
 #else
         //Real URL
-        private static string REPOSITORYURL = "http://localhost/api/storage";
+        private const string REPOSITORYURL = "http://localhost/api/storage";
 #endif
         private readonly ILogger _logger;
         private readonly RestClient _restClient;
 
         public ClientDataRespository(ILogger logger)
         {
-            _restClient = new RestClient(REPOSITORYURL);
+            _restClient = new RestClient(Repositoryurl);
             _logger = logger;
         }
 
@@ -104,17 +104,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        private HttpStatusCode LogOnError(IRestResponse result)
-        {
-            if (result.StatusCode != HttpStatusCode.OK)
-                _logger.Log(result.ErrorMessage, LogLevel.Critical);
-            return result.StatusCode;
-        }
-
         private string LogOnErrorReturnContent(IRestResponse result)
         {
             if (result.StatusCode != HttpStatusCode.OK)
-                _logger.Log(result.ErrorMessage, LogLevel.Critical);
+                _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? result.ToString() : result.ErrorMessage, LogLevel.Critical);
             return result.Content;
         }
     }

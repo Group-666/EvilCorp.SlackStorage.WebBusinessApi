@@ -13,7 +13,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
         //Real URL
         private static string REPOSITORYURL = "http://localhost:49752/api/";
 #endif
-        private RestClient _restClient;
+        private readonly RestClient _restClient;
 
         public LogRepository()
         {

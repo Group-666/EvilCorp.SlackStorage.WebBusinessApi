@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
 {
     [Route("api/[controller]")]
-    public class DataStoresController : Controller
+    public class StorageController : Controller
     {
         // POST api/datastores/5
         // [Route("login")]
