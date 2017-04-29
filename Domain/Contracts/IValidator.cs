@@ -15,6 +15,6 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         bool IsValidDataStoreName(JObject dataStoreName);
 
-        bool IsValidJson(string jsonData);
+        bool IsValidJson(JObject jsonData);
     }
 }

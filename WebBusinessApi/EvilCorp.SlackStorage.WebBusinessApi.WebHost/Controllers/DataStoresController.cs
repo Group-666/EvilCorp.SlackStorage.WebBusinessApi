@@ -13,13 +13,13 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
         // POST api/datastores/5
         // [Route("login")]
         [HttpPost("{userId}")]
-        public async Task<IActionResult> Create(string userId, [FromBody]JObject dataStoreName)
+        public async Task<IActionResult> Create(string userId, [FromBody]JObject dataStoreNameJson)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().Create(userId, dataStoreName);
+                var result = await Program.Container.GetInstance<IClientDataManager>().Create(userId, dataStoreNameJson);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -31,13 +31,13 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
 
         // POST api/datastores/5/5
         [HttpPost("{userId}/{dataStoreId}")]
-        public async Task<IActionResult> Post(string userId, string dataStoreId, [FromBody]string data)
+        public async Task<IActionResult> Post(string userId, string dataStoreId, [FromBody]JObject dataJson)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().Post(userId, dataStoreId, data);
+                var result = await Program.Container.GetInstance<IClientDataManager>().Post(userId, dataStoreId, dataJson);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpGet("{userId}/{dataStoreId}/data")]
+        [HttpGet("{userId}/{dataStoreId}/dataJson")]
         public async Task<IActionResult> GetElementAll(string userId, string dataStoreId)
         {
             try
@@ -100,7 +100,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpGet("{userId}/{dataStoreId}/data/{elementId}")]
+        [HttpGet("{userId}/{dataStoreId}/dataJson/{elementId}")]
         public async Task<IActionResult> GetElementOne(string userId, string dataStoreId, string elementId)
         {
             try
@@ -151,7 +151,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpDelete("{userId}/{dataStoreId}/data/")]
+        [HttpDelete("{userId}/{dataStoreId}/dataJson/")]
         public async Task<IActionResult> DeleteElementAll(string userId, string dataStoreId)
         {
             try
@@ -168,7 +168,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpDelete("{userId}/{dataStoreId}/data/{elementId}")]
+        [HttpDelete("{userId}/{dataStoreId}/dataJson/{elementId}")]
         public async Task<IActionResult> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
             try

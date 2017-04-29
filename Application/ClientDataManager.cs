@@ -63,7 +63,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> Create(string userId, JObject dataStoreName)
+        public async Task<string> Create(string userId, JObject dataStoreName)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreName(dataStoreName), _validator.ValidatorLogLevel);
@@ -71,7 +71,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return await _exceptionHandler.RunAsync(() => _clientDataRepository.Create(userId, dataStoreName));
         }
 
-        public async Task<HttpStatusCode> Post(string userId, string dataStoreId, string data)
+        public async Task<string> Post(string userId, string dataStoreId, JObject data)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);

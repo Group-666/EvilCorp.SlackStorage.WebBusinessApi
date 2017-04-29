@@ -56,24 +56,24 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> Create(string userId, JObject dataStoreName)
+        public async Task<string> Create(string userId, JObject dataStoreName)
         {
             var request = new RestRequest(userId, Method.POST);
             request.AddParameter("Application/Json", dataStoreName, ParameterType.RequestBody);
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> Post(string userId, string dataStoreId, string data)
+        public async Task<string> Post(string userId, string dataStoreId, JObject data)
         {
             var request = new RestRequest(userId + "/" + dataStoreId, Method.POST);
             request.AddParameter("Application/Json", data, ParameterType.RequestBody);
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
         public async Task<HttpStatusCode> DeleteAll(string userId)

@@ -14,9 +14,9 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         Task<string> GetElementAll(string userId, string dataStoreId);
 
-        Task<HttpStatusCode> Create(string userId, JObject dataStoreName);
+        Task<string> Create(string userId, JObject dataStoreName);
 
-        Task<HttpStatusCode> Post(string userId, string dataStoreId, string data);
+        Task<string> Post(string userId, string dataStoreId, JObject data);
 
         Task<HttpStatusCode> DeleteAll(string userId);
 

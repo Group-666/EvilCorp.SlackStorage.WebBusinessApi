@@ -69,14 +69,12 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return true;
         }
 
-        public bool IsValidJson(string jsonData)
+        public bool IsValidJson(JObject jsonData)
         {
-            if (string.IsNullOrEmpty(jsonData))
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(jsonData));
-            if (jsonData.Length > 2000 || jsonData.Length < 2)
-                throw new ArgumentException(string.Format(InvalidLengthError, JsonMaxLength), nameof(jsonData));
-            if (JsonConvert.DeserializeObject(jsonData) == null)
+            if (null == jsonData)
                 throw new ArgumentException(InvalidJsonError, nameof(jsonData));
+            if (jsonData.Count > 2000)
+                throw new ArgumentException(string.Format(InvalidLengthError, JsonMaxLength), nameof(jsonData));
 
             return true;
         }
