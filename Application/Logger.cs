@@ -31,14 +31,10 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         {
             var json = new JObject
             {
-                ["componet"] = _componentName,
+                ["component"] = _componentName,
                 ["message"] = message,
                 ["level"] = (int)level
             };
-
-            //var content = new StringContent(json.ToString());
-            //content.Headers.Clear();
-            //content.Headers.Add("content-type", "application/json");
 
             return json;
         }
