@@ -83,7 +83,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpGet("{userId}/{dataStoreId}/dataJson")]
+        [HttpGet("{userId}/{dataStoreId}/data")]
         public async Task<IActionResult> GetElementAll(string userId, string dataStoreId)
         {
             try
@@ -100,7 +100,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpGet("{userId}/{dataStoreId}/dataJson/{elementId}")]
+        [HttpGet("{userId}/{dataStoreId}/data/{elementId}")]
         public async Task<IActionResult> GetElementOne(string userId, string dataStoreId, string elementId)
         {
             try
@@ -151,7 +151,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpDelete("{userId}/{dataStoreId}/dataJson/")]
+        [HttpDelete("{userId}/{dataStoreId}/data/")]
         public async Task<IActionResult> DeleteElementAll(string userId, string dataStoreId)
         {
             try
@@ -168,7 +168,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             }
         }
 
-        [HttpDelete("{userId}/{dataStoreId}/dataJson/{elementId}")]
+        [HttpDelete("{userId}/{dataStoreId}/data/{elementId}")]
         public async Task<IActionResult> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
             try
