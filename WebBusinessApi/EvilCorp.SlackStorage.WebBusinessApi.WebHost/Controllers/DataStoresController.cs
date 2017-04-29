@@ -124,7 +124,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             {
                 var result = await Program.Container.GetInstance<IClientDataManager>().DeleteAll(userId);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -141,7 +141,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             {
                 var result = await Program.Container.GetInstance<IClientDataManager>().DeleteOne(userId, dataStoreId);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -158,7 +158,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             {
                 var result = await Program.Container.GetInstance<IClientDataManager>().DeleteElementAll(userId, dataStoreId);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -175,7 +175,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
             {
                 var result = await Program.Container.GetInstance<IClientDataManager>().DeleteElementOne(userId, dataStoreId, elementId);
 
-                return StatusCode((int)result);
+                return Ok(result);
             }
             catch (Exception ex)
             {

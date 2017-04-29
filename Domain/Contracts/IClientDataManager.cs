@@ -18,12 +18,12 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
 
         Task<string> GetElementOne(string userId, string dataStoreId, string elementId);
 
-        Task<HttpStatusCode> DeleteAll(string userId);
+        Task<string> DeleteAll(string userId);
 
-        Task<HttpStatusCode> DeleteOne(string userId, string dataStoreId);
+        Task<string> DeleteOne(string userId, string dataStoreId);
 
-        Task<HttpStatusCode> DeleteElementAll(string userId, string dataStoreId);
+        Task<string> DeleteElementAll(string userId, string dataStoreId);
 
-        Task<HttpStatusCode> DeleteElementOne(string userId, string dataStoreId, string elementId);
+        Task<string> DeleteElementOne(string userId, string dataStoreId, string elementId);
     }
 }

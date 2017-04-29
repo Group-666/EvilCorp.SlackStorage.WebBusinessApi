@@ -82,7 +82,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteAll(string userId)
+        public async Task<string> DeleteAll(string userId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
 
@@ -91,7 +91,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteOne(string userId, string dataStoreId)
+        public async Task<string> DeleteOne(string userId, string dataStoreId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -101,7 +101,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteElementAll(string userId, string dataStoreId)
+        public async Task<string> DeleteElementAll(string userId, string dataStoreId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -111,7 +111,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<string> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
             _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);

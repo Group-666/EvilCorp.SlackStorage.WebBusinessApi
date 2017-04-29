@@ -50,7 +50,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
 
         public async Task<string> GetElementAll(string userId, string dataStoreId)
         {
-            var request = new RestRequest(userId + "/" + dataStoreId + "/data", Method.GET);
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
 
             return LogOnErrorReturnContent(result);
@@ -76,32 +76,32 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> DeleteAll(string userId)
+        public async Task<string> DeleteAll(string userId)
         {
             var request = new RestRequest(userId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> DeleteOne(string userId, string dataStoreId)
+        public async Task<string> DeleteOne(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> DeleteElementAll(string userId, string dataStoreId)
+        public async Task<string> DeleteElementAll(string userId, string dataStoreId)
         {
-            var request = new RestRequest(userId + "/" + dataStoreId + "/data", Method.DELETE);
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
-        public async Task<HttpStatusCode> DeleteElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<string> DeleteElementOne(string userId, string dataStoreId, string elementId)
         {
-            var request = new RestRequest(userId + "/" + dataStoreId + "/data" + elementId, Method.DELETE);
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnError(result);
+            return LogOnErrorReturnContent(result);
         }
 
         private HttpStatusCode LogOnError(IRestResponse result)
