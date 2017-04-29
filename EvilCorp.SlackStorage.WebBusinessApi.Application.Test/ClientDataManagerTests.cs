@@ -1,10 +1,11 @@
 using EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing;
 using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
+using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
 {
@@ -12,6 +13,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
     public class ClientDataManagerTests : TestsFor<ClientDataManager>
     {
         private readonly string _stringValue = "SomeString";
+        private readonly JObject _validJson = JObject.Parse(@"{name:'values'}");
+
         private ExceptionHandler _exceptionHandler;
 
         protected override void OverrideMocks()
@@ -29,66 +32,66 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
         [TestMethod]
         public async Task Create_IdsAreValid_RepositoryIsCalled()
         {
-            //    // Arrange
-            //    SetupValidatorToBeValid();
+            // Arrange
+            SetupValidatorToBeValid();
 
-            //    // Act
-            //    await Instance.Create(_stringValue, _stringValue);
+            // Act
+            await Instance.Create(_stringValue, _validJson);
 
-            //    // Assert
-            //    GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _stringValue), Times.Once());
+            // Assert
+            GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once());
         }
 
         [TestMethod]
         public async Task Create_IdsAreInvalid_RepositoryIsNeverCalled()
         {
-            //// Arrange
-            //SetupValidatorToThrowExpection();
-            //// Act
-            //try
-            //{
-            //    await Instance.Create(_stringValue, _stringValue);
-            //}
-            //catch
-            //{
-            //    // Assert
-            //    GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _stringValue), Times.Never());
-            //}
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Create(_stringValue, _validJson);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never());
+            }
         }
 
         #endregion Create Tests
 
         #region Post Tests
 
-        //[TestMethod]
-        //public async Task Post_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Arrange
-        //    SetupValidatorToBeValid();
+        [TestMethod]
+        public async Task Post_IdsAreValid_RepositoryIsCalled()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
 
-        //    // Act
-        //    await Instance.Post(_stringValue, _stringValue, _stringValue);
+            // Act
+            await Instance.Post(_stringValue, _stringValue, _validJson);
 
-        //    // Assert
-        //    GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _stringValue), Times.Once());
-        //}
+            // Assert
+            GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Once());
+        }
 
-        //[TestMethod]
-        //public async Task Post_IdsAreInvalid_RepositoryIsNeverCalled()
-        //{
-        //    // Arrange
-        //    SetupValidatorToThrowExpection();
-        //    // Act
-        //    try
-        //    {
-        //        await Instance.Post(_stringValue, _stringValue, _stringValue);
-        //    }
-        //    catch
-        //    {
-        //        // Assert
-        //        GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _stringValue), Times.Never());
-        //    }
-        //}
+        [TestMethod]
+        public async Task Post_IdsAreInvalid_RepositoryIsNeverCalled()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Post(_stringValue, _stringValue, _validJson);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Never());
+            }
+        }
 
         #endregion Post Tests
 
@@ -104,6 +107,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.GetAll(_stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once());
             GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_stringValue), Times.Once());
         }
 
@@ -121,6 +125,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
                 GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_stringValue), Times.Never());
             }
         }
@@ -139,6 +144,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.GetOne(_stringValue, _stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.GetOne(_stringValue, _stringValue), Times.Once());
         }
 
@@ -156,6 +162,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
                 GetMockFor<IClientDataRespository>().Verify(r => r.GetOne(_stringValue, _stringValue), Times.Never());
             }
         }
@@ -174,6 +181,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.GetElementAll(_stringValue, _stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.GetElementAll(_stringValue, _stringValue), Times.Once());
         }
 
@@ -190,6 +198,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
                 GetMockFor<IClientDataRespository>().Verify(r => r.GetElementAll(_stringValue, _stringValue), Times.Never());
             }
         }
@@ -208,6 +217,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.GetElementOne(_stringValue, _stringValue, _stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.GetElementOne(_stringValue, _stringValue, _stringValue), Times.Once());
         }
 
@@ -224,6 +234,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
                 GetMockFor<IClientDataRespository>().Verify(r => r.GetElementOne(_stringValue, _stringValue, _stringValue), Times.Never());
             }
         }
@@ -242,6 +253,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.DeleteAll(_stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.DeleteAll(_stringValue), Times.Once());
         }
 
@@ -258,6 +270,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
                 GetMockFor<IClientDataRespository>().Verify(r => r.DeleteAll(_stringValue), Times.Never());
             }
         }
@@ -276,7 +289,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.DeleteOne(_stringValue, _stringValue);
 
             // Assert
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Once());
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
@@ -292,7 +306,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Never());
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Never);
             }
         }
 
@@ -310,6 +325,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.DeleteOne(_stringValue, _stringValue);
 
             // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Once());
         }
 
@@ -326,7 +342,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementAll(_stringValue, _stringValue), Times.Never());
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementAll(_stringValue, _stringValue), Times.Never);
             }
         }
 
@@ -344,7 +361,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             await Instance.DeleteElementOne(_stringValue, _stringValue, _stringValue);
 
             // Assert
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Once());
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
@@ -360,7 +378,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Never());
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Never);
             }
         }
 

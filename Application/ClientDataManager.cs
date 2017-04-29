@@ -1,13 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using System.Net;
-using System.Reflection;
+﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
+using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
+using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
-using RestSharp;
-using Newtonsoft.Json.Linq;
 
 namespace EvilCorp.SlackStorage.WebBusinessApi.Business
 {
