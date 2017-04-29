@@ -11,6 +11,7 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         private const int DataStoreIdMaxLength = 105;
         private const int UserIdMaxLength = 12;
         private const int JsonMaxLength = 2000;
+        private const int ObjectIdMaxLength = 24;
         private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - UserIdMaxLength - 1;
 
         private const string FieldNullOrEmptyError = "The field cannot be null or empty.";
@@ -34,8 +35,8 @@ namespace EvilCorp.SlackStorage.WebBusinessApi.Business
         {
             if (string.IsNullOrEmpty(elementId))
                 throw new ArgumentException(FieldNullOrEmptyError, nameof(elementId));
-            if (!Guid.TryParse(elementId, out Guid _))
-                throw new ArgumentException(InvalidGuidError, nameof(elementId));
+            if (elementId.Length != ObjectIdMaxLength)
+                throw new ArgumentException(string.Format(InvalidLengthError, ObjectIdMaxLength), nameof(elementId));
 
             return true;
         }
