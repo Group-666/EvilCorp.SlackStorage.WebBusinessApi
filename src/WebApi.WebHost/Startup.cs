@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EvilCorp.SlackStorage.WebApi.WebHost
+namespace WebApi.WebHost
 {
     public class Startup
     {

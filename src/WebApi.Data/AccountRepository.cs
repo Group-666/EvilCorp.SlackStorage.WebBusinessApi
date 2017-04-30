@@ -1,8 +1,9 @@
-﻿using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
+﻿using System.Threading.Tasks;
+using System.Xml.Linq;
 using RestSharp;
-using System.Threading.Tasks;
+using WebApi.Domain.Contracts;
 
-namespace EvilCorp.SlackStorage.WebApi.Data
+namespace WebApi.Data
 {
     public class AccountRepository : IAccountRepository
     {
@@ -42,6 +43,8 @@ namespace EvilCorp.SlackStorage.WebApi.Data
 
             var login = new login();
             login.userId = response.Content;
+            var xElement = XElement.Parse(response.Content);
+            var value = xElement.Value;
 
             return response.Content;
         }

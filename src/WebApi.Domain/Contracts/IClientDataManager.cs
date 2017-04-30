@@ -1,8 +1,7 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace EvilCorp.SlackStorage.WebApi.Domain.Contracts
+namespace WebApi.Domain.Contracts
 {
     public interface IClientDataManager
     {

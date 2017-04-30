@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
+using WebApi.Domain.Contracts;
 
-namespace EvilCorp.SlackStorage.WebApi.WebHost.Controllers
+namespace WebApi.WebHost.Controllers
 {
     [Route("api/[controller]")]
     public class AccountController : Controller

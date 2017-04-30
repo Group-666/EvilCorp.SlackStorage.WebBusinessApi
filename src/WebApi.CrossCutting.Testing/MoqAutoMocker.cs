@@ -1,6 +1,6 @@
 ﻿using StructureMap.AutoMocking;
 
-namespace EvilCorp.SlackStorage.WebApi.CrossCutting.Testing
+namespace WebApi.CrossCutting.Testing
 {
     /// <summary>
     /// Provides an "Auto Mocking Container" for the concrete class TARGETCLASS using Moq

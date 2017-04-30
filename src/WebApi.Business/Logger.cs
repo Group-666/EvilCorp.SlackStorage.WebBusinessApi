@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebApi.Domain.Entities;
+using WebApi.Domain.Contracts;
+using WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebApi.Business
+namespace WebApi.Business
 {
     public class Logger : ILogger
     {

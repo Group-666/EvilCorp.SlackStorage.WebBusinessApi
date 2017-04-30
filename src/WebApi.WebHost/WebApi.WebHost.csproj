@@ -24,5 +24,10 @@
     <ProjectReference Include="..\WebApi.Data\WebApi.Data.csproj" />
     <ProjectReference Include="..\WebApi.Domain\WebApi.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\..\..\..\..\.nuget\packages\structuremap\4.4.5\lib\netstandard1.5\StructureMap.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

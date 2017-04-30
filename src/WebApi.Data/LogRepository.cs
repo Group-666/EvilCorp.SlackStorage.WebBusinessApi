@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using RestSharp;
-using System.Threading.Tasks;
-using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
+using WebApi.Domain.Contracts;
 
-namespace EvilCorp.SlackStorage.WebApi.Data
+namespace WebApi.Data
 {
     public class LogRepository : ILogRepository
     {

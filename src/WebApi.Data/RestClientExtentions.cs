@@ -1,8 +1,8 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using RestSharp;
 
-namespace EvilCorp.SlackStorage.WebApi.Data
+namespace WebApi.Data
 {
     public static class RestClientExtentions
     {

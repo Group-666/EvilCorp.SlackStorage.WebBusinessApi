@@ -1,7 +1,7 @@
-﻿using EvilCorp.SlackStorage.WebApi.Domain.Entities;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebApi.Domain.Contracts
+namespace WebApi.Domain.Contracts
 {
     public interface IValidator
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebApi.Domain.Entities;
+using WebApi.Domain.Contracts;
+using WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebApi.Business
+namespace WebApi.Business
 {
     public class ExceptionHandler : IExceptionHandler
     {
@@ -58,7 +58,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(ex.Message, Domain.Entities.LogLevel.Critical);
+                    _logger.Log(ex.Message, LogLevel.Critical);
                 }
             }
         }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using StructureMap;
 using System.IO;
-using EvilCorp.SlackStorage.WebApi.WebHost.IoC;
+using WebApi.WebHost.IoC;
 
-namespace EvilCorp.SlackStorage.WebApi.WebHost
+namespace WebApi.WebHost
 {
     public class Program
     {

@@ -1,6 +1,6 @@
-﻿using EvilCorp.SlackStorage.WebApi.Domain.Entities;
+﻿using WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebApi.Domain.Contracts
+namespace WebApi.Domain.Contracts
 {
     public interface ILogger
     {
