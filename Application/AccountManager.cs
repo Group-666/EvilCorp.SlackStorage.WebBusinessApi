@@ -34,7 +34,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business
 
         public async Task<string> Login(string userId, string passwordHash)
         {
-            throw new NotImplementedException();
+            return await _exceptionHandler.RunAsync(() => _accountRepository.Login(userId, passwordHash));
         }
 
         public async Task<string> GetAll()

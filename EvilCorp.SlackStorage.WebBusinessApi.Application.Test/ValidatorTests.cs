@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using EvilCorp.SlackStorage.WebApi.CrossCutting.Testing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
-namespace EvilCorp.SlackStorage.WebApi.Business.Test
+namespace EvilCorp.SlackStorage.WebApi.Business.Tests
 {
     [TestClass]
     public class ValidatorTests : TestsFor<Validator>

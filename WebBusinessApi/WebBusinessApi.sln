@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebApi.WebHost", "EvilCorp.SlackStorage.WebBusinessApi.WebHost\EvilCorp.SlackStorage.WebApi.WebHost.csproj", "{FDF01EFE-9DB3-4475-97C2-BD718EA71D99}"
 EndProject
@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Domain Layer", "30 Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Data Layer", "40 Data Layer", "{2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebApi.Business.Test", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebApi.Business.Test.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvilCorp.SlackStorage.WebApi.Business.Tests", "..\EvilCorp.SlackStorage.WebBusinessApi.Application.Test\EvilCorp.SlackStorage.WebApi.Business.Tests.csproj", "{54B1F3B6-0AC4-4B1F-85EA-163A21FA1407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 Cross Cutting Layer", "50 Cross Cutting Layer", "{D7766575-A152-44A1-A945-F5F1038E0941}"
 EndProject

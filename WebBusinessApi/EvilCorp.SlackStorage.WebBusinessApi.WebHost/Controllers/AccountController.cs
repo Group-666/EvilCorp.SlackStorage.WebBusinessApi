@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace EvilCorp.SlackStorage.WebApi.WebHost.Controllers
 {
     [Route("api/[controller]")]
-    public class RegisterController : Controller
+    public class AccountController : Controller
     {
         // GET api/values
         [HttpPost]
