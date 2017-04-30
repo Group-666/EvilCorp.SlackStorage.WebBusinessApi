@@ -1,2 +1,2 @@
-# EvilCorp.SlackStorage.WebBusinessApi
-Ponies!!!
+# EvilCorp SlackStorage WebApi
+Here is how you get started: ..

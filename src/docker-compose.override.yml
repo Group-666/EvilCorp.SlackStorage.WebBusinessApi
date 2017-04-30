@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  evilcorp.slackstorage.webbusinessapi.webhost:
+  webapi.webhost:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

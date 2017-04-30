@@ -1,15 +1,15 @@
 version: '2'
 
 services:
-  evilcorp.slackstorage.webbusinessapi.webhost:
-    image: evilcorp.slackstorage.webbusinessapi.webhost:dev
+  webapi.webhost:
+    image: webapi.webhost:dev
     build:
       args:
         source: ${DOCKER_BUILD_SOURCE}
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
     volumes:
-      - ./EvilCorp.SlackStorage.WebBusinessApi.WebHost:/app
+      - ./WebApi.WebHost:/app
       - ~/.nuget/packages:/root/.nuget/packages:ro
       - ~/clrdbg:/clrdbg:ro
     entrypoint: tail -f /dev/null

@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EvilCorp.SlackStorage.WebBusinessApi.WebHost": {
+    "WebApi.WebHost": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
