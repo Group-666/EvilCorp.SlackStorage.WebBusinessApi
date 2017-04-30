@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing
+namespace EvilCorp.SlackStorage.WebApi.CrossCutting.Testing
 {
     public class MoqFactory
     {

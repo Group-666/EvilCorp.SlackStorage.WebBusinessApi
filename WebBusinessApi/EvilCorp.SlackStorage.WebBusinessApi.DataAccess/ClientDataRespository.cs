@@ -1,11 +1,11 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
+using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
+using EvilCorp.SlackStorage.WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Data
+namespace EvilCorp.SlackStorage.WebApi.Data
 {
     public class ClientDataRespository : IClientDataRespository
     {

@@ -1,7 +1,7 @@
 ﻿using StructureMap.AutoMocking;
 using System;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing
+namespace EvilCorp.SlackStorage.WebApi.CrossCutting.Testing
 {
     public class MoqServiceLocator : ServiceLocator
     {

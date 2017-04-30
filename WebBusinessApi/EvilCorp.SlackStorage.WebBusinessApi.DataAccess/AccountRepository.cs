@@ -1,4 +1,4 @@
-﻿namespace EvilCorp.SlackStorage.WebBusinessApi.Data
+﻿namespace EvilCorp.SlackStorage.WebApi.Data
 {
     public class AccountRepository
     {

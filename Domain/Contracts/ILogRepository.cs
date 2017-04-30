@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
+namespace EvilCorp.SlackStorage.WebApi.Domain.Contracts
 {
     public interface ILogRepository
     {

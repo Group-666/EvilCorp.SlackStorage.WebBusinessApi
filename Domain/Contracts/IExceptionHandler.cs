@@ -1,8 +1,8 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using EvilCorp.SlackStorage.WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts
+namespace EvilCorp.SlackStorage.WebApi.Domain.Contracts
 {
     public interface IExceptionHandler
     {

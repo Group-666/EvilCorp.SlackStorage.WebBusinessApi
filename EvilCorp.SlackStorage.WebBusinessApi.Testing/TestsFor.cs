@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing
+namespace EvilCorp.SlackStorage.WebApi.CrossCutting.Testing
 {
     [TestClass]
     public abstract class TestsFor<TEntity> where TEntity : class

@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
-    <ProjectReference Include="..\WebBusinessApi\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj" />
+    <ProjectReference Include="..\Domain\EvilCorp.SlackStorage.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\WebBusinessApi\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebApi.Data.csproj" />
   </ItemGroup>
 
 </Project>

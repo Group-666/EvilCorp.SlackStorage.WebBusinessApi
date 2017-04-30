@@ -1,11 +1,11 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
+using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.Controllers
+namespace EvilCorp.SlackStorage.WebApi.WebHost.Controllers
 {
     [Route("api/[controller]")]
     public class StorageController : Controller

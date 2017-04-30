@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj" />
-    <ProjectReference Include="..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
-    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.Testing\EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing.csproj" />
+    <ProjectReference Include="..\Application\EvilCorp.SlackStorage.WebApi.Business.csproj" />
+    <ProjectReference Include="..\Domain\EvilCorp.SlackStorage.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.Testing\EvilCorp.SlackStorage.WebApi.CrossCutting.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>

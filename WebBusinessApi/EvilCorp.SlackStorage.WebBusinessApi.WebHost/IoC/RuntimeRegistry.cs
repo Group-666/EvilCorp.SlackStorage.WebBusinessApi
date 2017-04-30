@@ -1,9 +1,9 @@
-﻿using EvilCorp.SlackStorage.WebBusinessApi.Business;
-using EvilCorp.SlackStorage.WebBusinessApi.Data;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
+﻿using EvilCorp.SlackStorage.WebApi.Business;
+using EvilCorp.SlackStorage.WebApi.Data;
+using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
 using StructureMap;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.WebHost.IoC
+namespace EvilCorp.SlackStorage.WebApi.WebHost.IoC
 {
     public class RuntimeRegistry : Registry
     {

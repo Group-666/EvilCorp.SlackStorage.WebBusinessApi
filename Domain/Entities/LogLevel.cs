@@ -1,4 +1,4 @@
-﻿namespace EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities
+﻿namespace EvilCorp.SlackStorage.WebApi.Domain.Entities
 {
     public enum LogLevel
     {

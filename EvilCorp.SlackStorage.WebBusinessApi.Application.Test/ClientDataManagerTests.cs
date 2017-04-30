@@ -1,13 +1,13 @@
-using EvilCorp.SlackStorage.WebBusinessApi.CrossCutting.Testing;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebBusinessApi.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
+using EvilCorp.SlackStorage.WebApi.CrossCutting.Testing;
+using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
+using EvilCorp.SlackStorage.WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Business.Test
+namespace EvilCorp.SlackStorage.WebApi.Business.Test
 {
     [TestClass]
     public class ClientDataManagerTests : TestsFor<ClientDataManager>

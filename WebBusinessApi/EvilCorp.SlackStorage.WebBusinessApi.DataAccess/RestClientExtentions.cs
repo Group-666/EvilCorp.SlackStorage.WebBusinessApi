@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace EvilCorp.SlackStorage.WebBusinessApi.Data
+namespace EvilCorp.SlackStorage.WebApi.Data
 {
     public static class RestClientExtentions
     {

@@ -20,9 +20,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\EvilCorp.SlackStorage.WebBusinessApi.Business.csproj" />
-    <ProjectReference Include="..\..\Domain\EvilCorp.SlackStorage.WebBusinessApi.Domain.csproj" />
-    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebBusinessApi.Data.csproj" />
+    <ProjectReference Include="..\..\Application\EvilCorp.SlackStorage.WebApi.Business.csproj" />
+    <ProjectReference Include="..\..\Domain\EvilCorp.SlackStorage.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\EvilCorp.SlackStorage.WebBusinessApi.DataAccess\EvilCorp.SlackStorage.WebApi.Data.csproj" />
   </ItemGroup>
 
 </Project>
