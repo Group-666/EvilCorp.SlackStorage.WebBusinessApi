@@ -1,17 +1,18 @@
-﻿using System;
-using EvilCorp.SlackStorage.WebApi.CrossCutting.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System;
+using WebApi.CrossCutting.Testing;
 
-namespace EvilCorp.SlackStorage.WebApi.Business.Tests
+namespace WebApi.Business.UnitTests
 {
     [TestClass]
     public class ValidatorTests : TestsFor<Validator>
     {
         private const int DataStoreIdMaxLength = 105;
-        private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - new Guid().ToString().Length - 1;
+        private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - Guid.NewGuid().ToString().Length - 1;
 
-        private readonly string _validGuid = new Guid().ToString();
+        private readonly string _validGuid = Guid.NewGuid().ToString();
+        private readonly string _validDataStoreId = Guid.NewGuid().ToString() + "AA";
         private readonly string _validObjectId = "507f191e810c19729de860ea";
         private static readonly string LongString = new string('a', 5000);
         private static readonly string DataStoreIdMaxLengthString = new string('a', DataStoreIdMaxLength);
@@ -25,6 +26,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
 
         private const string InvalidGuidError = "Invalid GUID. Value: {0}";
         private const string InvalidObjectIdError = "Invalid Object ID. Value: {0}";
+        private const string InvalidDataStoreIdError = "Invalid ID. Value: {0}";
 
         #region ValidatorTests Tests
 
@@ -47,7 +49,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(null));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidGuidError(null, exception.Message);
         }
 
         [TestMethod]
@@ -57,7 +59,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(""));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidGuidError("", exception.Message);
         }
 
         [TestMethod]
@@ -67,7 +69,12 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(DataStoreIdMaxLengthString));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", string.Format(InvalidGuidError, DataStoreIdMaxLengthString)), exception.Message);
+            AssertThrowsInvalidGuidError(DataStoreIdMaxLengthString, exception.Message);
+        }
+
+        private void AssertThrowsInvalidGuidError(string value, string exceptionMessage)
+        {
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", string.Format(InvalidGuidError, value)), exceptionMessage);
         }
 
         #endregion IsValidUserId Tests
@@ -85,33 +92,38 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
+        public void IsValidElementId_IdIsNull_ThrowsArgumentExceptionInvalidObjectId()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(null));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidObjectIdError(null, exception.Message);
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsEmpty_ThrowsArgumentExceptionFieldNullOrEmpty()
+        public void IsValidElementId_IdIsEmpty_ThrowsArgumentExceptionInvalidObjectId()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(""));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidObjectIdError("", exception.Message);
         }
 
         [TestMethod]
-        public void IsValidElementId_IdIsNotAGuid_ThrowsArgumentExceptionInvalidLength()
+        public void IsValidElementId_IdIsNotAGuid_ThrowsArgumentExceptionInvalidObjectId()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidElementId(DataStoreIdMaxLengthString));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", string.Format(InvalidObjectIdError, DataStoreIdMaxLengthString)), exception.Message);
+            AssertThrowsInvalidObjectIdError(DataStoreIdMaxLengthString, exception.Message);
+        }
+
+        private void AssertThrowsInvalidObjectIdError(string value, string exceptionMessage)
+        {
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: elementId", string.Format(InvalidObjectIdError, value)), exceptionMessage);
         }
 
         #endregion IsValidElementId Tests
@@ -122,20 +134,20 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         public void IsValidDataStoreId_IdIsValid_ReturnTrue()
         {
             // Act
-            var isValid = Instance.IsValidDataStoreId(_validGuid);
+            var isValid = Instance.IsValidDataStoreId(_validDataStoreId);
 
             // Assert
             Assert.IsTrue(isValid);
         }
 
         [TestMethod]
-        public void IsValidDataStoreId_IdIsNull_ThrowsArgumentException()
+        public void IsValidDataStoreId_IdIsNull_ThrowsArgumentExceptionInvalidId()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreId(null));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidIdError(null, exception.Message);
         }
 
         [TestMethod]
@@ -145,7 +157,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreId(""));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreId", FieldNullOrEmptyError), exception.Message);
+            AssertThrowsInvalidIdError("", exception.Message);
         }
 
         [TestMethod]
@@ -155,8 +167,7 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidDataStoreId(LongString));
 
             // Assert
-            var a = string.Format(InvalidLengthError, DataStoreIdMaxLength, LongString);
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreId", a), exception.Message);
+            AssertThrowsInvalidIdError(LongString, exception.Message);
         }
 
         [TestMethod]
@@ -167,6 +178,11 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
 
             // Assert
             Assert.IsTrue(isValid);
+        }
+
+        private void AssertThrowsInvalidIdError(string value, string exceptionMessage)
+        {
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: dataStoreId", string.Format(InvalidDataStoreIdError, value)), exceptionMessage);
         }
 
         #endregion IsValidDataStoreId Tests

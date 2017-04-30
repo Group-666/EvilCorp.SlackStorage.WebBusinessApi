@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using EvilCorp.SlackStorage.WebApi.CrossCutting.Testing;
-using EvilCorp.SlackStorage.WebApi.Domain.Contracts;
-using EvilCorp.SlackStorage.WebApi.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json.Linq;
+using WebApi.CrossCutting.Testing;
+using WebApi.Domain.Contracts;
+using WebApi.Domain.Entities;
 
-namespace EvilCorp.SlackStorage.WebApi.Business.Tests
+namespace WebApi.Business.UnitTests
 {
     [TestClass]
     public class ClientDataManagerTests : TestsFor<ClientDataManager>
@@ -40,6 +40,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
 
             // Assert
             GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task Create_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.Create(_stringValue, _validJson)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.Create(_stringValue, _validJson);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
@@ -77,6 +92,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
+        public async Task Post_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.Post(_stringValue, _stringValue, _validJson)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.Post(_stringValue, _stringValue, _validJson);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
+        }
+
+        [TestMethod]
         public async Task Post_IdsAreInvalid_RepositoryIsNeverCalled()
         {
             // Arrange
@@ -109,6 +139,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once());
             GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_stringValue), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task GetAll_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.GetAll(_stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.GetAll(_stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
@@ -149,6 +194,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
+        public async Task GetOne_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.GetOne(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.GetOne(_stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
+        }
+
+        [TestMethod]
         public async Task GetOne_IdsAreInvalid_RepositoryIsNeverCalled()
         {
             // Arrange
@@ -183,6 +243,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.GetElementAll(_stringValue, _stringValue), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task GetElementAll_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.GetElementAll(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.GetElementAll(_stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
@@ -222,6 +297,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
+        public async Task GetElementOne_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.GetElementOne(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.GetElementOne(_stringValue, _stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
+        }
+
+        [TestMethod]
         public async Task GetElementOne_IdsAreInvalid_RepositoryIsNeverCalled()
         {
             // Arrange
@@ -255,6 +345,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.DeleteAll(_stringValue), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task DeleteAll_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteAll(_stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.DeleteAll(_stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
@@ -294,6 +399,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
+        public async Task DeleteOne_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteOne(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.DeleteOne(_stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
+        }
+
+        [TestMethod]
         public async Task DeleteOne_IdsAreInvalid_RepositoryIsNeverCalled()
         {
             // Arrange
@@ -330,6 +450,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
         }
 
         [TestMethod]
+        public async Task DeleteElementAll_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteElementAll(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.DeleteElementAll(_stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
+        }
+
+        [TestMethod]
         public async Task DeleteElementAll_IdsAreInvalid_RepositoryIsNeverCalled()
         {
             // Arrange
@@ -363,6 +498,21 @@ namespace EvilCorp.SlackStorage.WebApi.Business.Tests
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
             GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task DeleteElementOne_IdsAreValid_ReturnsId()
+        {
+            // Arrange
+            SetupValidatorToBeValid();
+            var excpectedValue = Guid.NewGuid().ToString();
+            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+
+            // Act
+            var result = await Instance.DeleteElementOne(_stringValue, _stringValue, _stringValue);
+
+            // Assert
+            Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]

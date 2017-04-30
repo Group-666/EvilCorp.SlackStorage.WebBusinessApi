@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.CrossCutting.Testing
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.WebHost", "WebApi.WebHost\WebApi.WebHost.csproj", "{75610909-D9BE-4FF4-9FDD-0D397E67B0C3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Data.IntergationTests", "WebApi.Data.IntergationTests\WebApi.Data.IntergationTests.csproj", "{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{75610909-D9BE-4FF4-9FDD-0D397E67B0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75610909-D9BE-4FF4-9FDD-0D397E67B0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75610909-D9BE-4FF4-9FDD-0D397E67B0C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,5 +78,6 @@ Global
 		{6F794E7F-260F-4CBE-B49C-2FA266F9EE4E} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
 		{FFAE1AB8-941D-49E5-92F6-A11705003737} = {D7766575-A152-44A1-A945-F5F1038E0941}
 		{75610909-D9BE-4FF4-9FDD-0D397E67B0C3} = {9B8085C4-DE83-45C4-9039-1E20DA8B881D}
+		{BE705FCC-C1B3-46C7-9AEB-8CBBCC9352F7} = {2F238CEC-8F2B-4E36-B897-4B8D45FC0DBF}
 	EndGlobalSection
 EndGlobal
