@@ -9,7 +9,6 @@ namespace WebApi.Business
     public class Validator : IValidator
     {
         private const int DataStoreIdMaxLength = 105;
-        private const int ObjectIdMaxLength = 24;
         private static readonly int DataStoreNameMaxLength = DataStoreIdMaxLength - new Guid().ToString().Length - 1;
         private static readonly int DataStoreIdMinLength = new Guid().ToString().Length + 2;
 
@@ -24,7 +23,7 @@ namespace WebApi.Business
 
         public bool IsValidUserId(string userId)
         {
-            if (!Guid.TryParse(userId, out Guid _))
+            if (!Guid.TryParse(userId, out _))
                 throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
 
             return true;
@@ -44,6 +43,11 @@ namespace WebApi.Business
                 throw new ArgumentException(string.Format(InvalidDataStoreIdError, dataStoreId), nameof(dataStoreId));
 
             return true;
+        }
+
+        public bool IsValidHash(string passwordHash)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsValidDataStoreName(JObject dataStoreNameJson)
