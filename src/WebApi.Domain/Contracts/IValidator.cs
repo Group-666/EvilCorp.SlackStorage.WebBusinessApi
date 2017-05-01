@@ -13,6 +13,8 @@ namespace WebApi.Domain.Contracts
 
         bool IsValidDataStoreId(string dataStoreId);
 
+        bool IsValidHash(string passwordHash);
+
         bool IsValidDataStoreName(JObject dataStoreNameJson);
 
         bool IsValidJson(JObject json);

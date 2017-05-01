@@ -8,7 +8,7 @@ namespace WebApi.WebHost.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<string> Get()
+        public string Get()
         {
             //return await Program.Container.GetInstance<IClientDataManager>().GetAll("id");
             return "value";
