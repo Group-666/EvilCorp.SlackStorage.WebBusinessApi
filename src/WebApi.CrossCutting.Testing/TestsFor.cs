@@ -25,7 +25,7 @@ namespace WebApi.CrossCutting.Testing
 
         protected void Inject<TContract>(TContract with) where TContract : class
         {
-            AutoMock.Container.Inject<TContract>(with);
+            AutoMock.Container.Inject(with);
         }
 
         protected Mock<TContract> GetMockFor<TContract>() where TContract : class
