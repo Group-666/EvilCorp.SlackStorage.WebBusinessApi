@@ -5,18 +5,14 @@ namespace WebApi.Domain.Contracts
 {
     public interface IAccountManager
     {
-        Task<string> Create(JObject json);
+        Task<JObject> Create(JObject json);
 
-        Task<string> Login(string userId, string passwordHash);
+        Task<JObject> GetAll();
 
-        Task<string> GetAll();
+        Task<JObject> Get(string userId);
 
-        Task<string> GetOne(string userId);
+        Task<JObject> Update(JObject json);
 
-        Task<string> Disable(string userId);
-
-        Task<string> Enable(string userId);
-
-        Task<string> Delete(string userId);
+        Task<JObject> Delete(string userId);
     }
 }

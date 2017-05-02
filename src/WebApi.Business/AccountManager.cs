@@ -29,30 +29,19 @@ namespace WebApi.Business
             _converter = converter;
         }
 
-        public async Task<string> Create(JObject json)
+        public async Task<JObject> Create(JObject accountJson)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidJson(json), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidJson(accountJson), _validator.ValidatorLogLevel);
 
-            var xml = _converter.ConvertCreateJsonToXml(json);
+            var xml = _converter.JsonToAccount(accountJson);
 
             var response = await _exceptionHandler.RunAsync(() => _accountRepository.Create(xml));
 
-            return _converter.ConvertXmlToString(response);
+            return _converter.AccountToJson(response);
         }
 
-        public async Task<string> Login(string userId, string passwordHash)
-        {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidHash(passwordHash), _validator.ValidatorLogLevel);
-
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Login(userId, passwordHash));
-
-            return _converter.ConvertXmlToString(response);
-        }
-
-        public async Task<string> GetAll()
+        public async Task<JObject> GetAll()
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
 
@@ -61,38 +50,29 @@ namespace WebApi.Business
             return _converter.ConvertXmlToString(response);
         }
 
-        public async Task<string> GetOne(string userId)
+        public async Task<JObject> Get(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.GetOne(userId));
+            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Get(userId));
 
             return _converter.ConvertXmlToString(response);
         }
 
-        public async Task<string> Disable(string userId)
+        public async Task<JObject> Update(JObject accountJson)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Disable(userId));
+            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Update(userId));
             return _converter.ConvertXmlToString(response);
         }
 
-        public async Task<string> Enable(string userId)
+        public async Task<JObject> Delete(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
-
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Enable(userId));
-            return _converter.ConvertXmlToString(response);
-        }
-
-        public async Task<string> Delete(string userId)
-        {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidUserId(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
             var response = await _exceptionHandler.RunAsync(() => _accountRepository.Delete(userId));
             return _converter.ConvertXmlToString(response);

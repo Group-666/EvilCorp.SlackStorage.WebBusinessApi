@@ -21,7 +21,7 @@ namespace WebApi.Business
 
         public LogLevel ValidatorLogLevel { get; } = LogLevel.Warning;
 
-        public bool IsValidUserId(string userId)
+        public bool IsValidGuid(string userId)
         {
             if (!Guid.TryParse(userId, out _))
                 throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));

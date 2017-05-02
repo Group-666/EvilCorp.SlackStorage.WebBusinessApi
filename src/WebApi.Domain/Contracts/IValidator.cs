@@ -7,7 +7,7 @@ namespace WebApi.Domain.Contracts
     {
         LogLevel ValidatorLogLevel { get; }
 
-        bool IsValidUserId(string userId);
+        bool IsValidGuid(string userId);
 
         bool IsValidElementId(string elementId);
 

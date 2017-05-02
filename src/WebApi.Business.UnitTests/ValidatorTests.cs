@@ -30,13 +30,13 @@ namespace WebApi.Business.UnitTests
 
         #region ValidatorTests Tests
 
-        #region IsValidUserId Tests
+        #region IsValidGuid Tests
 
         [TestMethod]
         public void IsValidUserId_IdIsValid_ReturnTrue()
         {
             // Act
-            var isValid = Instance.IsValidUserId(_validGuid);
+            var isValid = Instance.IsValidGuid(_validGuid);
 
             // Assert
             Assert.IsTrue(isValid);
@@ -46,7 +46,7 @@ namespace WebApi.Business.UnitTests
         public void IsValidUserId_IdIsNull_ThrowsArgumentException()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(null));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidGuid(null));
 
             // Assert
             AssertThrowsInvalidGuidError(null, exception.Message);
@@ -56,7 +56,7 @@ namespace WebApi.Business.UnitTests
         public void IsValidUserId_IdIsEmpty_ThrowsArgumentException()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(""));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidGuid(""));
 
             // Assert
             AssertThrowsInvalidGuidError("", exception.Message);
@@ -66,7 +66,7 @@ namespace WebApi.Business.UnitTests
         public void IsValidUserId_IdIsNotAGuid_ThrowsArgumentExceptionInvalidGuid()
         {
             // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidUserId(DataStoreIdMaxLengthString));
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidGuid(DataStoreIdMaxLengthString));
 
             // Assert
             AssertThrowsInvalidGuidError(DataStoreIdMaxLengthString, exception.Message);
@@ -77,7 +77,7 @@ namespace WebApi.Business.UnitTests
             Assert.AreEqual(string.Format("{0}\r\nParameter name: userId", string.Format(InvalidGuidError, value)), exceptionMessage);
         }
 
-        #endregion IsValidUserId Tests
+        #endregion IsValidGuid Tests
 
         #region IsValidElementId Tests
 

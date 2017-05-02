@@ -537,12 +537,12 @@ namespace WebApi.Business.UnitTests
 
         private void SetupValidatorToBeValid()
         {
-            GetMockFor<IValidator>().Setup(v => v.IsValidUserId(_stringValue)).Returns(true);
+            GetMockFor<IValidator>().Setup(v => v.IsValidGuid(_stringValue)).Returns(true);
         }
 
         private void SetupValidatorToThrowExpection()
         {
-            GetMockFor<IValidator>().Setup(v => v.IsValidUserId(It.IsAny<string>())).Throws(new ArgumentException("invalid user id"));
+            GetMockFor<IValidator>().Setup(v => v.IsValidGuid(It.IsAny<string>())).Throws(new ArgumentException("invalid user id"));
             GetMockFor<IValidator>().Setup(v => v.IsValidDataStoreId(It.IsAny<string>())).Throws(new ArgumentException("invalid datastore id"));
             GetMockFor<IValidator>().Setup(v => v.IsValidElementId(It.IsAny<string>())).Throws(new ArgumentException("invalid element id"));
             GetMockFor<IValidator>().Setup(v => v.IsValidJson(It.IsAny<JObject>())).Throws(new ArgumentException("invalid json"));

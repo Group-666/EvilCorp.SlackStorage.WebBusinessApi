@@ -23,5 +23,8 @@
     <ProjectReference Include="..\WebApi.Data\WebApi.Data.csproj" />
     <ProjectReference Include="..\WebApi.Domain\WebApi.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
 
 </Project>

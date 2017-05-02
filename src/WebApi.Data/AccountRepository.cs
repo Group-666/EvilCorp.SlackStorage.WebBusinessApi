@@ -1,7 +1,7 @@
-﻿using RestSharp;
-using System.Net;
+﻿using System;
+using EvilCorp.AccountService;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -9,84 +9,111 @@ namespace WebApi.Data
 {
     public class AccountRepository : IAccountRepository
     {
-#if DEBUG
-        private const string Repositoryurl = "http://localhost:53879/UserService.svc/";
-#else
-//Real URL
-        private const string Repositoryurl = "http://localhost:53879/UserService.svc/";
-#endif
         private readonly ILogger _logger;
-        private readonly RestClient _restClient;
 
         public AccountRepository(ILogger logger)
         {
-            _restClient = new RestClient(Repositoryurl);
             _logger = logger;
         }
 
-        public async Task<string> Create(XDocument xml)
+        public async Task<Account> Create(Account account)
         {
-            var request = new RestRequest("registeruser", Method.POST) { RequestFormat = DataFormat.Xml };
-            request.AddParameter("text/xml", xml, ParameterType.RequestBody);
+            _logger.Log("Getting all users from account service", LogLevel.Trace);
+            var proxy = new AccountClient();
 
-            var result = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(result);
+            try
+            {
+                return await proxy.Create(account);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                proxy.Close();
+            }
         }
 
-        public async Task<string> Login(string userId, string passwordHash)
+        public async Task<IEnumerable<Account>> GetAll()
         {
-            var requestss = new RestRequest("login/" + userId + "/" + passwordHash, Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(requestss);
+            _logger.Log("Getting all users from account service", LogLevel.Trace);
+            var proxy = new AccountClient();
 
-            return LogOnErrorReturnContent(response);
+            try
+            {
+                return await proxy.GetAll();
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                proxy.Close();
+            }
         }
 
-        public async Task<string> GetAll()
+        public async Task<Account> Get(Guid id)
         {
-            var request = new RestRequest("getalluser", Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(request);
+            _logger.Log("Getting all users from account service", LogLevel.Trace);
+            var proxy = new AccountClient();
 
-            return LogOnErrorReturnContent(response);
+            try
+            {
+                return await proxy.Get(id);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                proxy.Close();
+            }
         }
 
-        public async Task<string> GetOne(string userId)
+        public async Task Update(Account account)
         {
-            var request = new RestRequest(userId, Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(request);
+            _logger.Log("Getting all users from account service", LogLevel.Trace);
+            var proxy = new AccountClient();
 
-            return LogOnErrorReturnContent(response);
+            try
+            {
+                await proxy.Update(account);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                proxy.Close();
+            }
         }
 
-        public async Task<string> Disable(string userId)
+        public async Task Delete(Guid id)
         {
-            var request = new RestRequest("disableuser/" + userId, Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(request);
+            _logger.Log("Getting all users from account service", LogLevel.Trace);
+            var proxy = new AccountClient();
 
-            return LogOnErrorReturnContent(response);
-        }
-
-        public async Task<string> Enable(string userId)
-        {
-            var request = new RestRequest("enableuser/" + userId, Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(response);
-        }
-
-        public async Task<string> Delete(string userId)
-        {
-            var request = new RestRequest("deleteuser/" + userId, Method.GET) { RequestFormat = DataFormat.Xml };
-            var response = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(response);
-        }
-
-        private string LogOnErrorReturnContent(IRestResponse result)
-        {
-            if (result.StatusCode != HttpStatusCode.OK)
-                _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? result.ToString() : result.ErrorMessage, LogLevel.Critical);
-            return result.Content;
+            try
+            {
+                await proxy.Delete(id);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                proxy.Close();
+            }
         }
     }
 }

@@ -1,22 +1,20 @@
-﻿using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using EvilCorp.AccountService;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApi.Domain.Contracts
 {
     public interface IAccountRepository
     {
-        Task<string> Create(XDocument xml);
+        Task<IEnumerable<Account>> GetAll();
 
-        Task<string> Login(string userId, string passwordHash);
+        Task<Account> Create(Account account);
 
-        Task<string> GetAll();
+        Task Delete(Guid id);
 
-        Task<string> GetOne(string userId);
+        Task<Account> Get(Guid id);
 
-        Task<string> Disable(string userId);
-
-        Task<string> Enable(string userId);
-
-        Task<string> Delete(string userId);
+        Task Update(Account account);
     }
 }
