@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>    
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="Moq" Version="4.7.8" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.1.11" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
+    <PackageReference Include="Moq" Version="4.7.9" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.17" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.17" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="structuremap" Version="4.4.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebApi.Business\WebApi.Business.csproj" />
     <ProjectReference Include="..\WebApi.CrossCutting.Testing\WebApi.CrossCutting.Testing.csproj" />
     <ProjectReference Include="..\WebApi.Data\WebApi.Data.csproj" />
   </ItemGroup>

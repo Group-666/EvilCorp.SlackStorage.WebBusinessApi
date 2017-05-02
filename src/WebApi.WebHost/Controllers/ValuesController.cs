@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.WebHost.Controllers
 {
@@ -8,10 +11,9 @@ namespace WebApi.WebHost.Controllers
     {
         // GET api/values
         [HttpGet]
-        public string Get()
+        public IEnumerable<string> Get()
         {
-            //return await Program.Container.GetInstance<IClientDataManager>().GetAll("id");
-            return "value";
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5

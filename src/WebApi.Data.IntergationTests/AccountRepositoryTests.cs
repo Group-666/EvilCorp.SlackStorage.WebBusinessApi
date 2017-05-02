@@ -2,12 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using WebApi.CrossCutting.Testing;
-using WebApi.Domain.Entities;
 
 namespace WebApi.Data.IntergationTests
 {
