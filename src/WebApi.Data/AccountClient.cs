@@ -1,8 +1,9 @@
-﻿using EvilCorp.AccountService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using WebApi.Domain.Contracts;
+using EvilCorp.AccountService;
 
 namespace WebApi.Data
 {
@@ -18,11 +19,6 @@ namespace WebApi.Data
             return await Channel.Create(account);
         }
 
-        public async Task Delete(Guid id)
-        {
-            await Channel.Delete(id);
-        }
-
         public async Task<Account> Get(Guid id)
         {
             return await Channel.Get(id);
@@ -31,6 +27,11 @@ namespace WebApi.Data
         public async Task Update(Account account)
         {
             await Channel.Update(account);
+        }
+
+        public async Task Delete(Guid id)
+        {
+            await Channel.Delete(id);
         }
     }
 }
