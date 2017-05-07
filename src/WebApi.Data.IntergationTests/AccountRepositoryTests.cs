@@ -12,10 +12,8 @@ namespace WebApi.Data.IntergationTests
     [TestClass]
     public class AccountRepositoryTests : TestsFor<AccountRepository>
     {
-        private const string _stringValue = "SomeString";
-
         [TestMethod]
-        public void TestMethod1()
+        public void GetAll_ReturnsAny()
         {
             var proxy = new AccountClient();
 
@@ -24,7 +22,7 @@ namespace WebApi.Data.IntergationTests
                 var task = proxy.GetAll();
                 task.Wait();
 
-                Assert.AreEqual(1, task.Result.Count());
+                Assert.IsTrue(task.Result.Any());
             }
             finally
             {

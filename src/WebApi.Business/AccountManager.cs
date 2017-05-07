@@ -45,7 +45,7 @@ namespace WebApi.Business
 
             var response = await _exceptionHandler.RunAsync(() => _accountRepository.GetAll());
 
-            return _converter.ObjectToJson(response);
+            return _converter.ObjectsToJson(response, "Accounts");
         }
 
         public async Task<JObject> Get(string userId)

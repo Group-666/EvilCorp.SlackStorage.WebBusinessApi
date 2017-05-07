@@ -6,6 +6,7 @@ namespace WebApi.Business
 {
     public class Converter : IConverter
     {
+        private const string FieldNullOrEmptyError = "The field cannot be null or empty.";
         private const string InvalidJsonError = "Invalid Json. Value: {0}";
         private const string InvalidGuidError = "Invalid GUID. Value: {0}";
         private const string ErrorDeserializing = "Deserializing error. Value: {0}";
@@ -13,10 +14,9 @@ namespace WebApi.Business
         public T JsonToObject<T>(JObject body)
         {
             if (body == null)
-                throw new ArgumentException(string.Format(InvalidJsonError, body), nameof(body));
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(body));
 
             var result = body.ToObject<T>();
-
             if (result == null)
                 throw new ArgumentException(string.Format(InvalidJsonError, body), nameof(body));
 
@@ -26,7 +26,7 @@ namespace WebApi.Business
         public JObject ObjectToJson<T>(T request)
         {
             if (request == null)
-                throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(request));
 
             var body = JObject.FromObject(request);
 
@@ -43,6 +43,20 @@ namespace WebApi.Business
                 throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
 
             return guid;
+        }
+
+        public JObject ObjectsToJson<T>(T request, string nameOfObjects = "objects")
+        {
+            if (request == null)
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(request));
+            if (string.IsNullOrEmpty(nameOfObjects))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(nameOfObjects));
+
+            var body = new JObject { [nameOfObjects] = JToken.FromObject(nameOfObjects) };
+            if (body == null)
+                throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
+
+            return body;
         }
     }
 }

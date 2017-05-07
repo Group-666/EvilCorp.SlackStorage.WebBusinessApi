@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using EvilCorp.AccountService;
 
 namespace WebApi.Domain.Contracts
 {
@@ -12,5 +13,7 @@ namespace WebApi.Domain.Contracts
         JObject ObjectToJson<T>(T request);
 
         Guid StringToGuid(string userId);
+
+        JObject ObjectsToJson<T>(T request, string nameOfObjects);
     }
 }
