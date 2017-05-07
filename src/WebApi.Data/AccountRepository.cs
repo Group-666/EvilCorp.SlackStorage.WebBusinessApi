@@ -1,7 +1,7 @@
 ﻿using System;
-using EvilCorp.AccountService;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EvilCorp.AccountService;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 

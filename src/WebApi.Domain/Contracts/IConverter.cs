@@ -1,17 +1,16 @@
-﻿using System.Xml.Linq;
-using EvilCorp.AccountService;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace WebApi.Domain.Contracts
 {
     public interface IConverter
     {
-        string ConvertXmlToString(string xml);
+        T JsonToObject<T>(JObject body);
 
-        XDocument ConvertCreateJsonToXml(JObject json);
+        JObject ObjectToJson<T>(T request);
 
-        Account JsonToAccount(JObject json);
-
-        JObject AccountToJson(Account response);
+        Guid StringToGuid(string userId);
     }
 }

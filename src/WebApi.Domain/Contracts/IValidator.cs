@@ -17,6 +17,8 @@ namespace WebApi.Domain.Contracts
 
         bool IsValidDataStoreName(JObject dataStoreNameJson);
 
-        bool IsValidJson(JObject json);
+        bool IsValidJson(JObject body);
+
+        bool IsValidAccountJson(JObject body);
     }
 }
