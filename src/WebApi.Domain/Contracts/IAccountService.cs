@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using EvilCorp.AccountService;
 
-namespace EvilCorp.AccountService
+namespace WebApi.Domain.Contracts
 {
     [ServiceContract]
     public interface IAccountService
