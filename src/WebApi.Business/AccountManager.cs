@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Xml;
-using Newtonsoft.Json;
+using EvilCorp.AccountService;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -29,16 +27,16 @@ namespace WebApi.Business
             _converter = converter;
         }
 
-        public async Task<JObject> Create(JObject accountJson)
+        public async Task<JObject> Create(JObject body)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidJson(accountJson), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidJson(body), _validator.ValidatorLogLevel);
 
-            var xml = _converter.JsonToAccount(accountJson);
+            var account = _converter.JsonToObject<Account>(body);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Create(xml));
+            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Create(account));
 
-            return _converter.AccountToJson(response);
+            return _converter.ObjectToJson(response);
         }
 
         public async Task<JObject> GetAll()
@@ -47,35 +45,35 @@ namespace WebApi.Business
 
             var response = await _exceptionHandler.RunAsync(() => _accountRepository.GetAll());
 
-            return _converter.ConvertXmlToString(response);
+            return _converter.ObjectToJson(response);
         }
 
         public async Task<JObject> Get(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
+            var guid = _exceptionHandler.Run(() => _converter.StringToGuid(userId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Get(userId));
+            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Get(guid));
 
-            return _converter.ConvertXmlToString(response);
+            return _converter.ObjectToJson(response);
         }
 
-        public async Task<JObject> Update(JObject accountJson)
+        public async Task Update(JObject body)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidAccountJson(body), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Update(userId));
-            return _converter.ConvertXmlToString(response);
+            var account = _exceptionHandler.Run(() => _converter.JsonToObject<Account>(body), _validator.ValidatorLogLevel);
+
+            await _accountRepository.Update(account);
         }
 
-        public async Task<JObject> Delete(string userId)
+        public async Task Delete(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
+            var guid = _exceptionHandler.Run(() => _converter.StringToGuid(userId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Delete(userId));
-            return _converter.ConvertXmlToString(response);
+            await _accountRepository.Delete(guid);
         }
 
         private static string GetCaller([CallerMemberName] string caller = null)
