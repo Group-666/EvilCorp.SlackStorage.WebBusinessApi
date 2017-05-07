@@ -39,7 +39,8 @@ namespace WebApi.Business.UnitTests
             await Instance.Create(_stringValue, _validJson);
 
             // Assert
-            GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once());
+            GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once);
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
         }
 
         [TestMethod]
@@ -71,6 +72,7 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never());
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
             }
         }
 

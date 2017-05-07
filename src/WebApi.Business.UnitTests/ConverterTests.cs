@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using EvilCorp.AccountService;
 using WebApi.CrossCutting.Testing;
 using WebApi.Domain.Entities;
@@ -12,6 +13,8 @@ namespace WebApi.Business.UnitTests
     {
         private readonly string _validGuid = Guid.NewGuid().ToString();
         private readonly string _invalidGuid = "InvalidGuid";
+
+        private const string FieldNullOrEmptyError = "The field cannot be null or empty.";
 
         private const string InvalidJsonError = "Invalid Json. Value: {0}";
         private const string InvalidGuidError = "Invalid GUID. Value: {0}";
@@ -84,23 +87,23 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public void JsonToObject_JsonIsNull_ThrowsArgumentExceptionInvalidJson()
+        public void JsonToObject_JsonIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.JsonToObject<Account>(null));
 
             // Assert
-            AssertThrowsException(InvalidJsonError, null, "body", exception.Message);
+            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
         }
 
         [TestMethod]
         public void JsonToObject_JsonIsEmpty_ReturnEmptyAccount()
         {
             // Arrange
-            var _emptyJson = JObject.Parse(@"{}");
+            var emptyJson = JObject.Parse(@"{}");
 
             // Act
-            var account = Instance.JsonToObject<Account>(_emptyJson);
+            var account = Instance.JsonToObject<Account>(emptyJson);
 
             // Assert
             Assert.IsNotNull(account);
@@ -113,7 +116,7 @@ namespace WebApi.Business.UnitTests
         #region ObjectToJson Tests
 
         [TestMethod]
-        public void ObjectToJson_IdIsValid_ReturnsAccount()
+        public void ObjectToJson_ObjectIsValid_ReturnsObject()
         {
             // Arrange
             var validAccount = new Account { Id = Guid.NewGuid(), Nickname = "nickanme", Username = "Username", Password = "pasword" };
@@ -126,13 +129,13 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public void ObjectToJson_IdIsNull_ThrowsArgumentExceptionInvalidJson()
+        public void ObjectToJson_ObjectIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
         {
             // Act
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.ObjectToJson<Account>(null));
 
             // Assert
-            AssertThrowsException(ErrorDeserializing, null, "request", exception.Message);
+            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
         }
 
         [TestMethod]
@@ -149,6 +152,82 @@ namespace WebApi.Business.UnitTests
         }
 
         #endregion ObjectToJson Tests
+
+        #region ObjectsToJson Tests
+
+        [TestMethod]
+        public void ObjectsToJson_ObjectIsValid_ReturnsObject()
+        {
+            // Arrange
+            IEnumerable<Account> accounts = new List<Account>
+            {
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"},
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"}
+            };
+
+            // Act
+            var result = Instance.ObjectsToJson(accounts);
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void ObjectsToJson_IdIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
+        {
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.ObjectsToJson<IEnumerable<Account>>(null));
+
+            // Assert
+            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
+        }
+
+        [TestMethod]
+        public void ObjectsToJson_StringIsNull_ThrowsArgumentExceptionFieldNullOrEmpty()
+        {
+            // Arrange
+            IEnumerable<Account> accounts = new List<Account>
+            {
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"},
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"}
+            };
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.ObjectsToJson(accounts, null));
+
+            // Assert
+            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
+        }
+
+        [TestMethod]
+        public void ObjectsToJson_StringIsEmpty_ThrowsArgumentExceptionFieldNullOrEmpty()
+        {
+            // Arrange
+            IEnumerable<Account> accounts = new List<Account>
+            {
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"},
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"}
+            };
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.ObjectsToJson(accounts, ""));
+
+            // Assert
+            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
+        }
+
+        [TestMethod]
+        public void ObjectsToJson_ObjectIsEmpty_ReturnEmptyObject()
+        {
+            // Arrange
+            IEnumerable<Account> accounts = new List<Account>();
+
+            // Act
+            var account = Instance.ObjectsToJson(accounts);
+
+            // Assert
+            Assert.IsNotNull(account);
+        }
+
+        #endregion ObjectsToJson Tests
 
         private static void AssertThrowsException(string errorMessage, string value, string parameterName, string exceptionMessage)
         {

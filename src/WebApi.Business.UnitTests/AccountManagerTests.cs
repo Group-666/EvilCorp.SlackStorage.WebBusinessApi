@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using EvilCorp.AccountService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebApi.CrossCutting.Testing;
 using WebApi.Domain.Contracts;
@@ -45,17 +47,100 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Create_JsonIsNull_RepositoryIsCalled()
+        public async Task Create_JsonIsValid_ReturnsJson()
         {
+            // Arrange
+            var account = new Account { Id = Guid.NewGuid(), Nickname = "nickname" };
+
+            var expectedValue = JObject.FromObject(account);
+            GetMockFor<IAccountRepository>().Setup(r => r.Create(It.IsAny<Account>())).Returns(() => Task.FromResult(account));
+            GetMockFor<IConverter>().Setup(r => r.ObjectToJson(It.IsAny<Account>())).Returns(() => expectedValue);
             // Act
-            await Instance.Create(_validJson);
+            var result = await Instance.Create(_validJson);
 
             // Assert
-            GetMockFor<IAccountRepository>().Verify(r => r.Create(It.IsAny<Account>()), Times.Once);
-            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            Assert.AreEqual(result, expectedValue);
+        }
+
+        [TestMethod]
+        public async Task Create_JsonIsInvalid_RepositoryNeverCalled_LoggerCalledTwice()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Create(_validJson);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never);
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+            }
         }
 
         #endregion Create Tests
+
+        #region GetAll Tests
+
+        [TestMethod]
+        public async Task GetAll_JsonIsValid_RepositoryIsCalled()
+        {
+            // Act
+            await Instance.GetAll();
+
+            // Assert
+            GetMockFor<IAccountRepository>().Verify(r => r.GetAll(), Times.Once);
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetAll_JsonIsValid_ReturnsJson()
+        {
+            // Arrange
+            IEnumerable<Account> accounts = new List<Account>
+            {
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"},
+                new Account {Id = Guid.NewGuid(), Nickname = "nickname"}
+            };
+
+            var expectedValue = new JObject { ["accounts"] = JToken.FromObject(accounts) };
+
+            //var jsonlist = JsonConvert.SerializeObject(new
+            //{
+            //    operations = accounts
+            //});
+
+            //var expectedValue = JObject.FromObject(accounts);
+            GetMockFor<IAccountRepository>().Setup(r => r.GetAll()).Returns(() => Task.FromResult(accounts));
+            GetMockFor<IConverter>().Setup(r => r.ObjectsToJson(accounts, It.IsAny<string>())).Returns(() => expectedValue);
+            // Act
+            var result = await Instance.GetAll();
+
+            // Assert
+            Assert.AreEqual(result, expectedValue);
+        }
+
+        [TestMethod]
+        public async Task GetAll_JsonIsInvalid_RepositoryNeverCalled_LoggerCalledTwice()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.GetAll();
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IAccountRepository>().Verify(r => r.GetAll(), Times.Never);
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+            }
+        }
+
+        #endregion GetAll Tests
 
         private void SetupValidatorToThrowExpection()
         {

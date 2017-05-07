@@ -262,7 +262,7 @@ namespace WebApi.Business.UnitTests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidJson(null));
 
             // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: json", FieldNullOrEmptyError), exception.Message);
+            Assert.AreEqual(string.Format("{0}\r\nParameter name: body", FieldNullOrEmptyError), exception.Message);
         }
 
         #endregion IsValidJson Tests
