@@ -47,7 +47,10 @@ namespace WebApi.Business
 
         public bool IsValidHash(string passwordHash)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(passwordHash))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(passwordHash));
+
+            return true;
         }
 
         public bool IsValidDataStoreName(JObject dataStoreNameJson)
@@ -65,10 +68,20 @@ namespace WebApi.Business
             return true;
         }
 
-        public bool IsValidJson(JObject json)
+        public bool IsValidJson(JObject body)
         {
-            if (null == json)
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(json));
+            if (null == body)
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(body));
+
+            return true;
+        }
+
+        public bool IsValidAccountJson(JObject body)
+        {
+            IsValidJson(body);
+            var id = (string)body["id"];
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(id));
 
             return true;
         }

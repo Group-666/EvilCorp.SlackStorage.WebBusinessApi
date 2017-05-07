@@ -1,25 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using WebApi.Domain.Contracts;
 
 namespace WebApi.Business
 {
     public class Converter : IConverter
     {
-        public string ConvertXmlToString(string xml)
+        private const string InvalidJsonError = "Invalid Json. Value: {0}";
+        private const string InvalidGuidError = "Invalid GUID. Value: {0}";
+        private const string ErrorDeserializing = "Deserializing error. Value: {0}";
+
+        public T JsonToObject<T>(JObject body)
         {
-            var doc = XDocument.Parse(xml);
-            return JsonConvert.SerializeXNode(doc, Formatting.None, true);
+            if (body == null)
+                throw new ArgumentException(string.Format(InvalidJsonError, body), nameof(body));
+
+            var result = body.ToObject<T>();
+
+            if (result == null)
+                throw new ArgumentException(string.Format(InvalidJsonError, body), nameof(body));
+
+            return result;
         }
 
-        public XDocument ConvertCreateJsonToXml(JObject json)
+        public JObject ObjectToJson<T>(T request)
         {
-            var xmlIn = JsonConvert.DeserializeXNode(json.ToString(), "User");
-            return new XDocument(new XElement("RegisterUser", xmlIn.Root));
+            if (request == null)
+                throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
+
+            var body = JObject.FromObject(request);
+
+            if (body == null)
+                throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
+
+            return body;
+        }
+
+        public Guid StringToGuid(string userId)
+        {
+            Guid guid;
+            if (!Guid.TryParse(userId, out guid))
+                throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
+
+            return guid;
         }
     }
 }
