@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using EvilCorp.AccountService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json.Linq;
@@ -28,16 +29,30 @@ namespace WebApi.Business.UnitTests
 
         #region ClientDataManage Tests
 
+        //TODO write tests
+
         #region Create Tests
 
         [TestMethod]
-        public async Task Create_IdsAreValid_RepositoryIsCalled()
+        public async Task Create_JsonIsValid_RepositoryIsCalled()
         {
             // Act
             await Instance.Create(_validJson);
 
             // Assert
-            GetMockFor<IAccountRepository>().Verify(r => r.Create(It.IsAny<XDocument>()), Times.Once());
+            GetMockFor<IAccountRepository>().Verify(r => r.Create(It.IsAny<Account>()), Times.Once);
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task Create_JsonIsNull_RepositoryIsCalled()
+        {
+            // Act
+            await Instance.Create(_validJson);
+
+            // Assert
+            GetMockFor<IAccountRepository>().Verify(r => r.Create(It.IsAny<Account>()), Times.Once);
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
         }
 
         #endregion Create Tests
