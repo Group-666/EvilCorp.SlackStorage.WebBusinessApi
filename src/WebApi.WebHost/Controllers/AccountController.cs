@@ -13,28 +13,11 @@ namespace WebApi.WebHost.Controllers
     {
         // GET api/values
         [HttpPost]
-        public async Task<IActionResult> Create(JObject json)
+        public async Task<IActionResult> Create([FromBody]JObject body)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IAccountManager>().Create(json);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpGet("{userId}/{passwordHash}")]
-        public async Task<IActionResult> Login(string userId, string passwordHash)
-        {
-            try
-            {
-                var result = await Program.Container.GetInstance<IAccountManager>().Login(userId, passwordHash);
+                var result = await Program.Container.GetInstance<IAccountManager>().Create(body);
 
                 return Ok(result);
             }
@@ -64,11 +47,11 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetOne(string userId)
+        public async Task<IActionResult> Get(string userId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IAccountManager>().GetOne(userId);
+                var result = await Program.Container.GetInstance<IAccountManager>().Get(userId);
 
                 return Ok(result);
             }
@@ -80,31 +63,14 @@ namespace WebApi.WebHost.Controllers
             }
         }
 
-        [HttpGet("{userId}/disable/")]
-        public async Task<IActionResult> Disable(string userId)
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> Update([FromBody]JObject body)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IAccountManager>().Disable(userId);
+                await Program.Container.GetInstance<IAccountManager>().Update(body);
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpGet("{userId}/enable/")]
-        public async Task<IActionResult> Enable(string userId)
-        {
-            try
-            {
-                var result = await Program.Container.GetInstance<IAccountManager>().Enable(userId);
-
-                return Ok(result);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -119,9 +85,9 @@ namespace WebApi.WebHost.Controllers
         {
             try
             {
-                var result = await Program.Container.GetInstance<IAccountManager>().Delete(userId);
+                await Program.Container.GetInstance<IAccountManager>().Delete(userId);
 
-                return Ok(result);
+                return Ok();
             }
             catch (Exception ex)
             {
