@@ -17,6 +17,8 @@ namespace WebApi.WebHost.IoC
             For<ILogRepository>().Singleton().Use<LogRepository>();
             For<IClientDataRespository>().Singleton().Use<ClientDataRespository>();
             For<IExceptionHandler>().Singleton().Use<ExceptionHandler>();
+            For<IAccountRepository>().Singleton().Use<AccountRepository>();
+            For<ILogRepository>().Singleton().Use<LogRepository>();
         }
     }
 }
