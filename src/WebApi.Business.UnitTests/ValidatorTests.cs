@@ -253,30 +253,6 @@ namespace WebApi.Business.UnitTests
 
         #endregion IsValidDataStoreName Tests
 
-        #region IsValidJson Tests
-
-        [TestMethod]
-        public void IsValidJson_JsonIsValid_ReturnTrue()
-        {
-            // Act
-            var isValid = Instance.IsValidJson(ValidJson);
-
-            // Assert
-            Assert.IsTrue(isValid);
-        }
-
-        [TestMethod]
-        public void IsValidJson_JsonIsNull_ThrowsArgumentException()
-        {
-            // Act
-            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidJson(null));
-
-            // Assert
-            Assert.AreEqual(string.Format("{0}\r\nParameter name: body", FieldNullOrEmptyError), exception.Message);
-        }
-
-        #endregion IsValidJson Tests
-
         #endregion ValidatorTests Tests
     }
 }
