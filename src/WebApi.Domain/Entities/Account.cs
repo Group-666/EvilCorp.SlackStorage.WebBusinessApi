@@ -17,5 +17,8 @@ namespace EvilCorp.AccountService
 
         [DataMember]
         public string Password { get; set; }
+
+        [DataMember]
+        public bool Activated { get; set; }
     }
 }
