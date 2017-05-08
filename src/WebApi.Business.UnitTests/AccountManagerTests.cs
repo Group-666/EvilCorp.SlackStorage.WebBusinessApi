@@ -17,7 +17,7 @@ namespace WebApi.Business.UnitTests
     public class AccountManagerTests : TestsFor<AccountManager>
     {
         private readonly string _stringValue = "SomeString";
-        private readonly JObject _validJson = JObject.Parse(@"{name:'values', password:'values'}");
+        private readonly Account _validAccount = new Account { Id = Guid.NewGuid(), Nickname = "Nickname", Password = "Password", Username = "Username" };
 
         private ExceptionHandler _exceptionHandler;
 
@@ -39,7 +39,7 @@ namespace WebApi.Business.UnitTests
         public async Task Create_ValidatorPositive_RepositoryIsCalled()
         {
             // Act
-            await Instance.Create(_validJson);
+            await Instance.Create(_validAccount);
 
             // Assert
             GetMockFor<IAccountRepository>().Verify(r => r.Create(It.IsAny<Account>()), Times.Once);
@@ -54,7 +54,7 @@ namespace WebApi.Business.UnitTests
             GetMockFor<IConverter>().Setup(r => r.ObjectToJson(It.IsAny<Account>())).Returns(() => expectedValue);
 
             // Act
-            var result = await Instance.Create(_validJson);
+            var result = await Instance.Create(_validAccount);
 
             // Assert
             Assert.AreEqual(result, expectedValue);
@@ -68,12 +68,12 @@ namespace WebApi.Business.UnitTests
             // Act
             try
             {
-                await Instance.Create(_validJson);
+                await Instance.Create(_validAccount);
             }
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never);
+                GetMockFor<IAccountRepository>().Verify(r => r.Create(_validAccount), Times.Never);
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
             }
         }
@@ -145,7 +145,6 @@ namespace WebApi.Business.UnitTests
             GetMockFor<IValidator>().Setup(v => v.IsValidGuid(It.IsAny<string>())).Throws(new ArgumentException("invalid user id"));
             GetMockFor<IValidator>().Setup(v => v.IsValidDataStoreId(It.IsAny<string>())).Throws(new ArgumentException("invalid datastore id"));
             GetMockFor<IValidator>().Setup(v => v.IsValidElementId(It.IsAny<string>())).Throws(new ArgumentException("invalid element id"));
-            GetMockFor<IValidator>().Setup(v => v.IsValidJson(It.IsAny<JObject>())).Throws(new ArgumentException("invalid json"));
             GetMockFor<IValidator>().Setup(v => v.IsValidDataStoreName(It.IsAny<JObject>())).Throws(new ArgumentException("invalid datastore name"));
         }
 
