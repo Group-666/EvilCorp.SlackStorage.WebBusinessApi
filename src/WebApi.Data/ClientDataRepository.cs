@@ -1,13 +1,13 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RestSharp;
+using System.Net;
+using System.Threading.Tasks;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
 namespace WebApi.Data
 {
-    public class ClientDataRespository : IClientDataRespository
+    public class ClientDataRepository : IClientDataRepository
     {
 #if DEBUG
         private const string Repositoryurl = "http://localhost:49752/api/storage/";
@@ -18,42 +18,10 @@ namespace WebApi.Data
         private readonly ILogger _logger;
         private readonly RestClient _restClient;
 
-        public ClientDataRespository(ILogger logger)
+        public ClientDataRepository(ILogger logger)
         {
             _restClient = new RestClient(Repositoryurl);
             _logger = logger;
-        }
-
-        public async Task<string> GetAll(string userId)
-        {
-            var request = new RestRequest(userId, Method.GET);
-            var result = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(result);
-        }
-
-        public async Task<string> Get(string userId, string dataStoreId)
-        {
-            var request = new RestRequest(userId + "/" + dataStoreId, Method.GET);
-            var result = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(result);
-        }
-
-        public async Task<string> GetElement(string userId, string dataStoreId, string elementId)
-        {
-            var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
-            var result = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(result);
-        }
-
-        public async Task<string> GetElementAll(string userId, string dataStoreId)
-        {
-            var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.GET);
-            var result = await _restClient.ExecuteTaskAsync(request);
-
-            return LogOnErrorReturnContent(result);
         }
 
         public async Task<string> Create(string userId, JObject dataStoreName)
@@ -76,6 +44,48 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
+        public async Task<string> GetAll(string userId)
+        {
+            var request = new RestRequest(userId, Method.GET);
+            var result = await _restClient.ExecuteTaskAsync(request);
+
+            return LogOnErrorReturnContent(result);
+        }
+
+        public async Task<string> Get(string userId, string dataStoreId)
+        {
+            var request = new RestRequest(userId + "/" + dataStoreId, Method.GET);
+            var result = await _restClient.ExecuteTaskAsync(request);
+
+            return LogOnErrorReturnContent(result);
+        }
+
+        public async Task<string> GetAllElement(string userId, string dataStoreId)
+        {
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.GET);
+            var result = await _restClient.ExecuteTaskAsync(request);
+
+            return LogOnErrorReturnContent(result);
+        }
+
+        public async Task<string> GetElement(string userId, string dataStoreId, string elementId)
+        {
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
+            var result = await _restClient.ExecuteTaskAsync(request);
+
+            return LogOnErrorReturnContent(result);
+        }
+
+        public async Task<string> UpdateElement(string userId, string dataStoreId, string elementId, JObject body)
+        {
+            var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.PUT);
+            request.AddParameter("Application/Json", body, ParameterType.RequestBody);
+
+            var result = await _restClient.ExecuteTaskAsync(request);
+
+            return LogOnErrorReturnContent(result);
+        }
+
         public async Task<string> DeleteAll(string userId)
         {
             var request = new RestRequest(userId, Method.DELETE);
@@ -90,7 +100,7 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> DeleteElementAll(string userId, string dataStoreId)
+        public async Task<string> DeleteAllElement(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);

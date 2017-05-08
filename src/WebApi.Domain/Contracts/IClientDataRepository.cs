@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WebApi.Domain.Contracts
 {
-    public interface IClientDataRespository
+    public interface IClientDataRepository
     {
         Task<string> GetAll(string id);
 
@@ -11,7 +11,7 @@ namespace WebApi.Domain.Contracts
 
         Task<string> GetElement(string userId, string dataStoreId, string elementId);
 
-        Task<string> GetElementAll(string userId, string dataStoreId);
+        Task<string> GetAllElement(string userId, string dataStoreId);
 
         Task<string> Create(string userId, JObject dataStoreName);
 
@@ -21,8 +21,10 @@ namespace WebApi.Domain.Contracts
 
         Task<string> Delete(string userId, string dataStoreId);
 
-        Task<string> DeleteElementAll(string userId, string dataStoreId);
+        Task<string> DeleteAllElement(string userId, string dataStoreId);
 
         Task<string> DeleteElement(string userId, string dataStoreId, string elementId);
+
+        Task<string> UpdateElement(string userId, string dataStoreId, string elementId, JObject body);
     }
 }

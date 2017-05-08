@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using EvilCorp.AccountService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApi.CrossCutting.Testing;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
@@ -16,7 +14,6 @@ namespace WebApi.Business.UnitTests
     [TestClass]
     public class AccountManagerTests : TestsFor<AccountManager>
     {
-        private readonly string _stringValue = "SomeString";
         private readonly Account _validAccount = new Account { Id = Guid.NewGuid(), Nickname = "Nickname", Password = "Password", Username = "Username" };
 
         private ExceptionHandler _exceptionHandler;

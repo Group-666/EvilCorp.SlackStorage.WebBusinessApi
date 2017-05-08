@@ -36,7 +36,7 @@ namespace WebApi.Business.UnitTests
             await Instance.Create(_stringValue, _validJson);
 
             // Assert
-            GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once);
+            GetMockFor<IClientDataRepository>().Verify(r => r.Create(_stringValue, _validJson), Times.Once);
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
         }
 
@@ -67,7 +67,7 @@ namespace WebApi.Business.UnitTests
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.Create(_stringValue, _validJson), Times.Never());
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
             }
         }
@@ -83,7 +83,7 @@ namespace WebApi.Business.UnitTests
             await Instance.Post(_stringValue, _stringValue, _validJson);
 
             // Assert
-            GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Once());
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace WebApi.Business.UnitTests
             catch
             {
                 // Assert
-                GetMockFor<IClientDataRespository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.Post(_stringValue, _stringValue, _validJson), Times.Never());
             }
         }
 
@@ -129,7 +129,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once());
-            GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.GetAll(_stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.GetAll(_stringValue), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.GetAll(_stringValue), Times.Never());
             }
         }
 
@@ -177,7 +177,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -209,13 +209,13 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Never());
             }
         }
 
         #endregion Get Tests
 
-        #region GetElementAll Tests
+        #region GetAllElement Tests
 
         [TestMethod]
         public async Task GetElementAll_ValidatorPositive_RepositoryIsCalled()
@@ -225,7 +225,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.GetElementAll(_stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.GetAllElement(_stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -256,11 +256,11 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.GetElementAll(_stringValue, _stringValue), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.GetAllElement(_stringValue, _stringValue), Times.Never());
             }
         }
 
-        #endregion GetElementAll Tests
+        #endregion GetAllElement Tests
 
         #region GetElement Tests
 
@@ -272,7 +272,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -303,7 +303,7 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Never());
             }
         }
 
@@ -319,7 +319,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteAll(_stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.DeleteAll(_stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -350,7 +350,7 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteAll(_stringValue), Times.Never());
+                GetMockFor<IClientDataRepository>().Verify(r => r.DeleteAll(_stringValue), Times.Never());
             }
         }
 
@@ -366,7 +366,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once);
+            GetMockFor<IClientDataRepository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
@@ -395,13 +395,13 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Never);
+                GetMockFor<IClientDataRepository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Never);
             }
         }
 
         #endregion Delete Tests
 
-        #region DeleteElementAll Tests
+        #region DeleteAllElement Tests
 
         [TestMethod]
         public async Task DeleteElementAll_ValidatorPositive_RepositoryIsCalled()
@@ -411,7 +411,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRepository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
@@ -442,11 +442,11 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementAll(_stringValue, _stringValue), Times.Never);
+                GetMockFor<IClientDataRepository>().Verify(r => r.DeleteAllElement(_stringValue, _stringValue), Times.Never);
             }
         }
 
-        #endregion DeleteElementAll Tests
+        #endregion DeleteAllElement Tests
 
         #region DeleteElement Tests
 
@@ -458,7 +458,7 @@ namespace WebApi.Business.UnitTests
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Once);
+            GetMockFor<IClientDataRepository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
@@ -489,7 +489,7 @@ namespace WebApi.Business.UnitTests
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Never);
+                GetMockFor<IClientDataRepository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Never);
             }
         }
 

@@ -8,7 +8,7 @@ namespace WebApi.Business
 {
     public class ClientDataManager : IClientDataManager
     {
-        private readonly IClientDataRespository _clientDataRepository;
+        private readonly IClientDataRepository _clientDataRepository;
         private readonly IValidator _validator;
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ILogger _logger;
@@ -17,7 +17,7 @@ namespace WebApi.Business
         private const string MethodLogging = "Call to method: ";
         private const LogLevel MethodLogLevel = LogLevel.Trace;
 
-        public ClientDataManager(IClientDataRespository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler,
+        public ClientDataManager(IClientDataRepository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler,
             ILogger logger, IConverter converter)
         {
             _clientDataRepository = clientDataRepository;
@@ -76,7 +76,7 @@ namespace WebApi.Business
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
-            var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetElementAll(userId, dataStoreId));
+            var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAllElement(userId, dataStoreId));
             return _converter.StringToJson(result);
         }
 
@@ -92,9 +92,16 @@ namespace WebApi.Business
             return _converter.StringToJson(result);
         }
 
-        public async Task<JObject> UpdateElement(string userId, string dataStoreId, string elementId)
+        public async Task<JObject> UpdateElement(string userId, string dataStoreId, string elementId, JObject body)
         {
-            throw new System.NotImplementedException();
+            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidElementId(elementId), _validator.ValidatorLogLevel);
+
+            var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.UpdateElement(userId, dataStoreId, elementId, body));
+            return _converter.StringToJson(result);
         }
 
         public async Task<JObject> DeleteAll(string userId)
@@ -125,7 +132,7 @@ namespace WebApi.Business
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
 
-            var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteElementAll(userId, dataStoreId));
+            var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteAllElement(userId, dataStoreId));
             return _converter.StringToJson(result);
         }
 
