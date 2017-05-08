@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using EvilCorp.AccountService;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using EvilCorp.AccountService;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -15,55 +16,43 @@ namespace WebApi.Business
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IValidator _validator;
         private readonly IAccountRepository _accountRepository;
-        private readonly IConverter _converter;
 
         public AccountManager(IAccountRepository accountRepository, IValidator validator, IExceptionHandler exceptionHandler,
-            ILogger logger, IConverter converter)
+            ILogger logger)
         {
             _accountRepository = accountRepository;
             _validator = validator;
             _exceptionHandler = exceptionHandler;
             _logger = logger;
-            _converter = converter;
         }
 
-        public async Task<JObject> Create(JObject body)
+        public async Task<Account> Create(Account account)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidAccountJson(body), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidCreateAccount(account), _validator.ValidatorLogLevel);
 
-            var account = _converter.JsonToObject<Account>(body);
-
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Create(account));
-
-            return _converter.ObjectToJson(response);
+            return await _exceptionHandler.RunAsync(() => _accountRepository.Create(account));
         }
 
-        public async Task<JObject> GetAll()
+        public async Task<IEnumerable<Account>> GetAll()
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.GetAll());
-
-            return _converter.ObjectsToJson(response, "Accounts");
+            return await _exceptionHandler.RunAsync(() => _accountRepository.GetAll());
         }
 
-        public async Task<JObject> Get(string userId)
+        public async Task<Account> Get(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            var guid = _exceptionHandler.Run(() => _converter.StringToGuid(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
-            var response = await _exceptionHandler.RunAsync(() => _accountRepository.Get(guid));
-
-            return _converter.ObjectToJson(response);
+            return await _exceptionHandler.RunAsync(() => _accountRepository.Get(Guid.Parse(userId)));
         }
 
-        public async Task Update(JObject body)
+        public async Task Update(Account account)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidAccountJson(body), _validator.ValidatorLogLevel);
-
-            var account = _exceptionHandler.Run(() => _converter.JsonToObject<Account>(body), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidAccount(account), _validator.ValidatorLogLevel);
 
             await _accountRepository.Update(account);
         }
@@ -71,9 +60,9 @@ namespace WebApi.Business
         public async Task Delete(string userId)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            var guid = _exceptionHandler.Run(() => _converter.StringToGuid(userId), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
-            await _accountRepository.Delete(guid);
+            await _accountRepository.Delete(Guid.Parse(userId));
         }
 
         private static string GetCaller([CallerMemberName] string caller = null)

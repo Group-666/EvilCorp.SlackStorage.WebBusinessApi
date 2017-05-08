@@ -1,18 +1,20 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
+using EvilCorp.AccountService;
 using Newtonsoft.Json.Linq;
 
 namespace WebApi.Domain.Contracts
 {
     public interface IAccountManager
     {
-        Task<JObject> Create(JObject body);
+        Task<Account> Create(Account account);
 
-        Task<JObject> GetAll();
+        Task<IEnumerable<Account>> GetAll();
 
-        Task<JObject> Get(string userId);
+        Task<Account> Get(string userId);
 
-        Task Update(JObject body);
+        Task Update(Account account);
 
         Task Delete(string userId);
     }

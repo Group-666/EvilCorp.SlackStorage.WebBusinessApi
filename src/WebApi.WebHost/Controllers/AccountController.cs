@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EvilCorp.AccountService;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using WebApi.Domain.Contracts;
@@ -13,7 +14,7 @@ namespace WebApi.WebHost.Controllers
     {
         // GET api/values
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]JObject body)
+        public async Task<IActionResult> Create([FromBody]Account body)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpPut("{userId}")]
-        public async Task<IActionResult> Update([FromBody]JObject body)
+        public async Task<IActionResult> Update([FromBody]Account body)
         {
             try
             {

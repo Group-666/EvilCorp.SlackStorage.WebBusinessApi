@@ -2,6 +2,7 @@
 using System;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
+using EvilCorp.AccountService;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -46,13 +47,6 @@ namespace WebApi.Business
             return true;
         }
 
-        public bool IsValidHash(string passwordHash)
-        {
-            if (string.IsNullOrEmpty(passwordHash))
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(passwordHash));
-
-            return true;
-        }
 
         public bool IsValidDataStoreName(JObject dataStoreNameJson)
         {
@@ -68,13 +62,30 @@ namespace WebApi.Business
 
             return true;
         }
-
-        public bool IsValidAccountJson(JObject body)
+        
+        public bool IsValidAccount(Account account)
         {
-            var id = (string)body["id"];
-            IsValidGuid(id);
+            IsValidGuid(account.Id.ToString());
 
             return true;
+        }
+
+        public bool IsValidCreateAccount(Account account)
+        {
+            IsValidGuid(account.Id.ToString());
+
+            if (string.IsNullOrEmpty(account.Username))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(account.Username));
+
+            if (string.IsNullOrEmpty(account.Password))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(account.Password));
+
+            if (string.IsNullOrEmpty(account.Nickname))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(account.Nickname));
+
+            return true;
+
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using EvilCorp.AccountService;
+using Newtonsoft.Json.Linq;
 using WebApi.Domain.Entities;
 
 namespace WebApi.Domain.Contracts
@@ -13,10 +14,8 @@ namespace WebApi.Domain.Contracts
 
         bool IsValidDataStoreId(string dataStoreId);
 
-        bool IsValidHash(string passwordHash);
-
         bool IsValidDataStoreName(JObject dataStoreNameJson);
-
-        bool IsValidAccountJson(JObject body);
+        bool IsValidAccount(Account account);
+        bool IsValidCreateAccount(Account account);
     }
 }
