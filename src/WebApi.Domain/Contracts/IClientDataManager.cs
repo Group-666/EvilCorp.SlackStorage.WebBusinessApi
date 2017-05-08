@@ -25,6 +25,6 @@ namespace WebApi.Domain.Contracts
 
         Task<JObject> DeleteElement(string userId, string dataStoreId, string elementId);
 
-        Task<JObject> UpdateElement(string userId, string dataStoreId, string elementId);
+        Task<JObject> UpdateElement(string userId, string dataStoreId, string elementId, JObject body);
     }
 }

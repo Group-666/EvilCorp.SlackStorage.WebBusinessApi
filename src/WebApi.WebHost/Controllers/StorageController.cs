@@ -118,11 +118,11 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpPut("{userId}/{dataStoreId}/data/{elementId}")]
-        public async Task<IActionResult> UpdateElement(string userId, string dataStoreId, string elementId)
+        public async Task<IActionResult> UpdateElement(string userId, string dataStoreId, string elementId, [FromBody]JObject body)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().UpdateElement(userId, dataStoreId, elementId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().UpdateElement(userId, dataStoreId, elementId, body);
 
                 return Ok(result);
             }
