@@ -1,8 +1,8 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 using WebApi.CrossCutting.Testing;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
@@ -30,11 +30,8 @@ namespace WebApi.Business.UnitTests
         #region Create Tests
 
         [TestMethod]
-        public async Task Create_IdsAreValid_RepositoryIsCalled()
+        public async Task Create_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
             await Instance.Create(_stringValue, _validJson);
 
@@ -44,12 +41,11 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Create_IdsAreValid_ReturnsId()
+        public async Task Create_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.Create(_stringValue, _validJson)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.Create(_stringValue, _validJson);
@@ -59,7 +55,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Create_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task Create_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -81,11 +77,8 @@ namespace WebApi.Business.UnitTests
         #region Post Tests
 
         [TestMethod]
-        public async Task Post_IdsAreValid_RepositoryIsCalled()
+        public async Task Post_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
             await Instance.Post(_stringValue, _stringValue, _validJson);
 
@@ -94,12 +87,11 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Post_IdsAreValid_ReturnsId()
+        public async Task Post_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.Post(_stringValue, _stringValue, _validJson)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.Post(_stringValue, _stringValue, _validJson);
@@ -109,7 +101,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Post_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task Post_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -132,9 +124,6 @@ namespace WebApi.Business.UnitTests
         [TestMethod]
         public async Task GetAll_IdIsInvalid_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
             await Instance.GetAll(_stringValue);
 
@@ -144,12 +133,11 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetAll_IdsAreValid_ReturnsId()
+        public async Task GetAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.GetAll(_stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.GetAll(_stringValue);
@@ -179,39 +167,35 @@ namespace WebApi.Business.UnitTests
 
         #endregion GetAll Tests
 
-        #region GetOne Tests
+        #region Get Tests
 
         [TestMethod]
-        public async Task GetOne_IdsAreValid_RepositoryIsCalledK()
+        public async Task Get_ValidatorPositive_RepositoryIsCalledK()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
-            await Instance.GetOne(_stringValue, _stringValue);
+            await Instance.Get(_stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.GetOne(_stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRespository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
-        public async Task GetOne_IdsAreValid_ReturnsId()
+        public async Task Get_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.GetOne(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
-            var result = await Instance.GetOne(_stringValue, _stringValue);
+            var result = await Instance.Get(_stringValue, _stringValue);
 
             // Assert
             Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
-        public async Task GetOne_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task Get_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -219,26 +203,23 @@ namespace WebApi.Business.UnitTests
             // Act
             try
             {
-                await Instance.GetOne(_stringValue, _stringValue);
+                await Instance.Get(_stringValue, _stringValue);
             }
             catch
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.GetOne(_stringValue, _stringValue), Times.Never());
+                GetMockFor<IClientDataRespository>().Verify(r => r.Get(_stringValue, _stringValue), Times.Never());
             }
         }
 
-        #endregion GetOne Tests
+        #endregion Get Tests
 
         #region GetElementAll Tests
 
         [TestMethod]
-        public async Task GetElementAll_IdsAreValid_RepositoryIsCalled()
+        public async Task GetElementAll_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
             await Instance.GetElementAll(_stringValue, _stringValue);
 
@@ -248,12 +229,11 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetElementAll_IdsAreValid_ReturnsId()
+        public async Task GetElementAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.GetElementAll(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.GetElementAll(_stringValue, _stringValue);
@@ -263,7 +243,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetElementAll_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task GetElementAll_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -282,65 +262,58 @@ namespace WebApi.Business.UnitTests
 
         #endregion GetElementAll Tests
 
-        #region GetElementOne Tests
+        #region GetElement Tests
 
         [TestMethod]
-        public async Task GetElementOne_IdsAreValid_RepositoryIsCalled()
+        public async Task GetElement_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
-            await Instance.GetElementOne(_stringValue, _stringValue, _stringValue);
+            await Instance.GetElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.GetElementOne(_stringValue, _stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRespository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
-        public async Task GetElementOne_IdsAreValid_ReturnsId()
+        public async Task GetElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.GetElementOne(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
-            var result = await Instance.GetElementOne(_stringValue, _stringValue, _stringValue);
+            var result = await Instance.GetElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
             Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
-        public async Task GetElementOne_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task GetElement_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
             // Act
             try
             {
-                await Instance.GetElementOne(_stringValue, _stringValue, _stringValue);
+                await Instance.GetElement(_stringValue, _stringValue, _stringValue);
             }
             catch
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.GetElementOne(_stringValue, _stringValue, _stringValue), Times.Never());
+                GetMockFor<IClientDataRespository>().Verify(r => r.GetElement(_stringValue, _stringValue, _stringValue), Times.Never());
             }
         }
 
-        #endregion GetElementOne Tests
+        #endregion GetElement Tests
 
         #region DeleteAll Tests
 
         [TestMethod]
-        public async Task DeleteAll_IdsAreValid_RepositoryIsCalled()
+        public async Task DeleteAll_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
             await Instance.DeleteAll(_stringValue);
 
@@ -350,12 +323,11 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task DeleteAll_IdsAreValid_ReturnsId()
+        public async Task DeleteAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteAll(_stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.DeleteAll(_stringValue);
@@ -365,7 +337,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task DeleteAll_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task DeleteAll_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -384,80 +356,70 @@ namespace WebApi.Business.UnitTests
 
         #endregion DeleteAll Tests
 
-        #region DeleteOne Tests
+        #region Delete Tests
 
         [TestMethod]
-        public async Task DeleteOne_IdsAreValid_RepositoryIsCalled()
+        public async Task Delete_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
-            await Instance.DeleteOne(_stringValue, _stringValue);
+            await Instance.Delete(_stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Once);
+            GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
-        public async Task DeleteOne_IdsAreValid_ReturnsId()
+        public async Task Delete_ValidatorPositive_ReturnsId()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteOne(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
-
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
             // Act
-            var result = await Instance.DeleteOne(_stringValue, _stringValue);
+            var result = await Instance.Delete(_stringValue, _stringValue);
 
             // Assert
             Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
-        public async Task DeleteOne_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task Delete_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
             // Act
             try
             {
-                await Instance.DeleteOne(_stringValue, _stringValue);
+                await Instance.Delete(_stringValue, _stringValue);
             }
             catch
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Never);
+                GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Never);
             }
         }
 
-        #endregion DeleteOne Tests
+        #endregion Delete Tests
 
         #region DeleteElementAll Tests
 
         [TestMethod]
-        public async Task DeleteElementAll_IdsAreValid_RepositoryIsCalled()
+        public async Task DeleteElementAll_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
-            await Instance.DeleteOne(_stringValue, _stringValue);
+            await Instance.Delete(_stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteOne(_stringValue, _stringValue), Times.Once());
+            GetMockFor<IClientDataRespository>().Verify(r => r.Delete(_stringValue, _stringValue), Times.Once());
         }
 
         [TestMethod]
-        public async Task DeleteElementAll_IdsAreValid_ReturnsId()
+        public async Task DeleteElementAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteElementAll(_stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
             var result = await Instance.DeleteElementAll(_stringValue, _stringValue);
@@ -467,7 +429,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task DeleteElementAll_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task DeleteElementAll_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -486,61 +448,52 @@ namespace WebApi.Business.UnitTests
 
         #endregion DeleteElementAll Tests
 
-        #region DeleteElementOne Tests
+        #region DeleteElement Tests
 
         [TestMethod]
-        public async Task DeleteElementOne_IdsAreValid_RepositoryIsCalled()
+        public async Task DeleteElement_ValidatorPositive_RepositoryIsCalled()
         {
-            // Arrange
-            SetupValidatorToBeValid();
-
             // Act
-            await Instance.DeleteElementOne(_stringValue, _stringValue, _stringValue);
+            await Instance.DeleteElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
-            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Once);
+            GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Once);
         }
 
         [TestMethod]
-        public async Task DeleteElementOne_IdsAreValid_ReturnsId()
+        public async Task DeleteElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            SetupValidatorToBeValid();
-            var excpectedValue = Guid.NewGuid().ToString();
-            GetMockFor<IClientDataRespository>().Setup(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(excpectedValue));
+            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
+            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
 
             // Act
-            var result = await Instance.DeleteElementOne(_stringValue, _stringValue, _stringValue);
+            var result = await Instance.DeleteElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
             Assert.AreEqual(result, excpectedValue);
         }
 
         [TestMethod]
-        public async Task DeleteElementOne_IdsAreInvalid_RepositoryIsNeverCalled()
+        public async Task DeleteElement_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
             // Act
             try
             {
-                await Instance.DeleteElementOne(_stringValue, _stringValue, _stringValue);
+                await Instance.DeleteElement(_stringValue, _stringValue, _stringValue);
             }
             catch
             {
                 // Assert
                 GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
-                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElementOne(_stringValue, _stringValue, _stringValue), Times.Never);
+                GetMockFor<IClientDataRespository>().Verify(r => r.DeleteElement(_stringValue, _stringValue, _stringValue), Times.Never);
             }
         }
 
-        #endregion DeleteElementOne Tests
-
-        private void SetupValidatorToBeValid()
-        {
-            GetMockFor<IValidator>().Setup(v => v.IsValidGuid(_stringValue)).Returns(true);
-        }
+        #endregion DeleteElement Tests
 
         private void SetupValidatorToThrowExpection()
         {

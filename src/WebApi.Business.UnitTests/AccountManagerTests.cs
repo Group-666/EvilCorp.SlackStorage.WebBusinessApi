@@ -36,7 +36,7 @@ namespace WebApi.Business.UnitTests
         #region Create Tests
 
         [TestMethod]
-        public async Task Create_JsonIsValid_RepositoryIsCalled()
+        public async Task Create_ValidatorPositive_RepositoryIsCalled()
         {
             // Act
             await Instance.Create(_validJson);
@@ -47,14 +47,12 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Create_JsonIsValid_ReturnsJson()
+        public async Task Create_ValidatorPositive_ReturnsJson()
         {
             // Arrange
-            var account = new Account { Id = Guid.NewGuid(), Nickname = "nickname" };
-
-            var expectedValue = JObject.FromObject(account);
-            GetMockFor<IAccountRepository>().Setup(r => r.Create(It.IsAny<Account>())).Returns(() => Task.FromResult(account));
+            var expectedValue = JObject.FromObject(new Account { Id = Guid.NewGuid(), Nickname = "nickname" });
             GetMockFor<IConverter>().Setup(r => r.ObjectToJson(It.IsAny<Account>())).Returns(() => expectedValue);
+
             // Act
             var result = await Instance.Create(_validJson);
 
@@ -63,7 +61,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task Create_JsonIsInvalid_RepositoryNeverCalled_LoggerCalledTwice()
+        public async Task Create_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             SetupValidatorToThrowExpection();
@@ -85,7 +83,7 @@ namespace WebApi.Business.UnitTests
         #region GetAll Tests
 
         [TestMethod]
-        public async Task GetAll_JsonIsValid_RepositoryIsCalled()
+        public async Task GetAll_ValidatorPositive_RepositoryIsCalled()
         {
             // Act
             await Instance.GetAll();
@@ -96,7 +94,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetAll_JsonIsValid_ReturnsJson()
+        public async Task GetAll_ValidatorPositive_ReturnsJson()
         {
             // Arrange
             IEnumerable<Account> accounts = new List<Account>
@@ -123,7 +121,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetAll_JsonIsInvalid_RepositoryNeverCalled_LoggerCalledTwice()
+        public async Task GetAll_ValidatorNegative_RepositoryNeverCalled_LoggerCalledTwice()
         {
             // Arrange
             SetupValidatorToThrowExpection();

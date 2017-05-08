@@ -11,6 +11,15 @@ namespace WebApi.Business
         private const string InvalidGuidError = "Invalid GUID. Value: {0}";
         private const string ErrorDeserializing = "Deserializing error. Value: {0}";
 
+        public Guid StringToGuid(string userId)
+        {
+            Guid guid;
+            if (!Guid.TryParse(userId, out guid))
+                throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
+
+            return guid;
+        }
+
         public T JsonToObject<T>(JObject body)
         {
             if (body == null)
@@ -36,15 +45,6 @@ namespace WebApi.Business
             return body;
         }
 
-        public Guid StringToGuid(string userId)
-        {
-            Guid guid;
-            if (!Guid.TryParse(userId, out guid))
-                throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
-
-            return guid;
-        }
-
         public JObject ObjectsToJson<T>(T request, string nameOfObjects = "objects")
         {
             if (request == null)
@@ -53,6 +53,19 @@ namespace WebApi.Business
                 throw new ArgumentException(FieldNullOrEmptyError, nameof(nameOfObjects));
 
             var body = new JObject { [nameOfObjects] = JToken.FromObject(nameOfObjects) };
+            if (body == null)
+                throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
+
+            return body;
+        }
+
+        public JObject StringToJson(string request)
+        {
+            if (string.IsNullOrEmpty(request))
+                throw new ArgumentException(FieldNullOrEmptyError, nameof(request));
+
+            var body = JObject.Parse(request);
+
             if (body == null)
                 throw new ArgumentException(string.Format(ErrorDeserializing, request), nameof(request));
 

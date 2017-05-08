@@ -1,10 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EvilCorp.AccountService;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using EvilCorp.AccountService;
 using WebApi.CrossCutting.Testing;
-using WebApi.Domain.Entities;
 
 namespace WebApi.Business.UnitTests
 {
@@ -71,6 +70,55 @@ namespace WebApi.Business.UnitTests
 
         #endregion StringToGuid Tests
 
+        #region StringToJson Tests
+
+        [TestMethod]
+        public void StringToJson_IdIsValid_ReturnsGuid()
+        {
+            // Act
+            var result = Instance.StringToJson(@"{id:'" + Guid.NewGuid() + "'}");
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void StringToJson_IdIsNull_ThrowsArgumentExceptionInvalidGuid()
+        {
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.StringToJson(null));
+
+            // Assert
+            AssertThrowsInvalidGuidError(null, exception.Message);
+        }
+
+        //[TestMethod]
+        //public void StringToJson_IdIsEmpty_ThrowsArgumentExceptionInvalidGuid()
+        //{
+        //    // Act
+        //    var exception = Assert.ThrowsException<ArgumentException>(() => Instance.StringToJson(""));
+
+        //    // Assert
+        //    AssertThrowsInvalidGuidError("", exception.Message);
+        //}
+
+        //[TestMethod]
+        //public void StringToJson_IdIsNotAGuid_ThrowsArgumentExceptionInvalidGuid()
+        //{
+        //    // Act
+        //    var exception = Assert.ThrowsException<ArgumentException>(() => Instance.StringToJson(_invalidGuid));
+
+        //    // Assert
+        //    AssertThrowsInvalidGuidError(_invalidGuid, exception.Message);
+        //}
+
+        //private static void AssertThrowsInvalidGuidError(string value, string exceptionMessage)
+        //{
+        //    Assert.AreEqual($"{string.Format(InvalidGuidError, value)}\r\nParameter name: userId", exceptionMessage);
+        //}
+
+        #endregion StringToJson Tests
+
         #region JsonToObject Tests
 
         [TestMethod]
@@ -135,7 +183,12 @@ namespace WebApi.Business.UnitTests
             var exception = Assert.ThrowsException<ArgumentException>(() => Instance.ObjectToJson<Account>(null));
 
             // Assert
-            Assert.IsTrue(exception.Message.Contains(FieldNullOrEmptyError));
+            AssertExceptionIsNullOrEmpty(exception.Message);
+        }
+
+        private static void AssertExceptionIsNullOrEmpty(string exception)
+        {
+            Assert.IsTrue(exception.Contains(FieldNullOrEmptyError));
         }
 
         [TestMethod]

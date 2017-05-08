@@ -53,6 +53,16 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
+        public void IsValidUserId_IdIsEmptyGuid_ThrowsArgumentException()
+        {
+            // Act
+            var exception = Assert.ThrowsException<ArgumentException>(() => Instance.IsValidGuid(Guid.Empty.ToString()));
+
+            // Assert
+            AssertThrowsInvalidGuidError(Guid.Empty.ToString(), exception.Message);
+        }
+
+        [TestMethod]
         public void IsValidUserId_IdIsEmpty_ThrowsArgumentException()
         {
             // Act

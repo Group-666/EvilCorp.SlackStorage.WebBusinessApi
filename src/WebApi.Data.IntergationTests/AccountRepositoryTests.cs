@@ -12,7 +12,7 @@ namespace WebApi.Data.IntergationTests
     [TestClass]
     public class AccountRepositoryTests : TestsFor<AccountRepository>
     {
-        [TestMethod]
+        [TestMethod, TestCategory("Integration")]
         public void GetAll_ReturnsAny()
         {
             var proxy = new AccountClient();
@@ -103,13 +103,13 @@ namespace WebApi.Data.IntergationTests
 
         //#endregion GetAll Tests
 
-        //#region GetOne Tests
+        //#region Get Tests
 
         //[TestMethod, TestCategory("Integration")]
         //public async Task GetOne_IdsAreValid_RepositoryIsCalled()
         //{
         //    // Act
-        //    var result = await Instance.GetOne(_stringValue);
+        //    var result = await Instance.Get(_stringValue);
         //    var doc = XDocument.Parse(result);
 
         //    // Assert
@@ -118,7 +118,7 @@ namespace WebApi.Data.IntergationTests
         //    Assert.IsNotNull(json);
         //}
 
-        //#endregion GetOne Tests
+        //#endregion Get Tests
 
         //#region Disable Tests
 

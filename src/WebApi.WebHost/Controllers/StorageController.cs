@@ -67,11 +67,11 @@ namespace WebApi.WebHost.Controllers
 
         // GET api/datastores/5/5
         [HttpGet("{userId}/{dataStoreId}")]
-        public async Task<IActionResult> GetOne(string userId, string dataStoreId)
+        public async Task<IActionResult> Get(string userId, string dataStoreId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().GetOne(userId, dataStoreId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().Get(userId, dataStoreId);
 
                 return Ok(result);
             }
@@ -101,11 +101,28 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpGet("{userId}/{dataStoreId}/data/{elementId}")]
-        public async Task<IActionResult> GetElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<IActionResult> GetElement(string userId, string dataStoreId, string elementId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().GetElementOne(userId, dataStoreId, elementId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().GetElement(userId, dataStoreId, elementId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ArgumentException)
+                    return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut("{userId}/{dataStoreId}/data/{elementId}")]
+        public async Task<IActionResult> UpdateElement(string userId, string dataStoreId, string elementId)
+        {
+            try
+            {
+                var result = await Program.Container.GetInstance<IClientDataManager>().UpdateElement(userId, dataStoreId, elementId);
 
                 return Ok(result);
             }
@@ -135,11 +152,11 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpDelete("{userId}/{dataStoreId}")]
-        public async Task<IActionResult> DeleteOne(string userId, string dataStoreId)
+        public async Task<IActionResult> Delete(string userId, string dataStoreId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().DeleteOne(userId, dataStoreId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().Delete(userId, dataStoreId);
 
                 return Ok(result);
             }
@@ -169,11 +186,11 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpDelete("{userId}/{dataStoreId}/data/{elementId}")]
-        public async Task<IActionResult> DeleteElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<IActionResult> DeleteElement(string userId, string dataStoreId, string elementId)
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().DeleteElementOne(userId, dataStoreId, elementId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().DeleteElement(userId, dataStoreId, elementId);
 
                 return Ok(result);
             }

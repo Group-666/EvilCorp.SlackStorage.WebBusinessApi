@@ -32,7 +32,7 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> GetOne(string userId, string dataStoreId)
+        public async Task<string> Get(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
@@ -40,7 +40,7 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> GetElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<string> GetElement(string userId, string dataStoreId, string elementId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
@@ -83,7 +83,7 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> DeleteOne(string userId, string dataStoreId)
+        public async Task<string> Delete(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
@@ -97,7 +97,7 @@ namespace WebApi.Data
             return LogOnErrorReturnContent(result);
         }
 
-        public async Task<string> DeleteElementOne(string userId, string dataStoreId, string elementId)
+        public async Task<string> DeleteElement(string userId, string dataStoreId, string elementId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);

@@ -30,7 +30,7 @@ namespace WebApi.Business
         public async Task<JObject> Create(JObject body)
         {
             _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
-            _exceptionHandler.Run(() => _validator.IsValidJson(body), _validator.ValidatorLogLevel);
+            _exceptionHandler.Run(() => _validator.IsValidAccountJson(body), _validator.ValidatorLogLevel);
 
             var account = _converter.JsonToObject<Account>(body);
 

@@ -7,9 +7,9 @@ namespace WebApi.Domain.Contracts
     {
         Task<string> GetAll(string id);
 
-        Task<string> GetOne(string userId, string dataStoreId);
+        Task<string> Get(string userId, string dataStoreId);
 
-        Task<string> GetElementOne(string userId, string dataStoreId, string elementId);
+        Task<string> GetElement(string userId, string dataStoreId, string elementId);
 
         Task<string> GetElementAll(string userId, string dataStoreId);
 
@@ -19,10 +19,10 @@ namespace WebApi.Domain.Contracts
 
         Task<string> DeleteAll(string userId);
 
-        Task<string> DeleteOne(string userId, string dataStoreId);
+        Task<string> Delete(string userId, string dataStoreId);
 
         Task<string> DeleteElementAll(string userId, string dataStoreId);
 
-        Task<string> DeleteElementOne(string userId, string dataStoreId, string elementId);
+        Task<string> DeleteElement(string userId, string dataStoreId, string elementId);
     }
 }

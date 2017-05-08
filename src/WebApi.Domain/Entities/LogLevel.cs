@@ -2,6 +2,7 @@
 {
     public enum LogLevel
     {
+        Unknown = 0,
         Trace = 1,
         Information = 2,
         Warning = 3,

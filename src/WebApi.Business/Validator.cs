@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
@@ -23,7 +24,7 @@ namespace WebApi.Business
 
         public bool IsValidGuid(string userId)
         {
-            if (!Guid.TryParse(userId, out _))
+            if (!Guid.TryParse(userId, out Guid guid) || guid == Guid.Empty)
                 throw new ArgumentException(string.Format(InvalidGuidError, userId), nameof(userId));
 
             return true;
@@ -68,20 +69,10 @@ namespace WebApi.Business
             return true;
         }
 
-        public bool IsValidJson(JObject body)
-        {
-            if (null == body)
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(body));
-
-            return true;
-        }
-
         public bool IsValidAccountJson(JObject body)
         {
-            IsValidJson(body);
             var id = (string)body["id"];
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentException(FieldNullOrEmptyError, nameof(id));
+            IsValidGuid(id);
 
             return true;
         }
