@@ -1,10 +1,8 @@
+using EvilCorp.AccountService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using WebApi.CrossCutting.Testing;
 
 namespace WebApi.Data.IntergationTests
@@ -12,159 +10,55 @@ namespace WebApi.Data.IntergationTests
     [TestClass]
     public class AccountRepositoryTests : TestsFor<AccountRepository>
     {
+        private readonly Account _validAccount = new Account { Id = Guid.NewGuid(), Nickname = "Nickname", Password = "Password", Username = "Username" };
+        private readonly Guid _validGuid = Guid.NewGuid();
+
+        #region AccountRepository Tests
+
         [TestMethod, TestCategory("Integration")]
-        public void GetAll_ReturnsAny()
+        public async Task Create_ValidParameters_ReturnsAccount()
         {
-            var proxy = new AccountClient();
+            // Act
+            var result = await Instance.Create(_validAccount);
 
-            try
-            {
-                var task = proxy.GetAll();
-                task.Wait();
-
-                Assert.IsTrue(task.Result.Any());
-            }
-            finally
-            {
-                proxy.Close();
-            }
+            // Assert
+            Assert.IsNotNull(result);
         }
 
-        //#region AccountRepository Tests
+        [TestMethod, TestCategory("Integration")]
+        public async Task GetAll_ReturnsAny()
+        {
+            // Act
+            var result = await Instance.GetAll();
 
-        //#region Create Tests
+            // Assert
+            Assert.IsTrue(result.Any());
+        }
 
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task Create_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Arrange
-        //    var _validJson = JObject.Parse(@"{username:'values', password:'values', nickname:'values'}");
-        //    var xmlIn = JsonConvert.DeserializeXNode(_validJson.ToString(), "User");
-        //    var yourResult = new XDocument(new XElement("RegisterUser", xmlIn.Root));
+        [TestMethod, TestCategory("Integration")]
+        public async Task Get_ValidParameters_ReturnsAccount()
+        {
+            // Act
+            var result = await Instance.Get(_validGuid);
 
-        //    // Act
-        //    var result = await Instance.Create(yourResult);
+            // Assert
+            Assert.IsNotNull(result);
+        }
 
-        //    // Assert
-        //    var guid = XElement.Parse(result).Value;
-        //    Assert.IsTrue(Guid.TryParse(guid, out _));
-        //}
+        [TestMethod, TestCategory("Integration")]
+        public async Task Update_ValidParameter_TaskCompleted()
+        {
+            // Act
+            await Instance.Update(_validAccount);
+        }
 
-        //#endregion Create Tests
+        [TestMethod, TestCategory("Integration")]
+        public async Task Delete_ValidParameter_TaskCompleted()
+        {
+            // Act
+            await Instance.Delete(_validGuid);
+        }
 
-        //#region Login Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task Login_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.Login(_stringValue, _stringValue);
-
-        //    // Assert
-        //    var guid = XElement.Parse(result).Value;
-        //    Assert.IsTrue(Guid.TryParse(guid, out _));
-        //}
-
-        //#endregion Login Tests
-
-        //#region GetAll Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task GetAll_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.GetAll();
-        //    var doc = XDocument.Parse(result);
-
-        //    //TODO: make xml pretty
-        //    //var docsDocument = new XmlDocument();
-        //    //docsDocument.LoadXml(result);
-
-        //    //var query = from data in doc.Descendants("a:User")
-        //    //            select new User
-        //    //            {
-        //    //                UserId = (Guid)data.Parent.Attribute("a:UserId"),
-        //    //                Nickname = (string)data.Attribute("a:NickName"),
-        //    //                Username = (string)data.Attribute("a:Username"),
-        //    //                Password = (string)data.Attribute("a:Password"),
-        //    //                IsActive = (bool)data.Attribute("a:IsActive"),
-        //    //                IsDeleted = (bool)data.Attribute("a:IsDeleted"),
-        //    //                CreatedDate = (DateTime)data.Attribute("a:CreatedDate"),
-        //    //                DeletedDate = (DateTime)data.Attribute("a:DeletedDate"),
-        //    //                UserRole = (int)data.Attribute("a:UserRole"),
-        //    //            };
-
-        //    //var list = query.ToList();
-
-        //    // Assert
-        //    var json = JsonConvert.SerializeXNode(doc, Formatting.None, true);
-        //    Assert.IsNotNull(json);
-        //}
-
-        //#endregion GetAll Tests
-
-        //#region Get Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task GetOne_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.Get(_stringValue);
-        //    var doc = XDocument.Parse(result);
-
-        //    // Assert
-
-        //    var json = JsonConvert.SerializeXNode(doc, Formatting.None, true);
-        //    Assert.IsNotNull(json);
-        //}
-
-        //#endregion Get Tests
-
-        //#region Disable Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task Disable_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.Disable(_stringValue);
-
-        //    // Assert
-        //    var guid = XElement.Parse(result).Value;
-        //    Assert.IsTrue(Guid.TryParse(guid, out _));
-        //}
-
-        //#endregion Disable Tests
-
-        //#region Enable Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task Enable_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.Enable(_stringValue);
-
-        //    // Assert
-        //    var guid = XElement.Parse(result).Value;
-        //    Assert.IsTrue(Guid.TryParse(guid, out _));
-        //}
-
-        //#endregion Enable Tests
-
-        //#region Delete Tests
-
-        //[TestMethod, TestCategory("Integration")]
-        //public async Task Delete_IdsAreValid_RepositoryIsCalled()
-        //{
-        //    // Act
-        //    var result = await Instance.Delete(_stringValue);
-
-        //    // Assert
-        //    var guid = XElement.Parse(result).Value;
-        //    Assert.IsTrue(Guid.TryParse(guid, out _));
-        //}
-
-        //#endregion Delete Tests
-
-        //#endregion AccountRepository Tests
+        #endregion AccountRepository Tests
     }
 }
