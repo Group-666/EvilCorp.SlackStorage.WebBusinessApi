@@ -8,10 +8,10 @@ namespace WebApi.Data
     public class LogRepository : ILogRepository
     {
 #if DEBUG
-        private static string REPOSITORYURL = "http://localhost:49752/api/";
+        private static string REPOSITORYURL = "http://localhost:5050/api/log";
 #else
         //Real URL
-        private static string REPOSITORYURL = "http://localhost:49752/api/";
+        private static string REPOSITORYURL = "http://localhost:5050/api/log";
 #endif
         private readonly RestClient _restClient;
 
@@ -22,7 +22,7 @@ namespace WebApi.Data
 
         public async Task<string> Log(JObject logEntry)
         {
-            var request = new RestRequest("log", Method.POST);
+            var request = new RestRequest(Method.POST);
 
             request.AddParameter("Application/Json", logEntry, ParameterType.RequestBody);
             var result = await _restClient.ExecuteTaskAsync(request);

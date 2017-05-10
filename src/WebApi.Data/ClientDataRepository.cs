@@ -10,10 +10,10 @@ namespace WebApi.Data
     public class ClientDataRepository : IClientDataRepository
     {
 #if DEBUG
-        private const string Repositoryurl = "http://localhost:49752/api/storage/";
+        private const string Repositoryurl = "http://localhost:5000/api/storage/";
 #else
         //Real URL
-        private const string REPOSITORYURL = "http://localhost/api/storage";
+        private const string REPOSITORYURL = "http://localhost:5000/api/storage";
 #endif
         private readonly ILogger _logger;
         private readonly RestClient _restClient;
