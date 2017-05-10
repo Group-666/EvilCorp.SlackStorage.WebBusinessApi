@@ -8,10 +8,10 @@ namespace WebApi.Data
     public class LogRepository : ILogRepository
     {
 #if DEBUG
-        private static string REPOSITORYURL = "http://localhost:5050/api/log";
+        private static string REPOSITORYURL = "http://localhost:8085/api/log";
 #else
         //Real URL
-        private static string REPOSITORYURL = "http://localhost:5050/api/log";
+        private static string REPOSITORYURL = "http://localhost:8085/api/log";
 #endif
         private readonly RestClient _restClient;
 
