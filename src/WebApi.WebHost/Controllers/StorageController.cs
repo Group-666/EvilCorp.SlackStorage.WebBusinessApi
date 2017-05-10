@@ -88,7 +88,7 @@ namespace WebApi.WebHost.Controllers
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().GetElementAll(userId, dataStoreId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().GetAllElement(userId, dataStoreId);
 
                 return Ok(result);
             }
@@ -173,7 +173,7 @@ namespace WebApi.WebHost.Controllers
         {
             try
             {
-                var result = await Program.Container.GetInstance<IClientDataManager>().DeleteElementAll(userId, dataStoreId);
+                var result = await Program.Container.GetInstance<IClientDataManager>().DeleteAllElement(userId, dataStoreId);
 
                 return Ok(result);
             }

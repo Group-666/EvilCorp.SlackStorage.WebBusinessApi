@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using EvilCorp.AccountService;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Security.Principal;
 using System.Text.RegularExpressions;
-using EvilCorp.AccountService;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -47,7 +46,6 @@ namespace WebApi.Business
             return true;
         }
 
-
         public bool IsValidDataStoreName(JObject dataStoreNameJson)
         {
             if (dataStoreNameJson == null)
@@ -62,7 +60,7 @@ namespace WebApi.Business
 
             return true;
         }
-        
+
         public bool IsValidAccount(Account account)
         {
             IsValidGuid(account.Id.ToString());
@@ -84,8 +82,6 @@ namespace WebApi.Business
                 throw new ArgumentException(FieldNullOrEmptyError, nameof(account.Nickname));
 
             return true;
-
-
         }
     }
 }
