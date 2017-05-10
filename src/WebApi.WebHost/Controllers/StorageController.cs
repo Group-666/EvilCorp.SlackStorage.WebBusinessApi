@@ -84,7 +84,7 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpGet("{userId}/{dataStoreId}/data")]
-        public async Task<IActionResult> GetElementAll(string userId, string dataStoreId)
+        public async Task<IActionResult> GetAllElement(string userId, string dataStoreId)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace WebApi.WebHost.Controllers
         }
 
         [HttpDelete("{userId}/{dataStoreId}/data/")]
-        public async Task<IActionResult> DeleteElementAll(string userId, string dataStoreId)
+        public async Task<IActionResult> DeleteAllElement(string userId, string dataStoreId)
         {
             try
             {
