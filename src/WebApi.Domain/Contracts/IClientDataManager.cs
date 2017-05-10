@@ -5,26 +5,26 @@ namespace WebApi.Domain.Contracts
 {
     public interface IClientDataManager
     {
-        Task<JObject> Create(string userId, JObject dataStoreName);
+        Task<string> Create(string userId, JObject dataStoreName);
 
-        Task<JObject> Post(string userId, string dataStoreId, JObject data);
+        Task<string> Post(string userId, string dataStoreId, JObject data);
 
-        Task<JObject> GetAll(string id);
+        Task<string> GetAll(string id);
 
-        Task<JObject> Get(string userId, string dataStoreId);
+        Task<string> Get(string userId, string dataStoreId);
 
-        Task<JObject> GetElementAll(string userId, string dataStoreId);
+        Task<string> GetElementAll(string userId, string dataStoreId);
 
-        Task<JObject> GetElement(string userId, string dataStoreId, string elementId);
+        Task<string> GetElement(string userId, string dataStoreId, string elementId);
 
-        Task<JObject> DeleteAll(string userId);
+        Task<string> DeleteAll(string userId);
 
-        Task<JObject> Delete(string userId, string dataStoreId);
+        Task<string> Delete(string userId, string dataStoreId);
 
-        Task<JObject> DeleteElementAll(string userId, string dataStoreId);
+        Task<string> DeleteElementAll(string userId, string dataStoreId);
 
-        Task<JObject> DeleteElement(string userId, string dataStoreId, string elementId);
+        Task<string> DeleteElement(string userId, string dataStoreId, string elementId);
 
-        Task<JObject> UpdateElement(string userId, string dataStoreId, string elementId, JObject body);
+        Task<string> UpdateElement(string userId, string dataStoreId, string elementId, JObject body);
     }
 }

@@ -17,7 +17,7 @@ namespace WebApi.WebHost
                     .UseIISIntegration() //Suspicious 
                     .UseStartup<Startup>()
                     .UseApplicationInsights()
-                    .UseUrls("http://0.0.0.0:6000")
+                    .UseUrls("http://0.0.0.0:6666")
                     .Build();
 
             host.Run();

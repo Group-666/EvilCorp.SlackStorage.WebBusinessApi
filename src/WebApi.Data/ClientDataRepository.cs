@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
@@ -117,7 +118,10 @@ namespace WebApi.Data
         private string LogOnErrorReturnContent(IRestResponse result)
         {
             if (result.StatusCode != HttpStatusCode.OK)
+            {
                 _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? result.ToString() : result.ErrorMessage, LogLevel.Critical);
+                throw new Exception(string.IsNullOrEmpty(result.ErrorMessage) ? result.ToString() : result.ErrorMessage);
+            }
             return result.Content;
         }
     }
