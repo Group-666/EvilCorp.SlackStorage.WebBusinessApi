@@ -12,7 +12,6 @@ namespace WebApi.Business
         private readonly IValidator _validator;
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ILogger _logger;
-        private readonly IConverter _converter;
 
         private const string MethodLogging = "Call to method: ";
         private const LogLevel MethodLogLevel = LogLevel.Trace;
@@ -24,7 +23,6 @@ namespace WebApi.Business
             _validator = validator;
             _exceptionHandler = exceptionHandler;
             _logger = logger;
-            _converter = converter;
         }
 
         public async Task<string> Create(string userId, JObject dataStoreName)
