@@ -15,6 +15,8 @@ namespace WebApi.Business.UnitTests
     public class AccountManagerTests : TestsFor<AccountManager>
     {
         private readonly Account _validAccount = new Account { Id = Guid.NewGuid(), Nickname = "Nickname", Password = "Password", Username = "Username" };
+        private static readonly Guid _validGuid = Guid.NewGuid();
+        private readonly string _validGuidString = _validGuid.ToString();
 
         private ExceptionHandler _exceptionHandler;
 
@@ -47,14 +49,13 @@ namespace WebApi.Business.UnitTests
         public async Task Create_ValidatorPositive_ReturnsJson()
         {
             // Arrange
-            var expectedValue = JObject.FromObject(new Account { Id = Guid.NewGuid(), Nickname = "nickname" });
-            GetMockFor<IConverter>().Setup(r => r.ObjectToJson(It.IsAny<Account>())).Returns(() => expectedValue);
+            GetMockFor<IAccountRepository>().Setup(r => r.Create(_validAccount)).Returns(() => Task.FromResult(_validAccount));
 
             // Act
             var result = await Instance.Create(_validAccount);
 
             // Assert
-            Assert.AreEqual(result, expectedValue);
+            Assert.AreEqual(result, _validAccount);
         }
 
         [TestMethod]
@@ -91,7 +92,7 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetAll_ValidatorPositive_ReturnsJson()
+        public async Task GetAll_ReturnsAccount()
         {
             // Arrange
             IEnumerable<Account> accounts = new List<Account>
@@ -100,21 +101,13 @@ namespace WebApi.Business.UnitTests
                 new Account {Id = Guid.NewGuid(), Nickname = "nickname"}
             };
 
-            var expectedValue = new JObject { ["accounts"] = JToken.FromObject(accounts) };
-
-            //var jsonlist = JsonConvert.SerializeObject(new
-            //{
-            //    operations = accounts
-            //});
-
-            //var expectedValue = JObject.FromObject(accounts);
             GetMockFor<IAccountRepository>().Setup(r => r.GetAll()).Returns(() => Task.FromResult(accounts));
-            GetMockFor<IConverter>().Setup(r => r.ObjectsToJson(accounts, It.IsAny<string>())).Returns(() => expectedValue);
+
             // Act
             var result = await Instance.GetAll();
 
             // Assert
-            Assert.AreEqual(result, expectedValue);
+            Assert.AreEqual(result, accounts);
         }
 
         [TestMethod]
@@ -136,6 +129,118 @@ namespace WebApi.Business.UnitTests
         }
 
         #endregion GetAll Tests
+
+        #region Get Tests
+
+        [TestMethod]
+        public async Task Get_ValidatorPositive_RepositoryIsCalled()
+        {
+            // Act
+            await Instance.Get(_validGuidString);
+
+            // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            GetMockFor<IAccountRepository>().Verify(r => r.Get(_validGuid), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task Get_ValidatorPositive_ReturnAccount()
+        {
+            // Arrange
+            GetMockFor<IAccountRepository>().Setup(r => r.Get(_validGuid)).Returns(() => Task.FromResult(_validAccount));
+
+            // Act
+            var result = await Instance.Get(_validGuidString);
+
+            // Assert
+            Assert.AreEqual(result, _validAccount);
+        }
+
+        [TestMethod]
+        public async Task Get_ValidatorNegative_RepositoryIsNeverCalled()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Get(_validGuidString);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IAccountRepository>().Verify(r => r.Get(_validGuid), Times.Never);
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+            }
+        }
+
+        #endregion Get Tests
+
+        #region Update Tests
+
+        [TestMethod]
+        public async Task Update_ValidatorPositive_RepositoryIsCalled()
+        {
+            // Act
+            await Instance.Update(_validAccount);
+
+            // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            GetMockFor<IAccountRepository>().Verify(r => r.Update(_validAccount), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task Update_ValidatorNegative_RepositoryIsNeverCalled()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Update(_validAccount);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IAccountRepository>().Verify(r => r.Update(_validAccount), Times.Never);
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+            }
+        }
+
+        #endregion Update Tests
+
+        #region Delete Tests
+
+        [TestMethod]
+        public async Task Delete_ValidatorPositive_RepositoryIsCalled()
+        {
+            // Act
+            await Instance.Delete(_validGuidString);
+
+            // Assert
+            GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
+            GetMockFor<IAccountRepository>().Verify(r => r.Delete(_validGuid), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task Delete_ValidatorNegative_RepositoryIsNeverCalled()
+        {
+            // Arrange
+            SetupValidatorToThrowExpection();
+            // Act
+            try
+            {
+                await Instance.Delete(_validGuidString);
+            }
+            catch
+            {
+                // Assert
+                GetMockFor<IAccountRepository>().Verify(r => r.Delete(_validGuid), Times.Never);
+                GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Exactly(2));
+            }
+        }
+
+        #endregion Delete Tests
 
         private void SetupValidatorToThrowExpection()
         {
