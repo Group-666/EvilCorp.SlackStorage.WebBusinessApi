@@ -17,7 +17,7 @@ namespace WebApi.Business
         private const LogLevel MethodLogLevel = LogLevel.Trace;
 
         public ClientDataManager(IClientDataRepository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler,
-            ILogger logger, IConverter converter)
+            ILogger logger)
         {
             _clientDataRepository = clientDataRepository;
             _validator = validator;
@@ -27,7 +27,7 @@ namespace WebApi.Business
 
         public async Task<string> Create(string userId, JObject dataStoreName)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreName(dataStoreName), _validator.ValidatorLogLevel);
@@ -38,7 +38,7 @@ namespace WebApi.Business
 
         public async Task<string> Post(string userId, string dataStoreId, JObject data)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -49,7 +49,7 @@ namespace WebApi.Business
 
         public async Task<string> GetAll(string userId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
             var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.GetAll(userId));
@@ -58,7 +58,7 @@ namespace WebApi.Business
 
         public async Task<string> Get(string userId, string dataStoreId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -67,9 +67,9 @@ namespace WebApi.Business
             return result;
         }
 
-        public async Task<string> GetElementAll(string userId, string dataStoreId)
+        public async Task<string> GetAllElement(string userId, string dataStoreId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -80,7 +80,7 @@ namespace WebApi.Business
 
         public async Task<string> GetElement(string userId, string dataStoreId, string elementId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -92,7 +92,7 @@ namespace WebApi.Business
 
         public async Task<string> UpdateElement(string userId, string dataStoreId, string elementId, JObject body)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -104,7 +104,7 @@ namespace WebApi.Business
 
         public async Task<string> DeleteAll(string userId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
@@ -114,7 +114,7 @@ namespace WebApi.Business
 
         public async Task<string> Delete(string userId, string dataStoreId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -123,9 +123,9 @@ namespace WebApi.Business
             return result;
         }
 
-        public async Task<string> DeleteElementAll(string userId, string dataStoreId)
+        public async Task<string> DeleteAllElement(string userId, string dataStoreId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -136,7 +136,7 @@ namespace WebApi.Business
 
         public async Task<string> DeleteElement(string userId, string dataStoreId, string elementId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreId(dataStoreId), _validator.ValidatorLogLevel);
@@ -144,11 +144,6 @@ namespace WebApi.Business
 
             var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.DeleteElement(userId, dataStoreId, elementId));
             return result;
-        }
-
-        private static string GetCaller([CallerMemberName] string caller = null)
-        {
-            return caller;
         }
     }
 }

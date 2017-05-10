@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Runtime.CompilerServices;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -25,6 +26,11 @@ namespace WebApi.Business
             _logRepository.Log(logEntry);
 
             Console.WriteLine(message);
+        }
+
+        public string GetCurrentMethodName([CallerMemberName] string caller = null)
+        {
+            return caller;
         }
 
         private JObject CreateContent(string message, LogLevel level)

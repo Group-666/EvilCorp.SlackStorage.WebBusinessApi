@@ -28,7 +28,7 @@ namespace WebApi.Business
 
         public async Task<Account> Create(Account account)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidCreateAccount(account), _validator.ValidatorLogLevel);
 
             return await _exceptionHandler.RunAsync(() => _accountRepository.Create(account));
@@ -36,14 +36,14 @@ namespace WebApi.Business
 
         public async Task<IEnumerable<Account>> GetAll()
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             return await _exceptionHandler.RunAsync(() => _accountRepository.GetAll());
         }
 
         public async Task<Account> Get(string userId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
             return await _exceptionHandler.RunAsync(() => _accountRepository.Get(Guid.Parse(userId)));
@@ -51,7 +51,7 @@ namespace WebApi.Business
 
         public async Task Update(Account account)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidAccount(account), _validator.ValidatorLogLevel);
 
             await _accountRepository.Update(account);
@@ -59,15 +59,10 @@ namespace WebApi.Business
 
         public async Task Delete(string userId)
         {
-            _logger.Log(MethodLogging + GetCaller(), MethodLogLevel);
+            _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
 
             await _accountRepository.Delete(Guid.Parse(userId));
-        }
-
-        private static string GetCaller([CallerMemberName] string caller = null)
-        {
-            return caller;
         }
     }
 }
