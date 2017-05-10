@@ -14,7 +14,7 @@ namespace WebApi.Business.UnitTests
     {
         private readonly string _stringValue = "SomeString";
         private readonly JObject _validJson = JObject.Parse(@"{name:'values'}");
-
+        private readonly string _excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}").ToString();
         private ExceptionHandler _exceptionHandler;
 
         protected override void OverrideMocks()
@@ -44,14 +44,13 @@ namespace WebApi.Business.UnitTests
         public async Task Create_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.Create(_stringValue, _validJson)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.Create(_stringValue, _validJson);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -90,14 +89,13 @@ namespace WebApi.Business.UnitTests
         public async Task Post_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.Post(_stringValue, _stringValue, _validJson)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.Post(_stringValue, _stringValue, _validJson);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -136,14 +134,13 @@ namespace WebApi.Business.UnitTests
         public async Task GetAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.GetAll(_stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.GetAll(_stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -184,14 +181,13 @@ namespace WebApi.Business.UnitTests
         public async Task Get_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.Get(_stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.Get(_stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -218,10 +214,10 @@ namespace WebApi.Business.UnitTests
         #region GetAllElement Tests
 
         [TestMethod]
-        public async Task GetElementAll_ValidatorPositive_RepositoryIsCalled()
+        public async Task GetAllElement_ValidatorPositive_RepositoryIsCalled()
         {
             // Act
-            await Instance.GetElementAll(_stringValue, _stringValue);
+            await Instance.GetAllElement(_stringValue, _stringValue);
 
             // Assert
             GetMockFor<ILogger>().Verify(r => r.Log(It.IsAny<string>(), It.IsAny<LogLevel>()), Times.Once);
@@ -229,28 +225,27 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task GetElementAll_ValidatorPositive_ReturnsId()
+        public async Task GetAllElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.GetAllElement(_stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
-            var result = await Instance.GetElementAll(_stringValue, _stringValue);
+            var result = await Instance.GetAllElement(_stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
-        public async Task GetElementAll_ValidatorNegative_RepositoryIsNeverCalled()
+        public async Task GetAllElement_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             MakeValidatorThrow();
             // Act
             try
             {
-                await Instance.GetElementAll(_stringValue, _stringValue);
+                await Instance.GetAllElement(_stringValue, _stringValue);
             }
             catch
             {
@@ -279,14 +274,13 @@ namespace WebApi.Business.UnitTests
         public async Task GetElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.GetElement(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.GetElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -326,14 +320,13 @@ namespace WebApi.Business.UnitTests
         public async Task DeleteAll_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.DeleteAll(_stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.DeleteAll(_stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -372,13 +365,13 @@ namespace WebApi.Business.UnitTests
         [TestMethod]
         public async Task Delete_ValidatorPositive_ReturnsId()
         {
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.Delete(_stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
+
             // Act
             var result = await Instance.Delete(_stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
@@ -404,7 +397,7 @@ namespace WebApi.Business.UnitTests
         #region DeleteAllElement Tests
 
         [TestMethod]
-        public async Task DeleteElementAll_ValidatorPositive_RepositoryIsCalled()
+        public async Task DeleteAllElement_ValidatorPositive_RepositoryIsCalled()
         {
             // Act
             await Instance.Delete(_stringValue, _stringValue);
@@ -415,28 +408,27 @@ namespace WebApi.Business.UnitTests
         }
 
         [TestMethod]
-        public async Task DeleteElementAll_ValidatorPositive_ReturnsId()
+        public async Task DeleteAllElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.DeleteAllElement(_stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
-            var result = await Instance.DeleteElementAll(_stringValue, _stringValue);
+            var result = await Instance.DeleteAllElement(_stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
-        public async Task DeleteElementAll_ValidatorNegative_RepositoryIsNeverCalled()
+        public async Task DeleteAllElement_ValidatorNegative_RepositoryIsNeverCalled()
         {
             // Arrange
             MakeValidatorThrow();
             // Act
             try
             {
-                await Instance.DeleteElementAll(_stringValue, _stringValue);
+                await Instance.DeleteAllElement(_stringValue, _stringValue);
             }
             catch
             {
@@ -465,14 +457,13 @@ namespace WebApi.Business.UnitTests
         public async Task DeleteElement_ValidatorPositive_ReturnsId()
         {
             // Arrange
-            var excpectedValue = JObject.Parse(@"{id:'" + Guid.NewGuid() + "'}");
-            GetMockFor<IConverter>().Setup(r => r.StringToJson(It.IsAny<string>())).Returns(() => excpectedValue);
+            GetMockFor<IClientDataRepository>().Setup(r => r.DeleteElement(_stringValue, _stringValue, _stringValue)).Returns(() => Task.FromResult(_excpectedValue));
 
             // Act
             var result = await Instance.DeleteElement(_stringValue, _stringValue, _stringValue);
 
             // Assert
-            Assert.AreEqual(result, excpectedValue);
+            Assert.AreEqual(result, _excpectedValue);
         }
 
         [TestMethod]
