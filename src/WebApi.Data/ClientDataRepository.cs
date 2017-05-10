@@ -119,7 +119,7 @@ namespace WebApi.Data
         {
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? result.ToString() : JObject.FromObject(result).ErrorMessage, LogLevel.Critical);
+                _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage, LogLevel.Critical);
                 throw new Exception(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage);
             }
             return result.Content;
