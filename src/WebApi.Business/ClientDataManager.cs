@@ -32,7 +32,7 @@ namespace WebApi.Business
             _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
-            await _exceptionHandler.RunAsync(() => _accountValidator.IsValidAccount(userId), _validator.ValidatorLogLevel);
+            await _exceptionHandler.RunAsync(() => _accountValidator.DoesAccountExist(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreName(dataStoreName), _validator.ValidatorLogLevel);
 
             var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.Create(userId, dataStoreName));

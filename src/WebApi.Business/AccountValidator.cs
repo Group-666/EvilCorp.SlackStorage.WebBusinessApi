@@ -18,7 +18,7 @@ namespace WebApi.Business
             _accountManager = accountManager;
         }
 
-        public async Task<bool> IsValidAccount(string userId)
+        public async Task<bool> DoesAccountExist(string userId)
         {
             var account = await _accountManager.Get(userId);
             if (account.Id == Guid.Empty)
