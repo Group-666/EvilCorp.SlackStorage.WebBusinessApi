@@ -18,12 +18,14 @@ namespace WebApi.Data
 
         public async Task<Account> Create(Account account)
         {
-            _logger.Log("Getting all users from account service", LogLevel.Trace);
             var proxy = new AccountClient();
 
             try
             {
-                return await proxy.Create(account);
+                var result = await proxy.Create(account);
+                var log = $"Method: {_logger.GetCurrentMethodName()}, succesfully completed";
+                _logger.Log(log, LogLevel.Trace);
+                return result;
             }
             catch (Exception e)
             {
@@ -38,12 +40,14 @@ namespace WebApi.Data
 
         public async Task<IEnumerable<Account>> GetAll()
         {
-            _logger.Log("Getting all users from account service", LogLevel.Trace);
             var proxy = new AccountClient();
 
             try
             {
-                return await proxy.GetAll();
+                var result = await proxy.GetAll();
+                var log = $"Method: {_logger.GetCurrentMethodName()}, succesfully completed";
+                _logger.Log(log, LogLevel.Trace);
+                return result;
             }
             catch (Exception e)
             {
@@ -58,12 +62,14 @@ namespace WebApi.Data
 
         public async Task<Account> Get(Guid id)
         {
-            _logger.Log("Getting all users from account service", LogLevel.Trace);
             var proxy = new AccountClient();
 
             try
             {
-                return await proxy.Get(id);
+                var result = await proxy.Get(id);
+                var log = $"Method: {_logger.GetCurrentMethodName()}, succesfully completed";
+                _logger.Log(log, LogLevel.Trace);
+                return result;
             }
             catch (Exception e)
             {
@@ -78,12 +84,13 @@ namespace WebApi.Data
 
         public async Task Update(Account account)
         {
-            _logger.Log("Getting all users from account service", LogLevel.Trace);
             var proxy = new AccountClient();
 
             try
             {
                 await proxy.Update(account);
+                var log = $"Method: {_logger.GetCurrentMethodName()}, succesfully completed";
+                _logger.Log(log, LogLevel.Trace);
             }
             catch (Exception e)
             {
@@ -98,12 +105,13 @@ namespace WebApi.Data
 
         public async Task Delete(Guid id)
         {
-            _logger.Log("Getting all users from account service", LogLevel.Trace);
             var proxy = new AccountClient();
 
             try
             {
                 await proxy.Delete(id);
+                var log = $"Method: {_logger.GetCurrentMethodName()}, succesfully completed";
+                _logger.Log(log, LogLevel.Trace);
             }
             catch (Exception e)
             {

@@ -122,6 +122,7 @@ namespace WebApi.Data
                 _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage, LogLevel.Critical);
                 throw new Exception(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage);
             }
+            _logger.Log($"Response from server: " + JObject.FromObject(result), LogLevel.Trace);
             return result.Content;
         }
     }
