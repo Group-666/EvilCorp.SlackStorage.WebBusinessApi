@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Text.RegularExpressions;
 using WebApi.Domain.Contracts;
+using WebApi.Domain.Contracts.Validators;
 using WebApi.Domain.Entities;
 
 namespace WebApi.Business

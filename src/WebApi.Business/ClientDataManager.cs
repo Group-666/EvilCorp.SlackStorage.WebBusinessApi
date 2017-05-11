@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WebApi.Domain.Contracts;
+using WebApi.Domain.Contracts.Validators;
 using WebApi.Domain.Entities;
 
 namespace WebApi.Business
@@ -15,14 +15,16 @@ namespace WebApi.Business
 
         private const string MethodLogging = "Call to method: ";
         private const LogLevel MethodLogLevel = LogLevel.Trace;
+        private readonly IAccountValidator _accountValidator;
 
         public ClientDataManager(IClientDataRepository clientDataRepository, IValidator validator, IExceptionHandler exceptionHandler,
-            ILogger logger)
+            ILogger logger, IAccountValidator accountValidator)
         {
             _clientDataRepository = clientDataRepository;
             _validator = validator;
             _exceptionHandler = exceptionHandler;
             _logger = logger;
+            _accountValidator = accountValidator;
         }
 
         public async Task<string> Create(string userId, JObject dataStoreName)
@@ -30,6 +32,7 @@ namespace WebApi.Business
             _logger.Log(MethodLogging + _logger.GetCurrentMethodName(), MethodLogLevel);
 
             _exceptionHandler.Run(() => _validator.IsValidGuid(userId), _validator.ValidatorLogLevel);
+            await _exceptionHandler.RunAsync(() => _accountValidator.IsValidAccount(userId), _validator.ValidatorLogLevel);
             _exceptionHandler.Run(() => _validator.IsValidDataStoreName(dataStoreName), _validator.ValidatorLogLevel);
 
             var result = await _exceptionHandler.RunAsync(() => _clientDataRepository.Create(userId, dataStoreName));

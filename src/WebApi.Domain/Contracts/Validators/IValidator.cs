@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using WebApi.Domain.Entities;
 
-namespace WebApi.Domain.Contracts
+namespace WebApi.Domain.Contracts.Validators
 {
     public interface IValidator
     {
@@ -15,7 +15,9 @@ namespace WebApi.Domain.Contracts
         bool IsValidDataStoreId(string dataStoreId);
 
         bool IsValidDataStoreName(JObject dataStoreNameJson);
+
         bool IsValidAccount(Account account);
+
         bool IsValidCreateAccount(Account account);
     }
 }

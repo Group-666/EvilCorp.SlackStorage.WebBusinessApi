@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WebApi.Domain.Contracts;
+using WebApi.Domain.Contracts.Validators;
 using WebApi.Domain.Entities;
 
 namespace WebApi.Business
