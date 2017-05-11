@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -16,50 +17,42 @@ namespace WebApi.Business
 
         public async Task<TResult> RunAsync<TResult>(Func<Task<TResult>> unsafeAsyncFunction, LogLevel logLevel = LogLevel.Critical)
         {
-            if (unsafeAsyncFunction != null)
+            if (unsafeAsyncFunction == null) return await Task.FromResult(default(TResult));
+            try
             {
-                try
-                {
-                    return await unsafeAsyncFunction.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Log(ex.Message, logLevel);
-                    throw;
-                }
+                return await unsafeAsyncFunction.Invoke();
             }
-            return await Task.FromResult(default(TResult));
+            catch (Exception ex)
+            {
+                _logger.Log(JObject.FromObject(ex).ToString(), logLevel);
+                throw;
+            }
         }
 
         public TResult Run<TResult>(Func<TResult> unsafeFunction, LogLevel logLevel = LogLevel.Critical)
         {
-            if (unsafeFunction != null)
+            if (unsafeFunction == null) return default(TResult);
+            try
             {
-                try
-                {
-                    return unsafeFunction.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Log(ex.Message, logLevel);
-                    throw;
-                }
+                return unsafeFunction.Invoke();
             }
-            return default(TResult);
+            catch (Exception ex)
+            {
+                _logger.Log(JObject.FromObject(ex).ToString(), logLevel);
+                throw;
+            }
         }
 
         public void Execute(Action unsafeAction)
         {
-            if (unsafeAction != null)
+            if (unsafeAction == null) return;
+            try
             {
-                try
-                {
-                    unsafeAction.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Log(ex.Message, LogLevel.Critical);
-                }
+                unsafeAction.Invoke();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(JObject.FromObject(ex).ToString(), LogLevel.Critical);
             }
         }
     }
