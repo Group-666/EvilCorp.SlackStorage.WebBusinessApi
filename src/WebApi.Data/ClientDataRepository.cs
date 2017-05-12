@@ -3,6 +3,8 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
+using Newtonsoft.Json;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
 
@@ -32,7 +34,7 @@ namespace WebApi.Data
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> Post(string userId, string dataStoreId, JObject data)
@@ -42,7 +44,7 @@ namespace WebApi.Data
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> GetAll(string userId)
@@ -50,7 +52,7 @@ namespace WebApi.Data
             var request = new RestRequest(userId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> Get(string userId, string dataStoreId)
@@ -58,7 +60,7 @@ namespace WebApi.Data
             var request = new RestRequest(userId + "/" + dataStoreId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> GetAllElement(string userId, string dataStoreId)
@@ -66,7 +68,7 @@ namespace WebApi.Data
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> GetElement(string userId, string dataStoreId, string elementId)
@@ -74,7 +76,7 @@ namespace WebApi.Data
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.GET);
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> UpdateElement(string userId, string dataStoreId, string elementId, JObject body)
@@ -84,45 +86,52 @@ namespace WebApi.Data
 
             var result = await _restClient.ExecuteTaskAsync(request);
 
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> DeleteAll(string userId)
         {
             var request = new RestRequest(userId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> Delete(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> DeleteAllElement(string userId, string dataStoreId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/", Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
         public async Task<string> DeleteElement(string userId, string dataStoreId, string elementId)
         {
             var request = new RestRequest(userId + "/" + dataStoreId + "/data/" + elementId, Method.DELETE);
             var result = await _restClient.ExecuteTaskAsync(request);
-            return LogOnErrorReturnContent(result);
+            return LogOnErrorReturnContent(result, _logger.GetCurrentMethodName());
         }
 
-        private string LogOnErrorReturnContent(IRestResponse result)
+        private string LogOnErrorReturnContent(IRestResponse result, string methodName)
         {
+            var errorMessage = JsonConvert.SerializeObject(new
+            {
+                methodName,
+                content = result.Content,
+                errorMessage = result.ErrorMessage,
+                statusCode = (int)result.StatusCode
+            });
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                _logger.Log(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage, LogLevel.Critical);
-                throw new Exception(string.IsNullOrEmpty(result.ErrorMessage) ? JObject.FromObject(result).ToString() : result.ErrorMessage);
+                _logger.Log(errorMessage, result.StatusCode != HttpStatusCode.InternalServerError ? LogLevel.Error : LogLevel.Warning);
+                throw new HttpException((int)result.StatusCode, errorMessage);
             }
-            _logger.Log($"Response from server: " + JObject.FromObject(result), LogLevel.Trace);
+            _logger.Log(errorMessage, LogLevel.Trace);
             return result.Content;
         }
     }
