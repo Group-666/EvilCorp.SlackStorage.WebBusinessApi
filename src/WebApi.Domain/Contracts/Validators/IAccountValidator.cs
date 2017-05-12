@@ -4,6 +4,6 @@ namespace WebApi.Domain.Contracts.Validators
 {
     public interface IAccountValidator
     {
-        Task<bool> IsValidAccount(string userId);
+        Task<bool> DoesAccountExist(string userId);
     }
 }
