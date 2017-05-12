@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EvilCorp.AccountService;
+﻿using EvilCorp.AccountService;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using WebApi.Domain.Contracts;
 
 namespace WebApi.WebHost.Controllers
@@ -16,85 +14,67 @@ namespace WebApi.WebHost.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]Account body)
         {
-            try
-            {
-                var result = await Program.Container.GetInstance<IAccountManager>().Create(body);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await RunAsync(() => Program.Container.GetInstance<IAccountManager>().Create(body));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var result = await Program.Container.GetInstance<IAccountManager>().GetAll();
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await RunAsync(() => Program.Container.GetInstance<IAccountManager>().GetAll());
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(string userId)
         {
-            try
-            {
-                var result = await Program.Container.GetInstance<IAccountManager>().Get(userId);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await RunAsync(() => Program.Container.GetInstance<IAccountManager>().Get(userId));
         }
 
         [HttpPut("{userId}")]
         public async Task<IActionResult> Update([FromBody]Account body)
         {
-            try
-            {
-                await Program.Container.GetInstance<IAccountManager>().Update(body);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return await ExecuteAsync(() => Program.Container.GetInstance<IAccountManager>().Update(body));
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(string userId)
         {
+            return await ExecuteAsync(() => Program.Container.GetInstance<IAccountManager>().Delete(userId));
+        }
+
+        private async Task<IActionResult> RunAsync<TResult>(Func<Task<TResult>> unsafeAsyncFunction)
+        {
             try
             {
-                await Program.Container.GetInstance<IAccountManager>().Delete(userId);
-
-                return Ok();
+                return Ok(await unsafeAsyncFunction.Invoke());
+            }
+            catch (ArgumentException ex)
+            {
+                var errorMessage = new { errorMessage = ex.Message };
+                return BadRequest(errorMessage);
             }
             catch (Exception ex)
             {
-                if (ex is ArgumentException)
-                    return BadRequest(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                var errorMessage = new { errorMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
+            }
+        }
+
+        public async Task<IActionResult> ExecuteAsync(Func<Task> unsafeAsyncFunction)
+        {
+            try
+            {
+                await unsafeAsyncFunction.Invoke();
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                var errorMessage = new { errorMessage = ex.Message };
+                return BadRequest(errorMessage);
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = new { errorMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorMessage);
             }
         }
     }
