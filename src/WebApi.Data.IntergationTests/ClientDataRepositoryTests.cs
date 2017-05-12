@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using WebApi.CrossCutting.Testing;
 
 namespace WebApi.Data.IntergationTests
@@ -20,14 +21,19 @@ namespace WebApi.Data.IntergationTests
         public async Task Create_ValidParameters_ReturnsDataStoreId()
         {
             // Arrange
-            var validDataStoreName = JObject.Parse(@"{DataStoreName :'Bubbles'}");
+            var validDataStoreName = JObject.Parse(@"{dataStoreName :'Bubbles'}");
 
             // Act
             var result = await Instance.Create(_validGuid, validDataStoreName);
 
             // Assert
             Assert.IsFalse(string.IsNullOrEmpty(result));
-            _validDataStoreId = result;
+            var json = JObject.Parse(result);
+            Assert.IsNotNull(json);
+            var dataStoreId = (string)json["dataStoreId"];
+            Assert.IsNotNull(dataStoreId);
+
+            _validDataStoreId = dataStoreId;
         }
 
         [TestMethod, TestCategory("Integration")]
@@ -41,6 +47,24 @@ namespace WebApi.Data.IntergationTests
 
             // Assert
             Assert.IsFalse(string.IsNullOrEmpty(result));
+
+            var json = JObject.Parse(result);
+            Assert.IsNotNull(json);
+
+            _validElementId = result;
+        }
+
+        [TestMethod, TestCategory("Integration")]
+        public async Task Post_IdDoesNotExist_ReturnsElementId()
+        {
+            // Act
+            var result = await Instance.Post(_validGuid, _validDataStoreId, _validJson);
+
+            // Assert
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            var json = JObject.Parse(result);
+            Assert.IsNotNull(json);
+
             _validElementId = result;
         }
 
