@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using WebApi.Domain.Contracts;
 using WebApi.Domain.Entities;
@@ -24,7 +25,7 @@ namespace WebApi.Business
             }
             catch (Exception ex)
             {
-                _logger.Log(JObject.FromObject(ex).ToString(), logLevel);
+                LogException(ex, logLevel);
                 throw;
             }
         }
@@ -38,7 +39,7 @@ namespace WebApi.Business
             }
             catch (Exception ex)
             {
-                _logger.Log(JObject.FromObject(ex).ToString(), logLevel);
+                LogException(ex, logLevel);
                 throw;
             }
         }
@@ -52,8 +53,18 @@ namespace WebApi.Business
             }
             catch (Exception ex)
             {
-                _logger.Log(JObject.FromObject(ex).ToString(), LogLevel.Critical);
+                LogException(ex);
             }
+        }
+
+        private void LogException(Exception ex, LogLevel logLevel = LogLevel.Critical)
+        {
+            var errorMessage = JsonConvert.SerializeObject(new
+            {
+                errorMessage = ex.Message,
+                methodName = new StackTrace(ex).GetFrame(0).GetMethod().Name
+            });
+            _logger.Log(errorMessage, logLevel);
         }
     }
 }
