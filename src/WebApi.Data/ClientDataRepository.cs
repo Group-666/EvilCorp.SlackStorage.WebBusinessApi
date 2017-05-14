@@ -123,6 +123,7 @@ namespace WebApi.Data
             {
                 methodName,
                 content = result.Content,
+                exceptionMessage = result.ErrorException,
                 errorMessage = result.ErrorMessage,
                 statusCode = (int)result.StatusCode
             });
