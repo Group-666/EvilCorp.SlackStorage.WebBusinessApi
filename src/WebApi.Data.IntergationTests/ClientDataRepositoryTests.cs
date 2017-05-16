@@ -328,7 +328,7 @@ namespace WebApi.Data.IntergationTests
             await Post_ValidParameters_ReturnsElementId();
 
             // Act
-            var result = await Instance.DeleteAllElement(_validGuid, _validElementsId);
+            var result = await Instance.DeleteAllElement(_validGuid, _validDataStoreId);
 
             // Assert
             Assert.IsFalse(string.IsNullOrEmpty(result));
@@ -370,7 +370,7 @@ namespace WebApi.Data.IntergationTests
             await Post_ValidParameters_ReturnsElementId();
 
             // Act
-            var result = await Instance.DeleteElement(_validGuid, _validElementsId, _validDataStoreId);
+            var result = await Instance.DeleteElement(_validGuid, _validDataStoreId, _validElementsId);
 
             // Assert
             Assert.IsFalse(string.IsNullOrEmpty(result));
