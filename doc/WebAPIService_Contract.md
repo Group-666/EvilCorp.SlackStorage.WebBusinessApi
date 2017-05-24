@@ -1,7 +1,5 @@
 WebAPIService Contract
 
-[[TOC]]
-
 # Introduction
 
 This document describes the operations on the logging service.
@@ -50,7 +48,7 @@ The payload format of the service is JSON and only handle JSON data.
 
 ## Create user
 
-Method: POST - http://<Hostname>/api/account/
+Method: **POST** - http://<Hostname>/api/account/
 
 ### Parameter
 
@@ -68,7 +66,7 @@ Method: POST - http://<Hostname>/api/account/
 </table>
 
 
-## Response
+### Response
 
 ### Success 200
 
@@ -125,9 +123,9 @@ Method: POST - http://<Hostname>/api/account/
 
 ## Get all users
 
-Method: **GET **- http://<Hostname>/api/account
+Method: **GET** - http://<Hostname>/api/account
 
-## Response
+### Response
 
 ### Success 200
 
@@ -179,7 +177,7 @@ Method: **GET **- http://<Hostname>/api/account
 
 ## Get a user
 
-Method: Get - http://<Hostname>/api/account/{userId}
+Method: **GET** - http://<Hostname>/api/account/{userId}
 
 ### Parameter
 
@@ -259,7 +257,7 @@ Method: Get - http://<Hostname>/api/account/{userId}
 
 ## Update user
 
-Method: Put- http://<Hostname>/api/account/{userId}
+Method: **PUT** - http://<Hostname>/api/account/{userId}
 
 ### Parameter
 
@@ -337,7 +335,7 @@ Method: Put- http://<Hostname>/api/account/{userId}
 
 ## Delete user
 
-Method: Delete - http://<Hostname>/api/account/{userId}
+Method: **DELETE** - http://<Hostname>/api/account/{userId}
 
 ### Parameter
 
@@ -355,7 +353,7 @@ Method: Delete - http://<Hostname>/api/account/{userId}
 </table>
 
 
-## Response
+### Response
 
 ### Success 200
 
@@ -405,7 +403,7 @@ Method: Delete - http://<Hostname>/api/account/{userId}
 
 ## Add a new data store
 
-Method: POST - http://<Hostname>/api/storage/{userId}
+Method: **POST** - http://<Hostname>/api/storage/{userId}
 
 ### Parameter
 
@@ -492,7 +490,7 @@ Successfully added.
 
 ## Add a new element
 
-Method: POST - http://<Hostname>/api/storage/{userId}/{datastoreId}
+Method: **POST** - http://<Hostname>/api/storage/{userId}/{datastoreId}
 
 ### Parameter
 
@@ -584,7 +582,7 @@ Successfully added.
 
 ## Get all data stores for a user
 
-Method: **GET **- http://<Hostname>/api/storage/{userId}
+Method: **GET** - http://<Hostname>/api/storage/{userId}
 
 ### Parameter
 
@@ -602,7 +600,7 @@ Method: **GET **- http://<Hostname>/api/storage/{userId}
 </table>
 
 
-## Response
+### Response
 
 ### Success 200
 
@@ -664,7 +662,7 @@ Method: **GET **- http://<Hostname>/api/storage/{userId}
 
 ## Get a datastore for a user
 
-Method: **GET **- http://<Hostname>/api/storage/{userId}/{datastoreId}
+Method: **GET** - http://<Hostname>/api/storage/{userId}/{datastoreId}
 
 ### Parameter
 
@@ -749,7 +747,7 @@ Method: **GET **- http://<Hostname>/api/storage/{userId}/{datastoreId}
 
 ## Get an element for a user
 
-Method: **GET **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
+Method: **GET** - http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
 
 ### Parameter
 
@@ -855,7 +853,7 @@ Method: **GET **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{ele
 
 ## Update an element
 
-Method: **PUT **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
+Method: **PUT** - http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
 
 ### Parameter
 
@@ -950,7 +948,7 @@ Method: **PUT **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{ele
 
 ## Remove all datastores
 
-Method: **DELETE **- http://<Hostname>/api/storage/{userId}
+Method: **DELETE** - http://<Hostname>/api/storage/{userId}
 
 ### Parameter
 
@@ -1016,7 +1014,7 @@ Method: **DELETE **- http://<Hostname>/api/storage/{userId}
 
 ## Remove a datastore
 
-Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}
+Method: **DELETE** - http://<Hostname>/api/storage/{userId}/{datastoreId}
 
 ### Parameter
 
@@ -1085,7 +1083,7 @@ Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}
 
 ## Remove all elements
 
-Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/
+Method: **DELETE** - http://<Hostname>/api/storage/{userId}/{datastoreId}/data/
 
 ### Parameter
 
@@ -1108,7 +1106,7 @@ Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/
 </table>
 
 
-## Response
+### Response
 
 ### Success 200
 
@@ -1156,7 +1154,7 @@ Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/
 
 ## Remove an element
 
-Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
+Method: **DELETE** - http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{elementId}
 
 ### Parameter
 
@@ -1184,7 +1182,7 @@ Method: **DELETE **- http://<Hostname>/api/storage/{userId}/{datastoreId}/data/{
 </table>
 
 
-## Response
+### Response
 
 ### Success 200
 
